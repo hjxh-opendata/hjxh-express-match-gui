@@ -1,0 +1,10 @@
+
+# add file of VERSION.txt in case for REDUNDANT changes being detected by IDE
+VERSION.txt
+
+data
+
+__pycache__
+
+.DS_Store
+
