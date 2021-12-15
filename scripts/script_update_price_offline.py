@@ -1,6 +1,7 @@
-from db import db
-from calc_price.calc_price_of_item import calc_price_of_item
-from base import ErrorType
+from path import *
+from core.db import db
+from core.calc_price.calc_price_of_item import calc_price_of_item
+from core.base import ErrorType
 from tqdm import tqdm
 
 # TODO: 这个脚本只是用于离线更新计算价格正常的条目，还不能确定计算的是否正确，以及未能计算价格的条目如何处理

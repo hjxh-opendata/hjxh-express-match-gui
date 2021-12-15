@@ -20,7 +20,12 @@ class ErrorType(str, Enum):
     ProvinceNotInList = "收货地区的省份不合法"
     WeightInErpInvalid = "ERP中重量不合法"
 
-    # --- TRD Errors ---
+    # --- Trd File Invalid
+    SheetMiss = "目标表缺失"
+    ColumnMiss = "目标列缺失"
+    ColumnNaN = "目标列有缺失值"
+
+    # --- TRD Match Errors ---
     WeightNotMatch = "重量不匹配"
     ProvinceNotMatch = "省份不匹配"
     PriceNotMatch = "价格不匹配"

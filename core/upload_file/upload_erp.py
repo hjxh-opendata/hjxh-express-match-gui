@@ -6,10 +6,10 @@ import pandas as pd
 from fastapi.datastructures import UploadFile
 from pymongo.errors import BulkWriteError, DuplicateKeyError
 
-from base import Status
-from config import COLL_ERP_PREFIX, TARGET_ERP_SHIPTIME_KEY, UPLOAD_ERP_COLUMNS, UPLOAD_ERP_FILETYPES_ALLOWED, TARGET_ERP_ID_KEY
-from db import db
-from utils import guess_encoding
+from ..base import Status
+from ..config import COLL_ERP_PREFIX, ERP_SHIPTIME_KEY, ERP_FIXED_COLUMNS, ERP_FILETYPES_ALLOWED, ERP_ID_KEY
+from ..db import db, push_msg
+from ..utils.general import guess_encoding
 
 
 async def upload_erp(file: UploadFile, year_month: str = None):
@@ -21,7 +21,7 @@ async def upload_erp(file: UploadFile, year_month: str = None):
     try:
         # 文件类型判定
         assert os.path.splitext(file.filename)[
-            1] in UPLOAD_ERP_FILETYPES_ALLOWED, f"只支持以下文件类型：{UPLOAD_ERP_FILETYPES_ALLOWED}"
+            1] in ERP_FILETYPES_ALLOWED, f"只支持以下文件类型：{ERP_FILETYPES_ALLOWED}"
 
         # 读取文件
         # 先读还是先猜的顺序不重要，重要的是猜的时候，指针要在原位
@@ -33,23 +33,22 @@ async def upload_erp(file: UploadFile, year_month: str = None):
         df.drop(columns=list(
             filter(lambda x: x.startswith("Unname"), df.columns)), inplace=True)
 
-        # 检查字段是否缺失
-        missing_coumns_set = set(UPLOAD_ERP_COLUMNS) - set(df.columns)
+        # 检查字段是否缺失，并选定该些列（自动过滤其他列）
+        missing_coumns_set = set(ERP_FIXED_COLUMNS) - set(df.columns)
         assert missing_coumns_set.__len__(
-        ) == 0, f"该表缺失以下字段：{missing_coumns_set}"
-        df = df[UPLOAD_ERP_COLUMNS]
-        
+        ) == 0, f"该表缺失以下字段：{missing_coumns_set}，已有字段：{df.columns}"
+        df = df[ERP_FIXED_COLUMNS]
 
         # 检查物流单号是否都有
         # assert df["物流单号"].isna().sum() == 0, f"物流单号列有缺失数据"
         # 不检查了，发现用户有时候可能会有汇总行，导致为空，所以直接dropna就可以了
-        df.dropna(subset=[TARGET_ERP_ID_KEY], inplace=True)
+        df.dropna(subset=[ERP_ID_KEY], inplace=True)
         item["nRaw"] = df.__len__()
 
         # 表分组处理
         # 这里要传入一个字典，如果直接传入一个函数，是对分组后的每个小df进行转换，并且转换结果就是新的值，不符合预期
         # 注意，如果使用set进行快速去重，在存储到mongodb之前要先转换成list，因为mongodb不支持
-        df = df.groupby(TARGET_ERP_ID_KEY).agg(
+        df = df.groupby(ERP_ID_KEY).agg(
             dict(map(lambda x: (x, "first"), df), **{"实际重量": "sum"}))
 
         # 这里用_id标记，而不用set_index是因为在df中有没有id是不重要的，重要的是插入数据库后的_id
@@ -78,7 +77,7 @@ async def upload_erp(file: UploadFile, year_month: str = None):
         else:
             item["nInserted"] = item["nDuplicated"] = 0
             # 基于发货日期，进行正则分列，之所以不直接使用切片，是有可能是="xx"形式
-            df["coll_name"] = COLL_ERP_PREFIX + df[TARGET_ERP_SHIPTIME_KEY].str.extract(
+            df["coll_name"] = COLL_ERP_PREFIX + df[ERP_SHIPTIME_KEY].str.extract(
                 '(\d{4}-\d{2})', expand=False)  # 获取发货的年月"YYYY-MM"
 
             # 导入数据库
@@ -96,4 +95,5 @@ async def upload_erp(file: UploadFile, year_month: str = None):
         item["msg"] = e.args
     else:
         item["status"] = Status.OK
+    push_msg(item)
     return item

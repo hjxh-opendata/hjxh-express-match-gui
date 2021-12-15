@@ -1,14 +1,15 @@
 import json
-import re
 import os
+import re
 from datetime import datetime, timedelta
 from tempfile import SpooledTemporaryFile
 from typing import Dict, List, Union
 
-from config import TEMPLATE_DIR, DEFAULT_ERP_GUESS_KEYWORD, GUESS_ERP_ENCODING_ALLOWED
+from ..config import (ERP_GUESS_KEYWORD, GUESS_ERP_ENCODING_ALLOWED,
+                      TEMPLATE_DIR)
 
 
-def guess_encoding(f: SpooledTemporaryFile, keyword: str = DEFAULT_ERP_GUESS_KEYWORD) -> str:
+def guess_encoding(f: SpooledTemporaryFile, keyword: str = ERP_GUESS_KEYWORD) -> str:
     """[summary]
     读csv容易有编码错误，可加`unicode_escape`，参考：https://stackoverflow.com/a/50538501/9422455
     然而上条是不行的，考虑到用户总是用中文传输，所以可以直接使用gbk，经测试可行~

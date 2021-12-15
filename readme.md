@@ -7,10 +7,10 @@
 ### ERP表中，计算价格错误
 目前已发现的主要有两种错误：
 1. 收货地区填写不规范（6/50+w），导致未能正确识别省份名称，例如：
-<img width="50%" alt="picture 1" src="images/1639525460152-97579f7fe2ca3a38b79dbe31af8d7d443f6bb2e389770af37b7cbfcb930e6c4a.png" />  
+<img width="50%" alt="picture 1" src=".imgs/1639525460152-97579f7fe2ca3a38b79dbe31af8d7d443f6bb2e389770af37b7cbfcb930e6c4a.png" />  
 
 2. 重量为0（这个还比较多，146/50+w），无法理解,例如：
-<img width="50%"  alt="picture 4" src="images/1639526551331-6afaff748574f058027b17e33888123b28141b9574b5c35784c49ed5ae093697.png" />  
+<img width="50%"  alt="picture 4" src=".imgs/1639526551331-6afaff748574f058027b17e33888123b28141b9574b5c35784c49ed5ae093697.png" />  
 
 ## Questions
 ### 第三方报表格式
@@ -18,7 +18,7 @@
 anyway，这个倒不是啥问题哈，个人可以接受。
 
 ### 第三方表字段含义
-<img width="50%" alt="picture 5" src="images/1639527863226-37f709795842582ded91cf80e8799c28e39db020bf2712c395ae8fb9e397cb78.png" />  
+<img width="50%" alt="picture 5" src=".imgs/1639527863226-37f709795842582ded91cf80e8799c28e39db020bf2712c395ae8fb9e397cb78.png" />  
 
 1. 发货订单号 和 快递单号 之间的区别？该选用哪个？
 2. 涨价金额 是什么，是不是无关紧要？
