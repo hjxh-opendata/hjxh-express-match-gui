@@ -1,5 +1,5 @@
 from path import *
-from core.db import db
+from core.db.conn import db
 from core.calc_price.calc_price_of_item import calc_price_of_item
 from core.base import ErrorType
 from tqdm import tqdm

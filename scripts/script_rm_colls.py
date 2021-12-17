@@ -1,6 +1,6 @@
 from path import *
 
-from core.db import db
+from core.db.conn import db
 
 
 for coll in db.list_collection_names():
