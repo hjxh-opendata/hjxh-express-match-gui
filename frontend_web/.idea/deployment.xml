@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="zkj_mark" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="zkj_mark">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/mark_projects/hjxh_express_match/frontend_web" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/../node_modules" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

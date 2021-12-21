@@ -1,0 +1,693 @@
+2021-12-18 04:29:06,803 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 04:29:06,804 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 04:29:07,291 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 04:29:07,292 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 04:29:10,473 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 04:29:10,474 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 04:29:10,474 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 04:29:10,482 - DEBUG - upload_file - columns selected 
+2021-12-18 04:29:10,482 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 04:29:10,486 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 04:29:10,496 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 04:29:10,496 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 04:29:10,573 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 04:29:10,583 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 04:29:10,669 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 04:29:10,691 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 04:29:10,694 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 04:29:19,171 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 04:29:19,174 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 04:34:06,339 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 04:34:06,339 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 04:34:06,648 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 04:34:06,648 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 04:34:09,581 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 04:34:09,581 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 04:34:09,581 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 04:34:09,583 - DEBUG - upload_file - columns selected 
+2021-12-18 04:34:09,583 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 04:34:09,585 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 04:34:09,588 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 04:34:09,588 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 04:34:09,651 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 04:34:09,654 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 04:34:09,727 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 04:34:09,748 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 04:34:09,750 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 04:34:16,827 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 04:34:16,827 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 04:36:35,563 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 04:36:35,564 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 04:36:35,870 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 04:36:35,870 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 04:36:38,950 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 04:36:38,951 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 04:36:38,951 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 04:36:38,952 - DEBUG - upload_file - columns selected 
+2021-12-18 04:36:38,953 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 04:36:38,955 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 04:36:38,958 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 04:36:38,959 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 04:36:39,031 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 04:36:39,034 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 04:36:39,109 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 04:36:39,131 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 04:36:39,134 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 04:36:46,938 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 04:36:46,938 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 04:37:06,585 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 04:37:06,585 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 04:37:06,939 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 04:37:06,939 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 04:37:10,460 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 04:37:10,461 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 04:37:10,461 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 04:37:10,463 - DEBUG - upload_file - columns selected 
+2021-12-18 04:37:10,463 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 04:37:10,465 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 04:37:10,468 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 04:37:10,468 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 04:37:10,537 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 04:37:10,540 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 04:37:10,615 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 04:37:10,635 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 04:37:10,638 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 04:37:20,558 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 04:37:20,558 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 04:37:28,159 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 04:37:28,160 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 04:37:28,506 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 04:37:28,506 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 04:37:31,407 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 04:37:31,407 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 04:37:31,408 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 04:37:31,409 - DEBUG - upload_file - columns selected 
+2021-12-18 04:37:31,409 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 04:37:31,411 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 04:37:31,413 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 04:37:31,413 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 04:37:31,470 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 04:37:31,473 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 04:37:31,544 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 04:37:31,564 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 04:37:31,566 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 04:37:38,634 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 04:37:38,635 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 04:54:20,335 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 04:54:20,336 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 04:54:20,625 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 04:54:20,626 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 04:54:23,473 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 04:54:23,473 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 04:54:23,473 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 04:54:23,475 - DEBUG - upload_file - columns selected 
+2021-12-18 04:54:23,475 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 04:54:23,478 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 04:54:23,481 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 04:54:23,482 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 04:54:23,549 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 04:54:23,552 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 04:54:23,635 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 04:54:23,654 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 04:54:23,657 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 04:54:30,882 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 04:54:30,883 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:02:31,996 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:02:31,997 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:02:32,289 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:02:32,289 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:02:35,087 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:02:35,087 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:02:35,087 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:02:35,089 - DEBUG - upload_file - columns selected 
+2021-12-18 05:02:35,089 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:02:35,092 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:02:35,095 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:02:35,095 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:02:35,163 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:02:35,166 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:02:35,237 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:02:35,258 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:02:35,260 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:02:43,699 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:02:43,700 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:03:28,739 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:03:28,740 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:03:29,048 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:03:29,048 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:03:31,912 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:03:31,912 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:03:31,912 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:03:31,914 - DEBUG - upload_file - columns selected 
+2021-12-18 05:03:31,914 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:03:31,917 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:03:31,920 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:03:31,920 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:03:31,983 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:03:31,987 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:03:32,061 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:03:32,081 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:03:32,084 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:03:39,420 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:03:39,420 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:05:25,268 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:05:25,268 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:05:25,599 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:05:25,599 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:05:28,500 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:05:28,500 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:05:28,500 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:05:28,502 - DEBUG - upload_file - columns selected 
+2021-12-18 05:05:28,502 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:05:28,505 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:05:28,508 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:05:28,508 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:05:28,581 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:05:28,584 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:05:28,658 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:05:28,678 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:05:28,680 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:05:36,885 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:05:36,886 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:06:27,388 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:06:27,389 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:06:27,743 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:06:27,743 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:06:30,829 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:06:30,829 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:06:30,829 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:06:30,831 - DEBUG - upload_file - columns selected 
+2021-12-18 05:06:30,831 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:06:30,833 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:06:30,835 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:06:30,835 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:06:30,897 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:06:30,900 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:06:30,975 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:06:30,996 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:06:30,999 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:06:38,824 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:06:38,824 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:34:23,516 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:34:23,517 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:34:23,779 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:34:23,779 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:34:26,478 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:34:26,478 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:34:26,478 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:34:26,479 - DEBUG - upload_file - columns selected 
+2021-12-18 05:34:26,480 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:34:26,482 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:34:26,485 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:34:26,485 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:34:26,544 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:34:26,546 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:34:26,616 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:34:26,634 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:34:26,637 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:34:34,164 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:34:34,165 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:34:34,178 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:34:34,178 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:34:34,401 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:34:34,401 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:34:37,190 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:34:37,190 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:34:37,190 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:34:37,191 - DEBUG - upload_file - columns selected 
+2021-12-18 05:34:37,192 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:34:37,193 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:34:37,196 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:34:37,196 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:34:37,251 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:34:37,253 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:34:37,322 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:34:37,340 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:34:37,343 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:34:43,984 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:34:44,001 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:36:48,992 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:36:48,993 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:36:49,233 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:36:49,233 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:36:52,262 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:36:52,263 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:36:52,263 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:36:52,264 - DEBUG - upload_file - columns selected 
+2021-12-18 05:36:52,264 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:36:52,267 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:36:52,270 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:36:52,270 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:36:52,341 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:36:52,344 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:36:52,423 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:36:52,445 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:36:52,448 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:37:01,756 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:37:01,757 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:37:45,374 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:37:45,375 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:37:45,707 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:37:45,707 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:37:48,553 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:37:48,553 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:37:48,553 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:37:48,555 - DEBUG - upload_file - columns selected 
+2021-12-18 05:37:48,555 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:37:48,557 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:37:48,559 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:37:48,559 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:37:48,617 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:37:48,620 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:37:48,690 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:37:48,710 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:37:48,712 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:37:56,347 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:37:56,358 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:37:56,409 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:37:56,409 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:37:56,730 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:37:56,730 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:37:59,578 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:37:59,578 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:37:59,578 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:37:59,579 - DEBUG - upload_file - columns selected 
+2021-12-18 05:37:59,579 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:37:59,582 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:37:59,585 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:37:59,585 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:37:59,649 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:37:59,651 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:37:59,727 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:37:59,747 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:37:59,751 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:38:06,922 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:38:06,922 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:38:06,936 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:38:06,937 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:38:07,153 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:38:07,153 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:38:09,824 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:38:09,824 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:38:09,824 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:38:09,826 - DEBUG - upload_file - columns selected 
+2021-12-18 05:38:09,826 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:38:09,828 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:38:09,831 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:38:09,831 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:38:09,892 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:38:09,894 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:38:09,965 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:38:09,984 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:38:09,986 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:38:16,917 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:38:16,918 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:43:12,324 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:43:12,325 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:43:12,619 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:43:12,620 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:43:15,302 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:43:15,302 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:43:15,302 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:43:15,303 - DEBUG - upload_file - columns selected 
+2021-12-18 05:43:15,303 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:43:15,305 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:43:15,307 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:43:15,307 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:43:15,361 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:43:15,364 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:43:15,433 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:43:15,454 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:43:15,457 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:43:22,446 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:43:22,446 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:43:33,319 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:43:33,320 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:43:33,598 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:43:33,598 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:43:36,298 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:43:36,298 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:43:36,298 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:43:36,300 - DEBUG - upload_file - columns selected 
+2021-12-18 05:43:36,300 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:43:36,303 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:43:36,306 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:43:36,306 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:43:36,376 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:43:36,379 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:43:36,450 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:43:36,470 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:43:36,472 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:43:43,929 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:43:43,947 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:43:59,434 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:43:59,434 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:43:59,775 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:43:59,775 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:44:02,417 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:44:02,417 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:44:02,417 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:44:02,418 - DEBUG - upload_file - columns selected 
+2021-12-18 05:44:02,418 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:44:02,420 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:44:02,423 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:44:02,423 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:44:02,478 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:44:02,481 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:44:02,550 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:44:02,568 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:44:02,571 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:44:09,147 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:44:09,147 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:44:13,751 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:44:13,752 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:44:14,070 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:44:14,070 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:44:16,654 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:44:16,654 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:44:16,654 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:44:16,656 - DEBUG - upload_file - columns selected 
+2021-12-18 05:44:16,656 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:44:16,658 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:44:16,660 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:44:16,660 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:44:16,712 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:44:16,714 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:44:16,782 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:44:16,800 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:44:16,802 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:44:23,381 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:44:23,382 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:45:52,274 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:45:52,274 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:45:52,558 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:45:52,558 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:45:55,547 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:45:55,547 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:45:55,547 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:45:55,549 - DEBUG - upload_file - columns selected 
+2021-12-18 05:45:55,549 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:45:55,551 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:45:55,553 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:45:55,554 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:45:55,616 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:45:55,619 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:45:55,694 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:45:55,714 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:45:55,717 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:46:03,437 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:46:03,437 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:46:07,968 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:46:07,969 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:46:08,262 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:46:08,262 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:46:10,886 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:46:10,886 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:46:10,886 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:46:10,888 - DEBUG - upload_file - columns selected 
+2021-12-18 05:46:10,888 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:46:10,889 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:46:10,892 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:46:10,892 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:46:10,946 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:46:10,949 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:46:11,019 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:46:11,039 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:46:11,042 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:46:17,937 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:46:17,938 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:47:35,864 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:47:35,865 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:47:36,162 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:47:36,163 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:47:38,941 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:47:38,942 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:47:38,942 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:47:38,943 - DEBUG - upload_file - columns selected 
+2021-12-18 05:47:38,943 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:47:38,945 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:47:38,947 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:47:38,947 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:47:39,001 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:47:39,004 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:47:39,073 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:47:39,093 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:47:39,095 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:47:45,689 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:47:45,689 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:47:53,883 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 05:47:53,883 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 05:47:54,208 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 05:47:54,208 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:47:56,864 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 05:47:56,865 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:47:56,865 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 05:47:56,866 - DEBUG - upload_file - columns selected 
+2021-12-18 05:47:56,866 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 05:47:56,868 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 05:47:56,870 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 05:47:56,870 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 05:47:56,925 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 05:47:56,927 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 05:47:56,997 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 05:47:57,016 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 05:47:57,018 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 05:48:04,455 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 05:48:04,456 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 05:48:04,473 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_圆通.xlsx
+2021-12-18 05:48:04,474 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1565998}
+2021-12-18 05:48:04,768 - DEBUG - upload_file - {'sheet_names': ['_明细', '理赔', '价格表', '费用']}
+2021-12-18 05:48:04,768 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 05:48:07,718 - DEBUG - upload_file - ('finished reading file, df shape: ', '(15146, 17)')
+2021-12-18 05:48:07,718 - DEBUG - upload_file - {'raw columns': ['日期', '_快递', '运单号', '物料商家', '揽收重量', '取整', '取件业务员', '订单目的地网点名称', '订单目的地省份', '快递费', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 05:48:07,718 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '订单目的地省份': 'area', '揽收重量': 'weight', '快递费': 'fee', '日期': 'time'}
+2021-12-18 05:48:07,719 - DEBUG - upload_file - columns selected 
+2021-12-18 05:48:07,719 - DEBUG - upload_file - rows_1_initial: 15146
+2021-12-18 05:48:07,722 - DEBUG - upload_file - rows_2_dropna_id: 15135
+2021-12-18 05:48:07,728 - DEBUG - upload_file - rows_3_drop_duplicated_id: 15135
+2021-12-18 05:48:07,774 - DEBUG - upload_file - rows_4_dropna: 15135
+2021-12-18 05:48:07,776 - DEBUG - upload_file - rows_5_drop_weight_invalid: 15135
+2021-12-18 05:48:07,849 - DEBUG - upload_file - rows_6_drop_date_invalid: 15135
+2021-12-18 05:48:07,869 - DEBUG - upload_file - rows_7_drop_province_invalid: 15135
+2021-12-18 05:48:07,872 - DEBUG - upload_file - rows_8_drop_fee_invalid: 15135
+2021-12-18 05:48:14,545 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 15135, 'nModified': 15135}
+2021-12-18 05:48:14,546 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 06:01:34,715 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_圆通.xlsx
+2021-12-18 06:01:34,717 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1565998}
+2021-12-18 06:01:35,064 - DEBUG - upload_file - {'sheet_names': ['_明细', '理赔', '价格表', '费用']}
+2021-12-18 06:01:35,064 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 06:01:38,256 - DEBUG - upload_file - ('finished reading file, df shape: ', '(15146, 17)')
+2021-12-18 06:01:38,257 - DEBUG - upload_file - {'raw columns': ['日期', '_快递', '运单号', '物料商家', '揽收重量', '取整', '取件业务员', '订单目的地网点名称', '订单目的地省份', '快递费', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 06:01:38,257 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '订单目的地省份': 'area', '揽收重量': 'weight', '快递费': 'fee', '日期': 'time'}
+2021-12-18 06:01:38,259 - DEBUG - upload_file - columns selected 
+2021-12-18 06:01:38,259 - DEBUG - upload_file - rows_1_initial: 15146
+2021-12-18 06:01:38,262 - DEBUG - upload_file - rows_2_dropna_id: 15135
+2021-12-18 06:01:38,266 - DEBUG - upload_file - rows_3_drop_duplicated_id: 15135
+2021-12-18 06:01:38,318 - DEBUG - upload_file - rows_4_dropna: 15135
+2021-12-18 06:01:38,321 - DEBUG - upload_file - rows_5_drop_weight_invalid: 15135
+2021-12-18 06:01:38,389 - DEBUG - upload_file - rows_6_drop_date_invalid: 15135
+2021-12-18 06:01:38,407 - DEBUG - upload_file - rows_7_drop_province_invalid: 15135
+2021-12-18 06:01:38,409 - DEBUG - upload_file - rows_8_drop_fee_invalid: 15135
+2021-12-18 06:01:48,066 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 15135, 'nModified': 15135}
+2021-12-18 06:01:48,067 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 06:02:00,130 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 06:02:00,131 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 06:02:00,442 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 06:02:00,442 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 06:02:03,282 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 06:02:03,282 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 06:02:03,282 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 06:02:03,284 - DEBUG - upload_file - columns selected 
+2021-12-18 06:02:03,284 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 06:02:03,287 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 06:02:03,290 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 06:02:03,290 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 06:02:03,367 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 06:02:03,371 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 06:02:03,460 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 06:02:03,481 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 06:02:03,484 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 06:02:11,210 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 06:02:11,211 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 06:02:11,235 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_圆通.xlsx
+2021-12-18 06:02:11,236 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1565998}
+2021-12-18 06:02:11,545 - DEBUG - upload_file - {'sheet_names': ['_明细', '理赔', '价格表', '费用']}
+2021-12-18 06:02:11,545 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 06:02:14,669 - DEBUG - upload_file - ('finished reading file, df shape: ', '(15146, 17)')
+2021-12-18 06:02:14,669 - DEBUG - upload_file - {'raw columns': ['日期', '_快递', '运单号', '物料商家', '揽收重量', '取整', '取件业务员', '订单目的地网点名称', '订单目的地省份', '快递费', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 06:02:14,670 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '订单目的地省份': 'area', '揽收重量': 'weight', '快递费': 'fee', '日期': 'time'}
+2021-12-18 06:02:14,671 - DEBUG - upload_file - columns selected 
+2021-12-18 06:02:14,671 - DEBUG - upload_file - rows_1_initial: 15146
+2021-12-18 06:02:14,674 - DEBUG - upload_file - rows_2_dropna_id: 15135
+2021-12-18 06:02:14,678 - DEBUG - upload_file - rows_3_drop_duplicated_id: 15135
+2021-12-18 06:02:14,729 - DEBUG - upload_file - rows_4_dropna: 15135
+2021-12-18 06:02:14,731 - DEBUG - upload_file - rows_5_drop_weight_invalid: 15135
+2021-12-18 06:02:14,799 - DEBUG - upload_file - rows_6_drop_date_invalid: 15135
+2021-12-18 06:02:14,819 - DEBUG - upload_file - rows_7_drop_province_invalid: 15135
+2021-12-18 06:02:14,822 - DEBUG - upload_file - rows_8_drop_fee_invalid: 15135
+2021-12-18 06:02:21,221 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 15135, 'nModified': 15135}
+2021-12-18 06:02:21,222 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 06:02:42,916 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 06:02:42,917 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 06:02:43,225 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 06:02:43,225 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 06:02:46,207 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 06:02:46,207 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 06:02:46,207 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 06:02:46,209 - DEBUG - upload_file - columns selected 
+2021-12-18 06:02:46,209 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 06:02:46,211 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 06:02:46,214 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 06:02:46,214 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 06:02:46,284 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 06:02:46,287 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 06:02:46,363 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 06:02:46,383 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 06:02:46,386 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 06:02:55,095 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 06:02:55,096 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 06:02:55,122 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_圆通.xlsx
+2021-12-18 06:02:55,122 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1565998}
+2021-12-18 06:02:55,484 - DEBUG - upload_file - {'sheet_names': ['_明细', '理赔', '价格表', '费用']}
+2021-12-18 06:02:55,484 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 06:03:00,401 - DEBUG - upload_file - ('finished reading file, df shape: ', '(15146, 17)')
+2021-12-18 06:03:00,401 - DEBUG - upload_file - {'raw columns': ['日期', '_快递', '运单号', '物料商家', '揽收重量', '取整', '取件业务员', '订单目的地网点名称', '订单目的地省份', '快递费', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 06:03:00,402 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '订单目的地省份': 'area', '揽收重量': 'weight', '快递费': 'fee', '日期': 'time'}
+2021-12-18 06:03:00,403 - DEBUG - upload_file - columns selected 
+2021-12-18 06:03:00,403 - DEBUG - upload_file - rows_1_initial: 15146
+2021-12-18 06:03:00,407 - DEBUG - upload_file - rows_2_dropna_id: 15135
+2021-12-18 06:03:00,413 - DEBUG - upload_file - rows_3_drop_duplicated_id: 15135
+2021-12-18 06:03:00,475 - DEBUG - upload_file - rows_4_dropna: 15135
+2021-12-18 06:03:00,478 - DEBUG - upload_file - rows_5_drop_weight_invalid: 15135
+2021-12-18 06:03:00,591 - DEBUG - upload_file - rows_6_drop_date_invalid: 15135
+2021-12-18 06:03:00,622 - DEBUG - upload_file - rows_7_drop_province_invalid: 15135
+2021-12-18 06:03:00,626 - DEBUG - upload_file - rows_8_drop_fee_invalid: 15135
+2021-12-18 06:03:08,775 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 15135, 'nModified': 15135}
+2021-12-18 06:03:08,776 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 06:03:08,801 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 06:03:08,802 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 06:03:09,029 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 06:03:09,030 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 06:03:11,690 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 06:03:11,690 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 06:03:11,690 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 06:03:11,691 - DEBUG - upload_file - columns selected 
+2021-12-18 06:03:11,691 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 06:03:11,693 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 06:03:11,696 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 06:03:11,696 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 06:03:11,754 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 06:03:11,757 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 06:03:11,828 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 06:03:11,847 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 06:03:11,850 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 06:03:18,842 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 06:03:18,842 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 06:03:18,847 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_圆通.xlsx
+2021-12-18 06:03:18,848 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1565998}
+2021-12-18 06:03:19,119 - DEBUG - upload_file - {'sheet_names': ['_明细', '理赔', '价格表', '费用']}
+2021-12-18 06:03:19,119 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 06:03:22,268 - DEBUG - upload_file - ('finished reading file, df shape: ', '(15146, 17)')
+2021-12-18 06:03:22,269 - DEBUG - upload_file - {'raw columns': ['日期', '_快递', '运单号', '物料商家', '揽收重量', '取整', '取件业务员', '订单目的地网点名称', '订单目的地省份', '快递费', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 06:03:22,269 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '订单目的地省份': 'area', '揽收重量': 'weight', '快递费': 'fee', '日期': 'time'}
+2021-12-18 06:03:22,270 - DEBUG - upload_file - columns selected 
+2021-12-18 06:03:22,270 - DEBUG - upload_file - rows_1_initial: 15146
+2021-12-18 06:03:22,273 - DEBUG - upload_file - rows_2_dropna_id: 15135
+2021-12-18 06:03:22,277 - DEBUG - upload_file - rows_3_drop_duplicated_id: 15135
+2021-12-18 06:03:22,331 - DEBUG - upload_file - rows_4_dropna: 15135
+2021-12-18 06:03:22,333 - DEBUG - upload_file - rows_5_drop_weight_invalid: 15135
+2021-12-18 06:03:22,410 - DEBUG - upload_file - rows_6_drop_date_invalid: 15135
+2021-12-18 06:03:22,431 - DEBUG - upload_file - rows_7_drop_province_invalid: 15135
+2021-12-18 06:03:22,434 - DEBUG - upload_file - rows_8_drop_fee_invalid: 15135
+2021-12-18 06:03:29,427 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 15135, 'nModified': 15135}
+2021-12-18 06:03:29,428 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 06:04:20,931 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_极兔.xlsx
+2021-12-18 06:04:20,939 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 12060597}
+2021-12-18 06:04:24,121 - DEBUG - upload_file - {'sheet_names': ['_明细', '理赔', '价格', '费用']}
+2021-12-18 06:04:24,121 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 06:04:45,358 - DEBUG - upload_file - ('finished reading file, df shape: ', '(66872, 26)')
+2021-12-18 06:04:45,359 - DEBUG - upload_file - {'raw columns': ['_快递', '运单编号', '客户名称', '揽件业务员', '寄件时间', '寄件网点', '派件网点', '目的地', '总运费', '预充单号', '剩余应结快递费', '内部计费重量', '取整', '寄件人姓名', '收件省份', '收件人姓名', '收件人手机号', '收件详细地址', '运单运费描述', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 06:04:45,359 - DEBUG - upload_file - columns_map: {'运单编号': '_id', '_快递': 'logistics', '收件省份': 'area', '内部计费重量': 'weight', '总运费': 'fee', '寄件时间': 'time'}
+2021-12-18 06:04:45,365 - DEBUG - upload_file - columns selected 
+2021-12-18 06:04:45,365 - DEBUG - upload_file - rows_1_initial: 66872
+2021-12-18 06:04:45,378 - DEBUG - upload_file - rows_2_dropna_id: 66861
+2021-12-18 06:04:45,396 - DEBUG - upload_file - rows_3_drop_duplicated_id: 66861
+2021-12-18 06:04:45,604 - DEBUG - upload_file - rows_4_dropna: 66860
+2021-12-18 06:04:45,612 - DEBUG - upload_file - rows_5_drop_weight_invalid: 66860
+2021-12-18 06:04:45,855 - DEBUG - upload_file - rows_6_drop_date_invalid: 66860
+2021-12-18 06:04:45,955 - DEBUG - upload_file - rows_7_drop_province_invalid: 66860
+2021-12-18 06:04:45,966 - DEBUG - upload_file - rows_8_drop_fee_invalid: 66860
+2021-12-18 06:05:17,897 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 66860, 'nModified': 66860}
+2021-12-18 06:05:17,900 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 13:45:04,348 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_圆通.xlsx
+2021-12-18 13:45:04,349 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1565998}
+2021-12-18 13:45:04,798 - DEBUG - upload_file - {'sheet_names': ['_明细', '理赔', '价格表', '费用']}
+2021-12-18 13:45:04,798 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 13:45:08,032 - DEBUG - upload_file - ('finished reading file, df shape: ', '(15146, 17)')
+2021-12-18 13:45:08,032 - DEBUG - upload_file - {'raw columns': ['日期', '_快递', '运单号', '物料商家', '揽收重量', '取整', '取件业务员', '订单目的地网点名称', '订单目的地省份', '快递费', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 13:45:08,032 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '订单目的地省份': 'area', '揽收重量': 'weight', '快递费': 'fee', '日期': 'time'}
+2021-12-18 13:45:08,035 - DEBUG - upload_file - columns selected 
+2021-12-18 13:45:08,035 - DEBUG - upload_file - rows_1_initial: 15146
+2021-12-18 13:45:08,038 - DEBUG - upload_file - rows_2_dropna_id: 15135
+2021-12-18 13:45:08,045 - DEBUG - upload_file - rows_3_drop_duplicated_id: 15135
+2021-12-18 13:45:08,098 - DEBUG - upload_file - rows_4_dropna: 15135
+2021-12-18 13:45:08,104 - DEBUG - upload_file - rows_5_drop_weight_invalid: 15135
+2021-12-18 13:45:08,180 - DEBUG - upload_file - rows_6_drop_date_invalid: 15135
+2021-12-18 13:45:08,204 - DEBUG - upload_file - rows_7_drop_province_invalid: 15135
+2021-12-18 13:45:08,209 - DEBUG - upload_file - rows_8_drop_fee_invalid: 15135
+2021-12-18 13:45:14,993 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 15135, 'nModified': 15135}
+2021-12-18 13:45:14,994 - DEBUG - upload_file - saved synchronized into coll of stat
+2021-12-18 13:45:41,729 - DEBUG - upload_file - ----------------------------
+processing file of name: trd_2021-11_曹县中通.xlsx
+2021-12-18 13:45:41,731 - DEBUG - upload_file - {'file_type': '.xlsx', 'file_size': 1176355}
+2021-12-18 13:45:42,061 - DEBUG - upload_file - {'sheet_names': ['_明细', '价格表', 'Sheet3']}
+2021-12-18 13:45:42,062 - DEBUG - upload_file - {'found target sheet': '_明细'}
+2021-12-18 13:45:45,239 - DEBUG - upload_file - ('finished reading file, df shape: ', '(16549, 19)')
+2021-12-18 13:45:45,239 - DEBUG - upload_file - {'raw columns': ['_快递', '运单号', '扫描时间', '结算对象', '目的地省', '结算重量', '取整', '应收金额', '面单费', '汇总金额', '运单发放', '目的地市', '重量', '取整.1', '差异', '城市', '核对城市', '金额', '差异金额']}
+2021-12-18 13:45:45,239 - DEBUG - upload_file - columns_map: {'运单号': '_id', '_快递': 'logistics', '目的地省': 'area', '结算重量': 'weight', '面单费': 'fee', '扫描时间': 'time'}
+2021-12-18 13:45:45,241 - DEBUG - upload_file - columns selected 
+2021-12-18 13:45:45,241 - DEBUG - upload_file - rows_1_initial: 16549
+2021-12-18 13:45:45,244 - DEBUG - upload_file - rows_2_dropna_id: 16546
+2021-12-18 13:45:45,247 - DEBUG - upload_file - rows_3_drop_duplicated_id: 16546
+2021-12-18 13:45:45,248 - DEBUG - upload_file - _id列是浮点数类型，正在转化为整数
+2021-12-18 13:45:45,326 - DEBUG - upload_file - rows_4_dropna: 16546
+2021-12-18 13:45:45,330 - DEBUG - upload_file - rows_5_drop_weight_invalid: 16546
+2021-12-18 13:45:45,429 - DEBUG - upload_file - rows_6_drop_date_invalid: 16546
+2021-12-18 13:45:45,458 - DEBUG - upload_file - rows_7_drop_province_invalid: 16546
+2021-12-18 13:45:45,462 - DEBUG - upload_file - rows_8_drop_fee_invalid: 16546
+2021-12-18 13:45:53,272 - DEBUG - upload_file - {'nUpserted': 0, 'nMatched': 16546, 'nModified': 16546}
+2021-12-18 13:45:53,272 - DEBUG - upload_file - saved synchronized into coll of stat

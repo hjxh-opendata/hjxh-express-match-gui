@@ -89,7 +89,7 @@ else:
     print("start updating...")
     with requests.post(
             url=url,
-            params={"update_into_db": UPDATE_INTO_DB},
+            params={"push_db": UPDATE_INTO_DB},
             # refer: https://stackoverflow.com/a/26639822/9422455
             files=[("files", (f["name"], open(f["path"], "rb"))) for f in fs][:20],
             stream=True
