@@ -29,3 +29,9 @@ declare module '*.css' {
   const content: Styles;
   export default content;
 }
+
+// markdown
+declare module '*.md' {
+  const content: string;
+  export default content;
+}

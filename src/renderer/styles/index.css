@@ -1,3 +1,9 @@
+@import "doc.scss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /*
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
@@ -38,10 +44,6 @@ button:hover {
   opacity: 1;
 }
 
-li {
-  list-style: none;
-}
-
 a {
   text-decoration: none;
   height: fit-content;
@@ -59,4 +61,34 @@ a:hover {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+}
+
+/*
+
+SELF DEFINE
+
+*/
+
+h2 {
+  font-size: larger;
+  font-weight: bold;
+  color: #fedc2a;
+}
+
+ul,
+ol {
+  padding-left: 20px;
+  list-style-position: outside;
+}
+
+ol {
+  list-style: decimal;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+li {
+  display: list-item;
 }

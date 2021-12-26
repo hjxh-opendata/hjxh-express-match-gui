@@ -5,10 +5,14 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import chalk from 'chalk';
 import { merge } from 'webpack-merge';
 import { spawn, execSync } from 'child_process';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import baseConfig from './webpack.config.base';
 import webpackPaths from './webpack.paths';
 import checkNodeEnv from '../scripts/check-node-env';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+// import remarkGfm from 'remark-gfm';
+// import RemarkHTML from "remark-html"
+// import RemarkParse from 'remark-parse';
+// import RemarkFrontmatter from "remark-frontmatter"
 
 // When an ESLint server is running, we can't set the NODE_ENV so we'll check if it's
 // at the dev webpack config is not accidentally run in a production environment
@@ -18,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 1212;
 const manifest = path.resolve(webpackPaths.dllPath, 'renderer.json');
-const requiredByDLLConfig = module.parent.filename.includes(
+const requiredByDLLConfig = module.parent?.filename.includes(
   'webpack.config.renderer.dev.dll'
 );
 
@@ -79,9 +83,10 @@ const configuration: webpack.Configuration = {
         ],
         include: /\.module\.s?(c|a)ss$/,
       },
+      // added postcss-loader for tailwind support
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
         exclude: /\.module\.s?(c|a)ss$/,
       },
       // Fonts
@@ -94,17 +99,42 @@ const configuration: webpack.Configuration = {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
+      // Markdown
+      {
+        test: /\.(md|markdown)/i,
+        use: 'raw-loader',
+        // use: [
+        //   {
+        //     loader: 'html-loader'
+        //   },
+        //   {
+        //     loader: 'remark-loader',
+        //     options: {
+        //       remarkOptions: {
+        //         plugins: [
+        //           // remarkGfm
+        // //           // RemarkAdmonitions,
+        // //           // RemarkParse,
+        //           RemarkHTML,
+        // //           // RemarkFrontmatter,
+        //         ]
+        //       }
+        //     }
+        //   }
+        // ]
+      },
     ],
   },
   plugins: [
-    requiredByDLLConfig
-      ? null
-      : new webpack.DllReferencePlugin({
-          context: webpackPaths.dllPath,
-          manifest: require(manifest),
-          sourceType: 'var',
-        }),
-
+    ...(requiredByDLLConfig
+      ? []
+      : [
+          new webpack.DllReferencePlugin({
+            context: webpackPaths.dllPath,
+            manifest: require(manifest),
+            sourceType: 'var',
+          }),
+        ]),
     new webpack.NoEmitOnErrorsPlugin(),
 
     /**
@@ -167,7 +197,7 @@ const configuration: webpack.Configuration = {
         env: process.env,
         stdio: 'inherit',
       })
-        .on('close', (code) => process.exit(code))
+        .on('close', (code) => process.exit(code || -1))
         .on('error', (spawnError) => console.error(spawnError));
     },
   },

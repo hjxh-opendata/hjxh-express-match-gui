@@ -10,7 +10,7 @@
     "pretty": true,
     "sourceMap": true,
     "baseUrl": "./src",
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -19,7 +19,8 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
-    "outDir": "release/app/dist"
+    "noImplicitAny": false,
+    "outDir": "release/app/dist",
   },
   "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
 }

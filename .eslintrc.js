@@ -1,6 +1,20 @@
 module.exports = {
   extends: 'erb',
   rules: {
+    'react/jsx-curly-brace-presence': 'off',
+    // 'prettier/prettier': 1,
+    'react/destructuring-assignment': 0,
+    'max-len': ['warn', { code: 120, ignoreComments: true }],
+
+    // refer: https://eslint.org/docs/2.0.0/rules/semi
+    // semi: [2, 'always', { omitLastInOneLineBlock: true }],
+    semi: 'off',
+
+    // for markdown components use
+    'react/jsx-props-no-spreading': 'off',
+    // for console use
+    'no-console': 'off',
+
     // A temporary hack related to IDE not resolving correct package.json
     'import/no-extraneous-dependencies': 'off',
     // Since React 17 and typescript 4.1 you can safely disable the rule
