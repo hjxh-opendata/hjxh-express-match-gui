@@ -1,18 +1,10 @@
 import { MdWithDir } from './componnets/MdWithDir';
-import docUploadBase from '../docs/upload_base.md';
+import docUploadBase from '../docs/sys_intro.md';
 import docUploadTrd from '../docs/upload_trd.md';
+import { StepperIntro } from './componnets/StepperIntro';
 
 export const UploadTrd = () => {
-  return (
-    <div className={'flex'}>
-      <div id={'upload-area'}></div>
-
-      <div id={'upload-desc'}>
-        <MdWithDir content={docUploadBase} />
-        <MdWithDir content={docUploadTrd} />
-      </div>
-    </div>
-  );
+  return <div className={'flex justify-center items-center'}>TODO:</div>;
 };
 
 export default UploadTrd;

@@ -1,7 +1,10 @@
+import './styles/doc.scss';
+
 import { useState } from 'react';
 import MenusSimple, { IMenuItem } from './componnets/MenusSimple';
 import { UploadErp } from './UploadErp';
 import { UploadTrd } from './UploadTrd';
+import { StepperIntro } from './componnets/StepperIntro';
 
 export const menuItems: IMenuItem[] = [
   { key: 'ERP', content: 'ERP' },
@@ -20,9 +23,15 @@ export default function App() {
         onClick={(k) => setCurKey(k)}
       />
 
-      <div id={'content'} className={'doc flex-grow overflow-auto mx-auto'}>
-        {curKey === 'ERP' && <UploadErp />}
-        {curKey === 'TRD' && <UploadTrd />}
+      <div
+        id={'content'}
+        className={'doc flex-grow overflow-auto flex justify-center gap-10'}
+      >
+        <StepperIntro />
+        <>
+          {curKey === 'ERP' && <UploadErp />}
+          {curKey === 'TRD' && <UploadTrd />}
+        </>
       </div>
     </div>
   );
