@@ -1,24 +1,21 @@
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 
-import MenusSimple, { IMenuItem } from './components/MenusSimple';
+import { Channels } from '../universal';
+
 import { StepperIntro } from './components/StepperIntro';
 
 import { UploadErp } from './UploadErp';
 import { UploadTrd } from './UploadTrd';
+import { MenuKey } from './const';
 
 import './styles/doc.scss';
 
-export const menuItems: IMenuItem[] = [
-  { key: 'ERP', content: 'ERP' },
-  { key: 'TRD', content: 'TRD' },
-];
-
 export default function App() {
-  const [curKey, setCurKey] = useState(menuItems[0].key as string);
+  const [curKey, setCurKey] = useState(MenuKey.ERP as string);
 
-  window.electron.ipcRenderer.once('ipc-example', console.log);
-  window.electron.ipcRenderer.myPing();
+  window.electron.once(Channels.ping, console.log);
+  window.electron.heartBeats();
 
   return (
     <div className="h-screen w-screen flex flex-col" id="content">
@@ -29,17 +26,14 @@ export default function App() {
         }}
         textColor="secondary"
         indicatorColor="secondary"
-        aria-label="nav` tabs example"
+        aria-label="nav tabs example"
       >
         <Tab value={'ERP'} label="ERP" />
         <Tab value="TRD" label="TRD" />
       </Tabs>
 
       <div
-        id={'content'}
-        className={
-          'doc flex-grow overflow-auto flex flex-wrap justify-center gap-10'
-        }
+        className={'doc min-h-0 flex-auto flex flex-wrap justify-center gap-10'}
       >
         <>
           {curKey === 'ERP' && <UploadErp />}

@@ -1,7 +1,7 @@
-import API from '../../main/preload';
+import { api } from '../../main/preload';
 
 declare global {
   interface Window {
-    electron: typeof API;
+    electron: typeof api;
   }
 }

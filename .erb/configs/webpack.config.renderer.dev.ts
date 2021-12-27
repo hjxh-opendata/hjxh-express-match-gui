@@ -1,14 +1,17 @@
-import path from 'path';
-import fs from 'fs';
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import chalk from 'chalk';
-import { merge } from 'webpack-merge';
-import { spawn, execSync } from 'child_process';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import chalk from 'chalk';
+import { execSync, spawn } from 'child_process';
+import fs from 'fs';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import path from 'path';
+import webpack from 'webpack';
+import { merge } from 'webpack-merge';
+
+import checkNodeEnv from '../scripts/check-node-env';
+
 import baseConfig from './webpack.config.base';
 import webpackPaths from './webpack.paths';
-import checkNodeEnv from '../scripts/check-node-env';
+
 // import remarkGfm from 'remark-gfm';
 // import RemarkHTML from "remark-html"
 // import RemarkParse from 'remark-parse';
@@ -112,6 +115,7 @@ const configuration: webpack.Configuration = {
       : [
           new webpack.DllReferencePlugin({
             context: webpackPaths.dllPath,
+            // eslint-disable-next-line global-require,import/no-dynamic-require
             manifest: require(manifest),
             sourceType: 'var',
           }),

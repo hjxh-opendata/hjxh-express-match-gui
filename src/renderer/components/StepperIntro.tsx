@@ -62,7 +62,7 @@ export const StepperIntro = () => {
   };
 
   return (
-    <Box sx={{ width: 600 }} className={'pl-8 pt-8 overflow-auto'}>
+    <Box sx={{ width: 600 }} className={'max-h-full p-8 overflow-auto'}>
       <Stepper activeStep={activeStep} orientation={'vertical'}>
         {steps.map((step, index) => (
           <Step key={step.label}>

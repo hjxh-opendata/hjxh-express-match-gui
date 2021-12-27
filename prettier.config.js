@@ -3,8 +3,8 @@ module.exports = {
   printWidth: 80,
   // regex not match: https://stackoverflow.com/a/406408/9422455
   importOrder: [
-    '^.*components.*$',
     '^../((?!css).)*$',
+    '^.*components.*$',
     '^./((?!css).)*$',
     '.*css$',
   ],

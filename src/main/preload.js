@@ -1,25 +1,37 @@
-const { contextBridge, ipcRenderer } = require('electron');
-
-const api = {
-  ipcRenderer: {
-    myPing() {
-      ipcRenderer.send('ipc-example', 'ping');
+"use strict";
+exports.__esModule = true;
+exports.api = exports.API_KEY = void 0;
+/**
+ * simplify the api lever from 3 to 2
+ *
+ * Attention:
+ * 1. anything in this preload script can not be imported into the main process, since the `contextBridge` is undefined in the main
+ * 2. It's better not to import any variables from other places into this file, if using the `tsc` to transpile this file, in case of the `emit skipped` error
+ */
+var electron_1 = require("electron");
+exports.API_KEY = 'electron';
+exports.api = {
+    heartBeats: function () {
+        electron_1.ipcRenderer.send('ping');
     },
-    requestReadFile() {
-      ipcRenderer.send('requestReadFile');
+    request: electron_1.ipcRenderer.send,
+    on: function (channel, func) {
+        electron_1.ipcRenderer.on(channel, function (_) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            return func.apply(void 0, args);
+        });
     },
-    on(channel, func) {
-      const validChannels = ['ipc-example'];
-      if (validChannels.includes(channel)) {
-        // Deliberately strip event as it includes `sender`
-        ipcRenderer.on(channel, (event, ...args) => func(...args));
-      }
-    },
-    once(channel, func) {
-      ipcRenderer.once(channel, (event, ...args) => func(...args));
-    },
-  },
+    once: function (channel, func) {
+        electron_1.ipcRenderer.once(channel, function (_) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            return func.apply(void 0, args);
+        });
+    }
 };
-contextBridge.exposeInMainWorld('electron', api);
-
-module.exports = api;
+electron_1.contextBridge.exposeInMainWorld(exports.API_KEY, exports.api);

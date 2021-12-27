@@ -15,7 +15,8 @@ import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import 'regenerator-runtime/runtime';
 
-import { ApiKey } from './const';
+import { Channels } from '../universal';
+
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -23,32 +24,32 @@ export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.checkForUpdatesAndNotify().catch(console.error);
   }
 }
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
-
-ipcMain.on(ApiKey.ping, async (e) => {
+ipcMain.on(Channels.ping, async (e) => {
   console.log('received ping');
-  e.reply(ApiKey.ping, 'pong');
+  e.reply(Channels.ping, 'pong');
 });
 
-ipcMain.on(ApiKey.requestReadFile, async (e) => {
+ipcMain.on(Channels.requestSelectFile, async (e) => {
   console.log('received readFile');
   const openResult = await dialog.showOpenDialog({
     title: '选择文件',
     message: '选择文件上传',
-    properties: ['createDirectory', 'openDirectory', 'openFile'],
+    properties: [
+      'createDirectory',
+      'openDirectory',
+      'openFile',
+      'multiSelections', // todo: enabled just for test now
+    ],
+    filters: [{ name: '*', extensions: ['.csv'] }],
   });
   console.log({ openResult });
-  e.reply(ApiKey.requestReadFile, openResult.filePaths);
+  e.reply(Channels.requestSelectFile, openResult.filePaths);
 });
 
 if (process.env.NODE_ENV === 'production') {
