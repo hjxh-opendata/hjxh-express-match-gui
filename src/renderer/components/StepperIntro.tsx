@@ -9,11 +9,13 @@ import {
 } from '@mui/material';
 import Step from '@mui/material/Step';
 import { useState } from 'react';
-import { MdWithDir } from './MdWithDir';
+
 import docSysIntro from '../../docs/sys_intro.md';
 import docUploadBase from '../../docs/upload_base.md';
 import docUploadErp from '../../docs/upload_erp.md';
 import docUploadTrd from '../../docs/upload_trd.md';
+
+import { MdWithDir } from './MdWithDir';
 
 const steps = [
   {
@@ -75,7 +77,8 @@ export const StepperIntro = () => {
             </StepLabel>
 
             <StepContent>
-              <Typography>{step.description}</Typography>
+              {/* `component="span": https://stackoverflow.com/a/53494821/9422455 */}
+              <Typography component={'span'}>{step.description}</Typography>
               <Box sx={{ mb: 2 }}>
                 <div>
                   <Button

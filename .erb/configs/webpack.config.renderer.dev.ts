@@ -103,25 +103,6 @@ const configuration: webpack.Configuration = {
       {
         test: /\.(md|markdown)/i,
         use: 'raw-loader',
-        // use: [
-        //   {
-        //     loader: 'html-loader'
-        //   },
-        //   {
-        //     loader: 'remark-loader',
-        //     options: {
-        //       remarkOptions: {
-        //         plugins: [
-        //           // remarkGfm
-        // //           // RemarkAdmonitions,
-        // //           // RemarkParse,
-        //           RemarkHTML,
-        // //           // RemarkFrontmatter,
-        //         ]
-        //       }
-        //     }
-        //   }
-        // ]
       },
     ],
   },

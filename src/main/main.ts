@@ -9,11 +9,13 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron';
 import log from 'electron-log';
+import { autoUpdater } from 'electron-updater';
+import path from 'path';
+import 'regenerator-runtime/runtime';
+
+import { ApiKey } from './const';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -31,6 +33,22 @@ ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
+});
+
+ipcMain.on(ApiKey.ping, async (e) => {
+  console.log('received ping');
+  e.reply(ApiKey.ping, 'pong');
+});
+
+ipcMain.on(ApiKey.requestReadFile, async (e) => {
+  console.log('received readFile');
+  const openResult = await dialog.showOpenDialog({
+    title: '选择文件',
+    message: '选择文件上传',
+    properties: ['createDirectory', 'openDirectory', 'openFile'],
+  });
+  console.log({ openResult });
+  e.reply(ApiKey.requestReadFile, openResult.filePaths);
 });
 
 if (process.env.NODE_ENV === 'production') {

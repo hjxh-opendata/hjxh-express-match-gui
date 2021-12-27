@@ -1,9 +1,12 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
-contextBridge.exposeInMainWorld('electron', {
+const api = {
   ipcRenderer: {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');
+    },
+    requestReadFile() {
+      ipcRenderer.send('requestReadFile');
     },
     on(channel, func) {
       const validChannels = ['ipc-example'];
@@ -13,11 +16,10 @@ contextBridge.exposeInMainWorld('electron', {
       }
     },
     once(channel, func) {
-      const validChannels = ['ipc-example'];
-      if (validChannels.includes(channel)) {
-        // Deliberately strip event as it includes `sender`
-        ipcRenderer.once(channel, (event, ...args) => func(...args));
-      }
+      ipcRenderer.once(channel, (event, ...args) => func(...args));
     },
   },
-});
+};
+contextBridge.exposeInMainWorld('electron', api);
+
+module.exports = api;

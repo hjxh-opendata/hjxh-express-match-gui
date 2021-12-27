@@ -1,6 +1,7 @@
 module.exports = {
   extends: 'erb',
   rules: {
+    'import/prefer-default-export': 'warn',
     'react/jsx-curly-brace-presence': 'off',
     // 'prettier/prettier': 1,
     'react/destructuring-assignment': 0,

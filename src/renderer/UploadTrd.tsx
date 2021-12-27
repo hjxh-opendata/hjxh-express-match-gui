@@ -1,7 +1,8 @@
-import { MdWithDir } from './componnets/MdWithDir';
+import { MdWithDir } from './components/MdWithDir';
+import { StepperIntro } from './components/StepperIntro';
+
 import docUploadBase from '../docs/sys_intro.md';
 import docUploadTrd from '../docs/upload_trd.md';
-import { StepperIntro } from './componnets/StepperIntro';
 
 export const UploadTrd = () => {
   return <div className={'flex justify-center items-center'}>TODO:</div>;

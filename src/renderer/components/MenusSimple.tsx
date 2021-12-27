@@ -18,6 +18,7 @@ export const Menus = (props: MenusProps) => {
         {props.menuItems.map((menuItem) => {
           return (
             <button
+              key={menuItem.key}
               type="button"
               style={{
                 color: menuItem.key === props.curKey ? 'white' : 'gray',
