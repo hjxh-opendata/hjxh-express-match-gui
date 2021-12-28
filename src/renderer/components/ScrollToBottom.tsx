@@ -1,28 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 
-interface ScrollToBottomProps {
-  id: string | number;
-}
-export const ScrollToBottom = ({ id }: ScrollToBottomProps) => {
-  const ref = useRef<HTMLDivElement>(null as unknown as HTMLDivElement);
-
+export const ScrollToBottom = (_, ref) => {
   const doScroll = () => {
-    if (!ref.current) {
-      console.warn('ref of scrollToBottom not prepared');
-      return;
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'nearest',
+        block: 'end',
+      });
     }
-    ref.current?.scrollIntoView({
-      behavior: 'smooth',
-      inline: 'nearest',
-      block: 'end',
-    });
   };
 
-  useEffect(() => {
-    doScroll();
-  }, [id]);
+  useImperativeHandle(ref, () => ({
+    doScroll,
+  }));
 
   return <div ref={ref} />;
 };
 
-export default ScrollToBottom;
+export default forwardRef(ScrollToBottom);

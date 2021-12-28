@@ -1,6 +1,12 @@
 module.exports = {
   extends: 'erb',
   rules: {
+    // inflexible
+    'import/no-named-as-default': 'off',
+    // annoying
+    '@typescript-eslint/ban-ts-comment': 'off',
+    // while(A = B), it's flexible
+    'no-cond-assign': 'off',
     'import/prefer-default-export': 'warn',
     'react/jsx-curly-brace-presence': 'off',
     // 'prettier/prettier': 1,

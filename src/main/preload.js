@@ -15,6 +15,7 @@ exports.api = {
         electron_1.ipcRenderer.send('ping');
     },
     request: electron_1.ipcRenderer.send,
+    removeChannel: electron_1.ipcRenderer.removeAllListeners,
     on: function (channel, func) {
         electron_1.ipcRenderer.on(channel, function (_) {
             var args = [];

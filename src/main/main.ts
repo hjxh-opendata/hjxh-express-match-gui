@@ -8,17 +8,26 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
+import * as csv from '@fast-csv/parse';
 import 'core-js/stable';
 import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
+import fs from 'fs';
+import iconv from 'iconv-lite';
 import path from 'path';
 import 'regenerator-runtime/runtime';
 
-import { Channels } from '../universal';
+import {
+  Channels,
+  MsgFromMain,
+  MsgLevel,
+  OVER,
+  ValidEncoding,
+} from '../universal';
 
 import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
+import { TestCSVEncodingError, resolveHtmlPath, testCsvEncoding } from './util';
 
 export default class AppUpdater {
   constructor() {
@@ -30,13 +39,21 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
+interface IpcMainEvent extends Event {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  reply: Function;
+}
+export const reply = (e: IpcMainEvent, channel: Channels, msg: MsgFromMain) => {
+  e.reply(channel, msg);
+};
+
 ipcMain.on(Channels.ping, async (e) => {
   console.log('received ping');
   e.reply(Channels.ping, 'pong');
 });
 
 ipcMain.on(Channels.requestSelectFile, async (e) => {
-  console.log('received readFile');
+  console.log('selecting file');
   const openResult = await dialog.showOpenDialog({
     title: '选择文件',
     message: '选择文件上传',
@@ -49,7 +66,72 @@ ipcMain.on(Channels.requestSelectFile, async (e) => {
     filters: [{ name: '*', extensions: ['.csv'] }],
   });
   console.log({ openResult });
-  e.reply(Channels.requestSelectFile, openResult.filePaths);
+  reply(e, Channels.requestSelectFile, {
+    sendTime: new Date(),
+    content: openResult.filePaths,
+    level: MsgLevel.info,
+  });
+});
+
+ipcMain.on(Channels.requestReadFile, async (e, fp: string) => {
+  console.log(`reading file, name: ${fp}`);
+  try {
+    const encoding = await testCsvEncoding(fp);
+    console.log({ encoding });
+    switch (encoding) {
+      case ValidEncoding.utf_8:
+        return (
+          fs
+            .createReadStream(fp)
+            .pipe(csv.parse({ encoding: 'utf-8', headers: true }))
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            .pipe((s: any) => {
+              console.log(s);
+              reply(e, Channels.requestReadFile, {
+                sendTime: new Date(),
+                content: s,
+                level: MsgLevel.debug,
+              });
+            })
+        );
+      case ValidEncoding.gbk:
+        return (
+          fs
+            .createReadStream(fp)
+            .pipe(iconv.decodeStream('gbk'))
+            .pipe(iconv.encodeStream('utf-8'))
+            // 不要加 header，太慢了
+            .pipe(csv.parse({ headers: false }))
+            .on('data', (item: any) => {
+              reply(e, Channels.requestReadFile, {
+                sendTime: new Date(),
+                content: item,
+                level: MsgLevel.debug,
+              });
+            })
+            .on('error', console.error)
+            .on('end', () => {
+              console.log('finished');
+            })
+        );
+      default:
+        console.error('impossible');
+    }
+  } catch (error: unknown) {
+    if (!(error instanceof TestCSVEncodingError)) throw error;
+    return reply(e, Channels.requestReadFile, {
+      error: error.message,
+      level: MsgLevel.error,
+      sendTime: new Date(),
+    });
+  } finally {
+    reply(e, Channels.requestReadFile, {
+      level: MsgLevel.info,
+      content: OVER,
+      sendTime: new Date(),
+    });
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {

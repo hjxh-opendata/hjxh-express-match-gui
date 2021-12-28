@@ -559,6 +559,19 @@
     "minimatch" "^3.0.4"
     "strip-json-comments" "^3.1.1"
 
+"@fast-csv/parse@^4.3.6":
+  "integrity" "sha1-7kfQZAygKRA0x6qUA5p0TPsBkmQ="
+  "resolved" "https://registry.npm.taobao.org/@fast-csv/parse/download/@fast-csv/parse-4.3.6.tgz"
+  "version" "4.3.6"
+  dependencies:
+    "@types/node" "^14.0.1"
+    "lodash.escaperegexp" "^4.1.2"
+    "lodash.groupby" "^4.6.0"
+    "lodash.isfunction" "^3.0.9"
+    "lodash.isnil" "^4.0.0"
+    "lodash.isundefined" "^3.0.1"
+    "lodash.uniq" "^4.5.0"
+
 "@fullhuman/postcss-purgecss@^3.0.0":
   "integrity" "sha1-R697h8m/s95LyUo4+HW5KP/98zk="
   "resolved" "https://registry.npmmirror.com/@fullhuman/postcss-purgecss/download/@fullhuman/postcss-purgecss-3.1.3.tgz"
@@ -1314,6 +1327,11 @@
   "integrity" "sha512-ua7PgUoeQFjmWPcoo9khiPum3Pd60k4/2ZGXt18sm2Slk0W0xZTqt5Y0Ny1NyBiN1EVQ/+FaF9NcY4Qe6rwk5w=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-16.11.6.tgz"
   "version" "16.11.6"
+
+"@types/node@^14.0.1":
+  "integrity" "sha512-GtTH2crF4MtOIrrAa+jgTV9JX/PfoUCYr6MiZw7O/dkZu5b6gm5dc1nAL0jwGo4ortSBBtGyeVaxdC8X6V+pLg=="
+  "resolved" "https://registry.npmmirror.com/@types/node/download/@types/node-14.18.3.tgz"
+  "version" "14.18.3"
 
 "@types/node@^14.6.2":
   "integrity" "sha512-sld7b/xmFum66AAKuz/rp/CUO8+98fMpyQ3SBfzzBNGMd/1iHBTAg9oyAvcYlAj46bpc74r91jSw2iFdnx29nw=="
@@ -3468,6 +3486,11 @@
   "resolved" "https://registry.npmmirror.com/csstype/download/csstype-3.0.10.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcsstype%2Fdownload%2Fcsstype-3.0.10.tgz"
   "version" "3.0.10"
 
+"csv-parse@^5.0.3":
+  "integrity" "sha512-86R0WU4aEEF/1fPZKxP3NmDAYC4Ce1t9iFgKPZogG5Lvk4m9WZQkCEsDANktG29jppejwclTtEOzubN2ieCJqw=="
+  "resolved" "https://registry.npmmirror.com/csv-parse/download/csv-parse-5.0.3.tgz?cache=0&sync_timestamp=1637323947500&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcsv-parse%2Fdownload%2Fcsv-parse-5.0.3.tgz"
+  "version" "5.0.3"
+
 "damerau-levenshtein@^1.0.6":
   "integrity" "sha512-VvdQIPGdWP0SqFXghj79Wf/5LArmreyMsGLa6FG6iC4t3j7j5s71TrwWmT/4akbDQIqjfACkLZmjXhA7g2oUZw=="
   "resolved" "https://registry.npmjs.org/damerau-levenshtein/-/damerau-levenshtein-1.0.7.tgz"
@@ -5436,9 +5459,9 @@
     "cli-truncate" "^1.1.0"
     "node-addon-api" "^1.6.3"
 
-"iconv-lite@^0.6.2":
-  "integrity" "sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw=="
-  "resolved" "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.6.3.tgz"
+"iconv-lite@^0.6.2", "iconv-lite@^0.6.3":
+  "integrity" "sha1-pS+AvzjaGVLrXGgXkHGYcaGnJQE="
+  "resolved" "https://registry.nlark.com/iconv-lite/download/iconv-lite-0.6.3.tgz"
   "version" "0.6.3"
   dependencies:
     "safer-buffer" ">= 2.1.2 < 3.0.0"
@@ -6773,10 +6796,30 @@
   "resolved" "https://registry.npmjs.org/lodash.escaperegexp/-/lodash.escaperegexp-4.1.2.tgz"
   "version" "4.1.2"
 
+"lodash.groupby@^4.6.0":
+  "integrity" "sha512-5dcWxm23+VAoz+awKmBaiBvzox8+RqMgFhi7UvX9DHZr2HdxHXM/Wrf8cfKpsW37RNrvtPn6hSwNqurSILbmJw=="
+  "resolved" "https://registry.npmmirror.com/lodash.groupby/download/lodash.groupby-4.6.0.tgz"
+  "version" "4.6.0"
+
 "lodash.isequal@^4.5.0":
   "integrity" "sha1-QVxEePK8wwEgwizhDtMib30+GOA="
   "resolved" "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
   "version" "4.5.0"
+
+"lodash.isfunction@^3.0.9":
+  "integrity" "sha512-AirXNj15uRIMMPihnkInB4i3NHeb4iBtNg9WRWuK2o31S+ePwwNmDPaTL3o7dTJ+VXNZim7rFs4rxN4YU1oUJw=="
+  "resolved" "https://registry.npmmirror.com/lodash.isfunction/download/lodash.isfunction-3.0.9.tgz"
+  "version" "3.0.9"
+
+"lodash.isnil@^4.0.0":
+  "integrity" "sha1-SeKM1VkBNFjIFMVHnTxmOiG/qmw="
+  "resolved" "https://registry.npm.taobao.org/lodash.isnil/download/lodash.isnil-4.0.0.tgz"
+  "version" "4.0.0"
+
+"lodash.isundefined@^3.0.1":
+  "integrity" "sha1-I+89lTVWUgOmbO/VuDD4SJEa+0g="
+  "resolved" "https://registry.npm.taobao.org/lodash.isundefined/download/lodash.isundefined-3.0.1.tgz"
+  "version" "3.0.1"
 
 "lodash.memoize@^4.1.2", "lodash.memoize@4.1.2", "lodash.memoize@4.x":
   "integrity" "sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4="

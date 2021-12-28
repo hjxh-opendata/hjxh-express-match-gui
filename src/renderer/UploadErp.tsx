@@ -1,35 +1,103 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
-import { Channels, getTime } from '../universal';
+import { Channels, MsgFromMain, MsgLevel, OVER } from '../universal';
 
-import { ScrollToBottom } from './components/ScrollToBottom';
+import ScrollToBottom from './components/ScrollToBottom';
 
-export enum MsgLevel {
-  debug,
-  info,
-  warn,
-  error,
-}
-export interface MsgItem {
-  msg: string;
-  time: string;
+export interface MsgConsole {
+  text: string;
+  time: Date;
   level: MsgLevel;
 }
 
 export const UploadErp = () => {
-  const [msgs, setMsgs] = useState<MsgItem[]>([]);
-  const pushMsg = (msg: string) => {
-    setMsgs([...msgs, { msg, time: getTime(), level: MsgLevel.debug }]);
+  const [msgs, setMsgs] = useState<MsgConsole[]>([]);
+  const refScroll = useRef(null as unknown as HTMLDivElement);
+  /**
+   * 这里很有意思的点：
+   * 1. 若写成 `setMsgs([...msgs, msg])`，则`requestReadFile`函数中只会在request函数整个结束后才会更新一次消息，并且漏掉了"selecting file"
+   * 2. 若写成 `setMsgs(() => [...msgs, msg])`，则`requestReadFile`函数中`selecting file`会显示，但是等`once`结束时会覆盖它
+   * 3. 只有写成 `setMsgs(msgs => [...msgs, msg])`，才会让`selecting file`和`once`都能更新并显示信息
+   *
+   * 分析：
+   * 这背后应该是异步更新的原因~ `once`是一个异步函数，联想`redux`里的`dispatch`不难想到，它们也是用函数进行更新的，也就是：
+   * f => g => h
+   * @param msg
+   */
+  const pushMsg = (msg: MsgConsole) => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    setMsgs((msgs) => [...msgs.slice(msgs.length === 100 ? 1 : 0), msg]);
+
+    // @ts-ignore
+    refScroll.current?.doScroll();
   };
 
-  const requestReadFile = () => {
-    console.log('requesting read file');
-    window.electron.once(Channels.requestSelectFile, (v: string[]) => {
-      console.log('received files return: ', v);
-      if (v.length === 0) return;
-      if (v.length > 1) throw new Error('multiple file import not yet support'); // todo: multiple file import
-      pushMsg(`selected file: ${v[0]}`);
+  const requestReadFile = (fp: string) => {
+    console.log(`reading file: ${fp}`);
+    pushMsg({
+      text: `reading file`,
+      level: MsgLevel.debug,
+      time: new Date(),
+    });
+    window.electron.on(Channels.requestReadFile, (msg: MsgFromMain) => {
+      console.log(msg);
+      // todo: suppress some
+      pushMsg({
+        text: (msg.content as string[]).join('\t'),
+        level: MsgLevel.debug,
+        time: msg.sendTime,
+      });
+      if (msg.content === OVER) {
+        window.electron.removeChannel(Channels.requestReadFile);
+        pushMsg({
+          text: `reading finished`,
+          level: MsgLevel.debug,
+          time: new Date(),
+        });
+      }
+    });
+    window.electron.request(Channels.requestReadFile, fp);
+  };
+
+  const requestSelectFile = () => {
+    console.log('selecting file');
+    pushMsg({
+      text: 'selecting file',
+      time: new Date(),
+      level: MsgLevel.debug,
+    });
+    window.electron.once(Channels.requestSelectFile, (m: MsgFromMain) => {
+      console.log('received files return: ', m);
+      const filePaths = m.content as string[];
+
+      if (filePaths.length === 0) {
+        pushMsg({
+          level: MsgLevel.debug,
+          time: m.sendTime,
+          text: 'cancelled',
+        });
+        return;
+      }
+
+      // impossible
+      if (filePaths.length > 1) {
+        pushMsg({
+          level: MsgLevel.error,
+          time: m.sendTime,
+          text: 'should filePaths.length === 1',
+        });
+        return;
+      }
+
+      pushMsg({
+        text: `selected file: ${filePaths[0]}`,
+        level: m.level,
+        time: m.sendTime,
+      });
+
+      // request reading file
+      requestReadFile(filePaths[0]);
     });
     window.electron.request(Channels.requestSelectFile);
   };
@@ -54,7 +122,7 @@ export const UploadErp = () => {
           id={'upload-area'}
           className={'flex justify-center items-center flex-col'}
           style={{ width: 300, border: '2px dashed' }}
-          onClick={requestReadFile}
+          onClick={requestSelectFile}
         >
           <CloudUploadIcon fontSize={'large'} color={'primary'} />
           <div className={'text-center m-8 text-base'}>单击或拖拽文件上传</div>
@@ -84,16 +152,16 @@ export const UploadErp = () => {
           style={{ minHeight: 200, maxHeight: 400 }}
           className={'overflow-auto p-2 pt-12 text-black text-sm'}
         >
-          {msgs.map((msg) => (
-            <p key={msg.time} style={{ textIndent: '2em' }}>
+          {msgs.map((msg, i) => (
+            <p key={i} style={{ textIndent: '2em' }}>
               <span className={`mr-2 text-pink-${msg.level * 200 + 300}`}>
-                {msg.time}
+                {msg.time.toLocaleString()}
               </span>
-              <span> {msg.msg}</span>
+              <span> {msg.text}</span>
             </p>
           ))}
 
-          <ScrollToBottom id={msgs.length} />
+          <ScrollToBottom ref={refScroll} />
         </div>
       </div>
     </div>

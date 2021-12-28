@@ -14,6 +14,7 @@ export const api = {
     ipcRenderer.send('ping');
   },
   request: ipcRenderer.send,
+  removeChannel: ipcRenderer.removeAllListeners,
   on(channel, func) {
     ipcRenderer.on(channel, (_, ...args) => func(...args));
   },
