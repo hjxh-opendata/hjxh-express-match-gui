@@ -84,3 +84,46 @@ export enum QueryType {
     // DateMismatch = "DateMismatch",
     // WeightMismatch = "WeightMismatch"
 }
+
+export interface FileUpload1 {
+    [FileStep.fileImported]: FileStepStatus
+    filename: string
+    key: string
+}
+
+export interface FileUpload2 {
+    [FileStep.fileRead]: FileStepStatus
+    file_size: number
+    file_stand: "trd" | "erp"
+    file_type: ".xlsx" | ".xls" | ".csv"
+    read_time: number
+}
+
+export interface FileUpload3 {
+    [FileStep.fileValidated]: FileStepStatus
+    columns_map: Record<string, string>
+    df_shape: [number, number]
+    dfs_count: number
+    rows: number[]
+    // rows_1_initial: number
+    // rows_2_dropna_id: number
+    // rows_3_drop_duplicated_id: number
+    // rows_4_dropna: number
+    // rows_5_drop_weight_invalid: number
+    // rows_6_drop_date_invalid: number
+    // rows_7_drop_province_invalid: number
+    // rows_8_drop_fee_invalid: number
+}
+
+export type FileUpload = FileUpload1 & FileUpload2 & FileUpload3
+
+export enum COLOR {
+    OK = "blue",
+    ERROR = "red"
+}
+
+export enum Operation {
+    confirmed = "confirmed",
+    rejected = "rejected",
+    closed = "closed"
+}

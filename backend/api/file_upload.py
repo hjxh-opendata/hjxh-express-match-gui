@@ -35,6 +35,7 @@ async def check_file_basic(
         force_write: bool = Query(False,
                                   description="if not specify `force_write`, then would cause error when file existed otherwise ok")
 ):
+    print("processing file")
     print(f"processing file of name: " + file.filename)
 
     # ----------------------------------------

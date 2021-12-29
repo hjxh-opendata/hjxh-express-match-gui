@@ -47,6 +47,8 @@ cat << 'EOF' >$pcf
 commit=$(git show --no-patch --format=%B)
 echo "最新一次提交：$commit"
 
+vf=VERSION.txt
+
 if [[ $commit =~ ^\+\+\+ ]]
 then
 {
@@ -113,6 +115,7 @@ chmod +x $pcf
 if [[  $(grep ^${vf}$  $gf) ]];
 then echo "${vf} has added into ${gf}";
 else
+
 echo "\n# add file of ${vf} in case for REDUNDANT changes being detected by IDE
 ${vf}\n" >> ${gf}
     echo "added line of ${vf} into ${gf}"

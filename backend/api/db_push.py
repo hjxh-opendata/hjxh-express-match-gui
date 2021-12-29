@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
-from typing import List
+from enum import Enum
+from typing import List, Union
 
 import pandas as pd
 from fastapi import APIRouter, Query
@@ -15,16 +16,28 @@ from utils import _get_df_file_path, _try_to_get_file_stand
 router_push_db = APIRouter()
 
 
+class ConfirmOperation(Enum):
+    confirmed = "confirmed"
+    rejected = "rejected"
+    closed = "closed"
+
+
 class ConfirmModel(BaseModel):
     file_name: str
     notes: List[str]
     rows: List[int]
     update_time: datetime
-    
+    operation: ConfirmOperation
+
+    # reference: https://stackoverflow.com/a/65211727/9422455
+    class Config:
+        use_enum_values = True  # since ConfirmOperation is an Enum
 
 
 @router_push_db.post(RequestUrl.URL_CONFIRM_FILE, response_model=ResponseModel)
 async def confirm_file(data: ConfirmModel):
+    log.debug(data)
+    print("confirming file push")
     db[COLL_CONFIRM_NAME].insert_one(data.dict())
     return {
         "status": ResponseStatus.OK

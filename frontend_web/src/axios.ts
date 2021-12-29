@@ -1,9 +1,13 @@
 import axios from 'axios'
-import {getOS} from "./utils";
 
+// reference: [Adding Custom Environment Variables | Create React App](https://create-react-app.dev/docs/adding-custom-environment-variables/)
 
+const HOST = "101.43.125.199"
+const host = window.location.host // "localhost:3000"
+const isOnline =  host.indexOf('localhost') === -1
+console.log({host, isOnline})
 const instance = axios.create({
-    baseURL: "http://localhost:8000" + (getOS() ? "" : "/api/v1")
+    baseURL:  isOnline ? `http://${HOST}/api/v1` : "http://localhost:8000"
 })
 
 

@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.ant-tabs-tab-btn {
+    color: white !important;
+}

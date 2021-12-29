@@ -16,7 +16,7 @@ async def list_files(
         return {
             "file_name": file_name,
             "file_size": os.stat(f).st_size,
-            "file_time": os.stat(f).st_birthtime
+            "file_modify_time": os.stat(f).st_mtime,
         }
     return {
         "status": ResponseStatus.OK,

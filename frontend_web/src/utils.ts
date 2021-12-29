@@ -32,7 +32,7 @@ export const getValidatedData = (_data: DbDetailItem[], weightSmall: number): [D
 
 
 // reference: https://stackoverflow.com/a/38241481/9422455
-export function getOS() {
+export function isMac() {
     var userAgent = window.navigator.userAgent,
         platform = window.navigator.platform,
         macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],

@@ -12,8 +12,8 @@ import axios, {
 } from "../axios";
 import {ColumnsType} from "antd/lib/table";
 import {UploadRequestOption} from "rc-upload/lib/interface";
-import {FileState, FileStep, FileStepStatus} from "../ds";
-import {FileUpload, FileUploadConfirm} from "./FileUploadConfirm";
+import {FileState, FileStep, FileStepStatus, FileUpload} from "../ds";
+import {FileUploadConfirm} from "./FileUploadConfirm";
 import fileDownload from 'js-file-download'
 import {getDFName} from "../utils";
 
@@ -110,7 +110,7 @@ export const FileUploadPanel = () => {
     const updateAnyFileStep = (filename: string, change: FileStepChange) => {
         // 【重要】防止react刷新拿到旧的props，要把所有逻辑写在函数里，初始变量就是states本身
         setFileStats(fileStates => {
-            const index = fileStates.findIndex(fileState => fileState.filename == filename)
+            const index = fileStates.findIndex(fileState => fileState.filename === filename)
             // console.log({filename, index, change, fileStates})
             // console.log(fileStates)
             return index < 0 ? [...fileStates, {filename, ...change, key: filename}]
@@ -132,6 +132,7 @@ export const FileUploadPanel = () => {
 
     const customRequest = async (options: UploadRequestOption<any>) => {
         console.log(options)
+
         const filename = (options.file as File).name
         let curStep = FileStep.fileImported
         const updateFileStep = (change: FileStepChange) => updateAnyFileStep(filename, change)
@@ -139,8 +140,20 @@ export const FileUploadPanel = () => {
             updateFileStep({[FileStep.fileImported]: FileStepStatus.Waiting})
             const fmData = new FormData()
             fmData.append("file", options.file)
-            // 前端不用检查后端文件是否存在，直接通过`force_write`字段控制
-            let s = await axios.post(URL_CheckFileInfo, fmData, {params: {force_write: true}})
+            console.log("uploading file")
+            let s = await axios.post(
+                URL_CheckFileInfo, fmData, {
+                    // 前端不用检查后端文件是否存在，直接通过`force_write`字段控制
+                    params: {force_write: true},
+                    // 这个header很关键，不然服务端总会错
+                    // reference:  [How to use Fastapi to handle multiple files upload using axios - Johnnn](https://johnnn.tech/q/how-to-use-fastapi-to-handle-multiple-files-upload-using-axios/)
+                    // https://stackoverflow.com/q/23548232/9422455
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                        // "Content-Type": "multipart/form-data",
+                        // "Content-Disposition": "application/xml",
+                    }
+                })
             curStep += 1
             updateFileStep({
                 [FileStep.fileImported]: FileStepStatus.Success,
