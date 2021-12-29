@@ -167,6 +167,7 @@
     "@types/history": "4.7.9",
     "@types/jest": "^27.0.2",
     "@types/node": "16.11.6",
+    "@types/progress-stream": "^2.0.2",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/react-router": "^5.1.17",
@@ -247,6 +248,7 @@
     "esm": "^3.2.25",
     "history": "4.x.x",
     "iconv-lite": "^0.6.3",
+    "progress-stream": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-markdown": "^7.1.1",
@@ -254,7 +256,9 @@
     "regenerator-runtime": "^0.13.9",
     "remark": "^13.0.0",
     "remark-directive": "^2.0.1",
-    "remark-parse": "^10.0.1"
+    "remark-parse": "^10.0.1",
+    "sqlite3": "^5.0.2",
+    "typeorm": "^0.2.41"
   },
   "devEngines": {
     "node": ">=14.x",

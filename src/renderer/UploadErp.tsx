@@ -1,105 +1,108 @@
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useRef, useState } from 'react';
+import progressStream from 'progress-stream';
+import React, { useRef, useState } from 'react';
 
-import { Channels, MsgFromMain, MsgLevel, OVER } from '../universal';
+import {
+  Channels,
+  MsgFromMain,
+  MsgLevel,
+  OVER,
+  getFileName,
+} from '../universal';
 
-import ScrollToBottom from './components/ScrollToBottom';
+import { Console } from './components/Console';
+import { UploadClick } from './components/UploadClick';
+import UploadHistory, { IUploadItem } from './components/UploadHistory';
 
-export interface MsgConsole {
-  text: string;
-  time: Date;
-  level: MsgLevel;
-}
+import { ConsoleItem, makeItemFromMain, makeItemFromText } from './console';
+import { dispProgress } from './utils/utils';
 
+/**
+ * todo: 实现后台持久化log到文件
+ * √: 实时在前端console刷新输出具体内容其实不太友好，而且会比较慢，比较合适的方法是在console输出进度条，而在F12里输出具体信息
+ * @constructor
+ */
 export const UploadErp = () => {
-  const [msgs, setMsgs] = useState<MsgConsole[]>([]);
-  const refScroll = useRef(null as unknown as HTMLDivElement);
-  /**
-   * 这里很有意思的点：
-   * 1. 若写成 `setMsgs([...msgs, msg])`，则`requestReadFile`函数中只会在request函数整个结束后才会更新一次消息，并且漏掉了"selecting file"
-   * 2. 若写成 `setMsgs(() => [...msgs, msg])`，则`requestReadFile`函数中`selecting file`会显示，但是等`once`结束时会覆盖它
-   * 3. 只有写成 `setMsgs(msgs => [...msgs, msg])`，才会让`selecting file`和`once`都能更新并显示信息
-   *
-   * 分析：
-   * 这背后应该是异步更新的原因~ `once`是一个异步函数，联想`redux`里的`dispatch`不难想到，它们也是用函数进行更新的，也就是：
-   * f => g => h
-   * @param msg
-   */
-  const pushMsg = (msg: MsgConsole) => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    setMsgs((msgs) => [...msgs.slice(msgs.length === 100 ? 1 : 0), msg]);
+  const [consoles, setConsoles] = useState<ConsoleItem[]>([]);
+  const [uploaded, setUploaded] = useState<IUploadItem[]>([]);
 
-    // @ts-ignore
-    refScroll.current?.doScroll();
+  // cnt 与 pct 是两个不同维度的数据，cnt用于条件阀门，pct用于比率显示
+  const refReadingCnt = useRef(0);
+  const refReadingPct = useRef(0);
+
+  const pushMsg = (msg: ConsoleItem) => {
+    if (!refReadingCnt.current) {
+      // 没有在读取读取文件
+      setConsoles((msgs) => [...msgs.slice(msgs.length === 100 ? 1 : 0), msg]);
+    } else {
+      // 正在读取文件
+      setConsoles((msgs) => [...msgs.slice(0, msgs.length - 1), msg]);
+    }
   };
 
-  const requestReadFile = (fp: string) => {
-    console.log(`reading file: ${fp}`);
-    pushMsg({
-      text: `reading file`,
-      level: MsgLevel.debug,
-      time: new Date(),
-    });
-    window.electron.on(Channels.requestReadFile, (msg: MsgFromMain) => {
-      console.log(msg);
-      // todo: suppress some
-      pushMsg({
-        text: (msg.content as string[]).join('\t'),
-        level: MsgLevel.debug,
-        time: msg.sendTime,
+  const requestSelectFile = () =>
+    new Promise<string | null>((resolve) => {
+      console.log('selecting file');
+      window.electron.request(Channels.requestSelectFile);
+      window.electron.once(Channels.requestSelectFile, (m: MsgFromMain) => {
+        console.log('received files return: ', m);
+        const filePaths = m.content as string[];
+        if (filePaths.length === 0)
+          return pushMsg(makeItemFromText('cancelled'));
+        if (filePaths.length > 1)
+          return pushMsg(
+            makeItemFromText('should filePaths.length === 1', MsgLevel.error)
+          );
+
+        pushMsg(makeItemFromMain(m, (c) => `selected file: ${c[0]}`));
+
+        const fp = filePaths[0];
+        // check existed
+        if (uploaded.some((i) => getFileName(fp) === i.fileName))
+          return pushMsg(
+            makeItemFromText(
+              `[UPLOAD DENY]: the file '${getFileName(fp)}' has been uploaded!`,
+              MsgLevel.warn
+            )
+          );
+        return resolve(fp);
       });
-      if (msg.content === OVER) {
-        window.electron.removeChannel(Channels.requestReadFile);
-        pushMsg({
-          text: `reading finished`,
-          level: MsgLevel.debug,
-          time: new Date(),
-        });
-      }
     });
-    window.electron.request(Channels.requestReadFile, fp);
-  };
 
-  const requestSelectFile = () => {
-    console.log('selecting file');
-    pushMsg({
-      text: 'selecting file',
-      time: new Date(),
-      level: MsgLevel.debug,
-    });
-    window.electron.once(Channels.requestSelectFile, (m: MsgFromMain) => {
-      console.log('received files return: ', m);
-      const filePaths = m.content as string[];
-
-      if (filePaths.length === 0) {
-        pushMsg({
-          level: MsgLevel.debug,
-          time: m.sendTime,
-          text: 'cancelled',
-        });
-        return;
-      }
-
-      // impossible
-      if (filePaths.length > 1) {
-        pushMsg({
-          level: MsgLevel.error,
-          time: m.sendTime,
-          text: 'should filePaths.length === 1',
-        });
-        return;
-      }
-
-      pushMsg({
-        text: `selected file: ${filePaths[0]}`,
-        level: m.level,
-        time: m.sendTime,
+  const requestReadFile = (fp: string) =>
+    new Promise<boolean>((resolve) => {
+      console.log('reading file');
+      window.electron.request(Channels.requestReadFile, fp);
+      window.electron.on(Channels.requestReadFile, (msg: MsgFromMain) => {
+        console.log(msg);
+        if (msg.content === OVER) {
+          refReadingCnt.current = 0;
+          setUploaded([
+            ...uploaded,
+            { fileName: getFileName(fp), updateTime: new Date() },
+          ]);
+          console.log('content is over');
+          pushMsg(makeItemFromText('reading finished'));
+          window.electron.removeChannel(Channels.requestReadFile);
+          resolve(true);
+        } else {
+          refReadingCnt.current += 1;
+          // 限制更新的频率
+          if (msg.content.progress && refReadingCnt.current % 10000 === 1) {
+            refReadingPct.current = msg.content.progress.percentage;
+            pushMsg(
+              makeItemFromMain(msg, (c) =>
+                dispProgress(c.progress as progressStream.Progress)
+              )
+            );
+          }
+        }
       });
-
-      // request reading file
-      requestReadFile(filePaths[0]);
     });
-    window.electron.request(Channels.requestSelectFile);
+
+  const onClickUpload = async () => {
+    const filePath = await requestSelectFile();
+    if (filePath === null) return console.log('no valid file chose');
+    return requestReadFile(filePath);
   };
 
   return (
@@ -110,60 +113,11 @@ export const UploadErp = () => {
         className={'flex flex-wrap'}
         style={{ minHeight: 200 }}
       >
-        {/* ref:
-        - [eslint-plugin-jsx-a11y/no-static-element-interactions.md at master · jsx-eslint/eslint-plugin-jsx-a11y](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-static-element-interactions.md)
-        - [eslint-plugin-jsx-a11y/interactive-supports-focus.md at master · jsx-eslint/eslint-plugin-jsx-a11y](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/interactive-supports-focus.md)
-        - [eslint-plugin-jsx-a11y/click-events-have-key-events.md at master · jsx-eslint/eslint-plugin-jsx-a11y](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/click-events-have-key-events.md)
-        */}
-        <div
-          role={'button'}
-          tabIndex={-1}
-          aria-hidden
-          id={'upload-area'}
-          className={'flex justify-center items-center flex-col'}
-          style={{ width: 300, border: '2px dashed' }}
-          onClick={requestSelectFile}
-        >
-          <CloudUploadIcon fontSize={'large'} color={'primary'} />
-          <div className={'text-center m-8 text-base'}>单击或拖拽文件上传</div>
-        </div>
-
-        <div
-          id={'upload-history'}
-          className={'flex flex-col items-center'}
-          style={{ width: 300 }}
-        >
-          <div className={'text-center m-8 text-base'}>上传历史</div>
-          <div>暂无</div>
-        </div>
+        <UploadClick readPct={refReadingPct.current} onClick={onClickUpload} />
+        <UploadHistory items={uploaded} />
       </div>
 
-      <div
-        id={'upload-cmd'}
-        className={' mt-16 relative bg-pink-200'}
-        style={{ width: 600 }}
-      >
-        <div className={'absolute top-0 left-0 z-100 w-full bg-pink-500'}>
-          <p className={'text-base text-white font-bold p-2'}> CONSOLE</p>
-          <div className={'h-0.5 bg-white'} />
-        </div>
-
-        <div
-          style={{ minHeight: 200, maxHeight: 400 }}
-          className={'overflow-auto p-2 pt-12 text-black text-sm'}
-        >
-          {msgs.map((msg, i) => (
-            <p key={i} style={{ textIndent: '2em' }}>
-              <span className={`mr-2 text-pink-${msg.level * 200 + 300}`}>
-                {msg.time.toLocaleString()}
-              </span>
-              <span> {msg.text}</span>
-            </p>
-          ))}
-
-          <ScrollToBottom ref={refScroll} />
-        </div>
-      </div>
+      <Console items={consoles} />
     </div>
   );
 };

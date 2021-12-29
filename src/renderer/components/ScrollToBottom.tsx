@@ -1,21 +1,22 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 
-export const ScrollToBottom = (_, ref) => {
-  const doScroll = () => {
-    if (ref && ref.current) {
-      ref.current.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'nearest',
-        block: 'end',
-      });
-    }
-  };
+const makeScrollToBottomHandler = (refMe) => ({
+  doScroll: () => {
+    refMe.current.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'nearest',
+      block: 'end',
+    });
+  },
+});
 
-  useImperativeHandle(ref, () => ({
-    doScroll,
-  }));
+const ScrollToBottom = (_, ref) => {
+  const refMe = useRef(null as unknown as HTMLDivElement);
 
-  return <div ref={ref} />;
+  useImperativeHandle(ref, () => makeScrollToBottomHandler(refMe));
+  return <div ref={refMe} />;
 };
 
-export default forwardRef(ScrollToBottom);
+export default forwardRef<ReturnType<typeof makeScrollToBottomHandler>>(
+  ScrollToBottom
+);

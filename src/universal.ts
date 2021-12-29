@@ -29,6 +29,13 @@ export interface MsgFromMain {
   sendTime: Date;
 }
 
+export const makeMsgFromMain = (error?, content?, level?): MsgFromMain => ({
+  error: error || undefined,
+  content: content || undefined,
+  level: level || MsgLevel.debug,
+  sendTime: new Date(),
+});
+
 export enum ValidEncoding {
   utf_8 = 'utf_8',
   gbk = 'gbk',
@@ -41,3 +48,10 @@ export enum ValidEncoding {
 export const getTime = () => {
   return new Date().toLocaleString();
 };
+
+/**
+ * ref: https://stackoverflow.com/a/423385/9422455
+ * @param filePath
+ */
+export const getFileName = (filePath: string): string =>
+  filePath.replace(/^.*[\\/]/, '');

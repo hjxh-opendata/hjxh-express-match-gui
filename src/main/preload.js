@@ -10,12 +10,21 @@ exports.api = exports.API_KEY = void 0;
  */
 var electron_1 = require("electron");
 exports.API_KEY = 'electron';
+/**
+ * attention:
+ * logs in this file, will go to the renderer console, not the main !
+ */
 exports.api = {
-    heartBeats: function () {
-        electron_1.ipcRenderer.send('ping');
-    },
+    heartBeats: function () { return electron_1.ipcRenderer.send('ping'); },
     request: electron_1.ipcRenderer.send,
-    removeChannel: electron_1.ipcRenderer.removeAllListeners,
+    removeChannel: function (channel) {
+        electron_1.ipcRenderer.removeAllListeners(channel);
+        console.log("disabled channel: " + channel);
+    },
+    listListeners: function (channel) {
+        console.log("listing listeners of " + channel);
+        console.log(electron_1.ipcRenderer.rawListeners(channel));
+    },
     on: function (channel, func) {
         electron_1.ipcRenderer.on(channel, function (_) {
             var args = [];
@@ -24,6 +33,7 @@ exports.api = {
             }
             return func.apply(void 0, args);
         });
+        console.log("enabled channel: " + channel);
     },
     once: function (channel, func) {
         electron_1.ipcRenderer.once(channel, function (_) {

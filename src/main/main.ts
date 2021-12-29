@@ -8,26 +8,18 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import * as csv from '@fast-csv/parse';
 import 'core-js/stable';
-import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron';
+import { BrowserWindow, app, ipcMain, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
-import fs from 'fs';
-import iconv from 'iconv-lite';
 import path from 'path';
 import 'regenerator-runtime/runtime';
 
-import {
-  Channels,
-  MsgFromMain,
-  MsgLevel,
-  OVER,
-  ValidEncoding,
-} from '../universal';
+import { Channels } from '../universal';
 
+import { handlePing, handleReadFile, handleSelectFile } from './handlers';
 import MenuBuilder from './menu';
-import { TestCSVEncodingError, resolveHtmlPath, testCsvEncoding } from './util';
+import { installExtensions, resolveHtmlPath } from './util';
 
 export default class AppUpdater {
   constructor() {
@@ -39,125 +31,15 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-interface IpcMainEvent extends Event {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  reply: Function;
-}
-export const reply = (e: IpcMainEvent, channel: Channels, msg: MsgFromMain) => {
-  e.reply(channel, msg);
-};
-
-ipcMain.on(Channels.ping, async (e) => {
-  console.log('received ping');
-  e.reply(Channels.ping, 'pong');
-});
-
-ipcMain.on(Channels.requestSelectFile, async (e) => {
-  console.log('selecting file');
-  const openResult = await dialog.showOpenDialog({
-    title: '选择文件',
-    message: '选择文件上传',
-    properties: [
-      'createDirectory',
-      'openDirectory',
-      'openFile',
-      'multiSelections', // todo: enabled just for test now
-    ],
-    filters: [{ name: '*', extensions: ['.csv'] }],
-  });
-  console.log({ openResult });
-  reply(e, Channels.requestSelectFile, {
-    sendTime: new Date(),
-    content: openResult.filePaths,
-    level: MsgLevel.info,
-  });
-});
-
-ipcMain.on(Channels.requestReadFile, async (e, fp: string) => {
-  console.log(`reading file, name: ${fp}`);
-  try {
-    const encoding = await testCsvEncoding(fp);
-    console.log({ encoding });
-    switch (encoding) {
-      case ValidEncoding.utf_8:
-        return (
-          fs
-            .createReadStream(fp)
-            .pipe(csv.parse({ encoding: 'utf-8', headers: true }))
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            .pipe((s: any) => {
-              console.log(s);
-              reply(e, Channels.requestReadFile, {
-                sendTime: new Date(),
-                content: s,
-                level: MsgLevel.debug,
-              });
-            })
-        );
-      case ValidEncoding.gbk:
-        return (
-          fs
-            .createReadStream(fp)
-            .pipe(iconv.decodeStream('gbk'))
-            .pipe(iconv.encodeStream('utf-8'))
-            // 不要加 header，太慢了
-            .pipe(csv.parse({ headers: false }))
-            .on('data', (item: any) => {
-              reply(e, Channels.requestReadFile, {
-                sendTime: new Date(),
-                content: item,
-                level: MsgLevel.debug,
-              });
-            })
-            .on('error', console.error)
-            .on('end', () => {
-              console.log('finished');
-            })
-        );
-      default:
-        console.error('impossible');
-    }
-  } catch (error: unknown) {
-    if (!(error instanceof TestCSVEncodingError)) throw error;
-    return reply(e, Channels.requestReadFile, {
-      error: error.message,
-      level: MsgLevel.error,
-      sendTime: new Date(),
-    });
-  } finally {
-    reply(e, Channels.requestReadFile, {
-      level: MsgLevel.info,
-      content: OVER,
-      sendTime: new Date(),
-    });
-  }
-});
-
-if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
-  sourceMapSupport.install();
-}
-
 const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDevelopment) {
   require('electron-debug')();
+} else {
+  const sourceMapSupport = require('source-map-support');
+  sourceMapSupport.install();
 }
-
-const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS'];
-
-  return installer
-    .default(
-      extensions.map((name) => installer[name]),
-      forceDownload
-    )
-    .catch(console.log);
-};
 
 const createWindow = async () => {
   if (isDevelopment) {
@@ -174,8 +56,8 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: 1200,
+    height: 800,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -236,3 +118,9 @@ app
     });
   })
   .catch(console.log);
+
+ipcMain.on(Channels.ping, handlePing);
+
+ipcMain.on(Channels.requestSelectFile, (e) => handleSelectFile(e, mainWindow));
+
+ipcMain.on(Channels.requestReadFile, handleReadFile);

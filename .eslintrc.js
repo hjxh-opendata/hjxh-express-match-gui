@@ -1,6 +1,10 @@
 module.exports = {
   extends: 'erb',
   rules: {
+    // when hook async updates, then need
+    '@typescript-eslint/no-shadow': 'off',
+    // I like no return assign, since shorter!
+    'no-return-assign': 'off',
     // inflexible
     'import/no-named-as-default': 'off',
     // annoying

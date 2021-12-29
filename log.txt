@@ -1,0 +1,1 @@
+time: 1640691628.1738722, argv: ['/Users/mark/Documents/mark_keeps_learning/MarkLearnsCoding/scripts/fast_cnki_translate/workflow_query_cnki_trans.py', 'ccc']
