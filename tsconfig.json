@@ -22,7 +22,8 @@
     "noImplicitAny": false,
     "outDir": "release/app/dist",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false // for db item definition, - [javascript - Property '...' has no initializer and is not definitely assigned in the constructor - Stack Overflow](https://stackoverflow.com/questions/49699067/property-has-no-initializer-and-is-not-definitely-assigned-in-the-construc)
   },
   "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
 }

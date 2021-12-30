@@ -1,20 +1,20 @@
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 
-import { Channels } from '../universal';
+import { Ping } from '../main/@types/channels';
 
 import { StepperIntro } from './components/StepperIntro';
 
+import { MenuKey } from './@types/menu';
 import { UploadErp } from './UploadErp';
 import { UploadTrd } from './UploadTrd';
-import { MenuKey } from './const';
 
 import './styles/doc.scss';
 
 export default function App() {
   const [curKey, setCurKey] = useState(MenuKey.ERP as string);
 
-  window.electron.once(Channels.ping, console.log);
+  window.electron.once(Ping, console.log);
   window.electron.heartBeats();
 
   return (

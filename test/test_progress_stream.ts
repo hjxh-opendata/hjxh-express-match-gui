@@ -3,17 +3,19 @@ import fs from 'fs';
 import iconv from 'iconv-lite';
 import progressStream from 'progress-stream';
 
-import { testCsvEncoding } from '../src/main/util';
-import { Errors, ValidEncoding } from '../src/universal';
+import { ValidEncoding } from '../src/main/@types/erp_read';
+import { MyErrorType } from '../src/main/@types/errors';
+
+import { checkCsvEncoding } from '../src/main/handlers/parse/utils';
 
 import ReadWriteStream = NodeJS.ReadWriteStream;
 
 const handleReadFile = async (fp: string) => {
   console.log(`reading file, name: ${fp}`);
-  const encoding = await testCsvEncoding(fp);
+  const encoding = await checkCsvEncoding(fp);
   console.log({ encoding });
   if (!(encoding in ValidEncoding))
-    return console.log(Errors.ErrorUnknownEncoding);
+    return console.log(MyErrorType.ErrorUnknownEncoding);
 
   let progress;
   const pipeProgressStream = progressStream(

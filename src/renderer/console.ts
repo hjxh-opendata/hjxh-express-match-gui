@@ -1,10 +1,6 @@
-import { MsgFromMain, MsgLevel } from '../universal';
+import { MsgFromMain, MsgLevel } from '../main/@types/event';
 
-export interface ConsoleItem {
-  text: string;
-  time: Date;
-  level: MsgLevel;
-}
+import { ConsoleItem } from './@types/console';
 
 export const makeItemFromMain = (
   msg: MsgFromMain,

@@ -18,7 +18,7 @@ export const api = {
   request: ipcRenderer.send,
   removeChannel: (channel: string) => {
     ipcRenderer.removeAllListeners(channel);
-    console.log(`disabled channel: ${channel}`);
+    // console.log(`disabled channel: ${channel}`);
   },
   listListeners: (channel: string) => {
     console.log(`listing listeners of ${channel}`);
@@ -26,7 +26,7 @@ export const api = {
   },
   on(channel, func) {
     ipcRenderer.on(channel, (_, ...args) => func(...args));
-    console.log(`enabled channel: ${channel}`);
+    // console.log(`enabled channel: ${channel}`);
   },
   once(channel, func) {
     ipcRenderer.once(channel, (_, ...args) => func(...args));

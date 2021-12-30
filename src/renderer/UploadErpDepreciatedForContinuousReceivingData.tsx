@@ -2,19 +2,17 @@ import progressStream from 'progress-stream';
 import React, { useRef, useState } from 'react';
 
 import { RequestParseFile, RequestSelectFile } from '../main/@types/channels';
-import { IParseError } from '../main/@types/erp_parse';
-import { ErrorParsingRow } from '../main/@types/errors/parse';
 import { MsgFromMain, MsgLevel, OVER } from '../main/@types/event';
-import { ConsoleItem } from './@types/console';
-
 import { getFileNameFromPath } from '../main/utils';
 
 import { Console } from './components/Console';
 import { UploadClick } from './components/UploadClick';
 import UploadHistory, { IUploadItem } from './components/UploadHistory';
 
+import { ConsoleItem } from './@types/console';
 import { makeItemFromMain, makeItemFromText } from './console';
 import { dispProgress } from './utils/utils';
+import { ErrorParsingRow } from '../main/@types/errors/parse';
 
 /**
  * todo: 实现后台持久化log到文件
@@ -26,10 +24,17 @@ export const UploadErp = () => {
   const [uploaded, setUploaded] = useState<IUploadItem[]>([]);
 
   // cnt 与 pct 是两个不同维度的数据，cnt用于条件阀门，pct用于比率显示
+  const refReadingCnt = useRef(0);
   const refReadingPct = useRef(0);
 
   const pushMsg = (msg: ConsoleItem) => {
-    setConsoles((msgs) => [...msgs.slice(msgs.length === 100 ? 1 : 0), msg]);
+    if (!refReadingCnt.current) {
+      // 没有在读取读取文件
+      setConsoles((msgs) => [...msgs.slice(msgs.length === 100 ? 1 : 0), msg]);
+    } else {
+      // 正在读取文件
+      setConsoles((msgs) => [...msgs.slice(0, msgs.length - 1), msg]);
+    }
   };
 
   const requestSelectFile = () =>
@@ -71,26 +76,29 @@ export const UploadErp = () => {
       window.electron.on(RequestParseFile, (msg: MsgFromMain) => {
         console.log(msg);
 
-        if (msg.error && msg.error !== ErrorParsingRow) {
-          // validate error
-          console.log(dispProgress((msg.content as IParseError).progress));
-          pushMsg(
-            makeItemFromMain(msg, (c: IParseError) => {
-              refReadingPct.current = c.progress.percentage;
-              return JSON.stringify(c);
-            })
-          );
-        } else {
-          refReadingPct.current = 0;
-          window.electron.removeChannel(RequestParseFile);
-          resolve(true); // function await
-          if (msg.content === OVER) {
-            // read finish
-            pushMsg(makeItemFromText(OVER));
-          } else {
-            // parse file error
-            pushMsg(makeItemFromText(msg.content as string));
+        if(msg.content !== OVER && msg.error !== ErrorParsingRow) {
+          refReadingCnt.current += 1;
+          // 控频率
+          if (msg.content.progress && refReadingCnt.current % 10000 === 1) {
+            refReadingPct.current = msg.content.progress.percentage;
+            pushMsg(
+              makeItemFromMain(msg, (c) =>
+                dispProgress(c.progress as progressStream.Progress)
+              )
+            );
           }
+        }
+
+        if (msg.content === OVER) {
+          refReadingCnt.current = refReadingPct.current = 0; // reset
+          setUploaded([
+            ...uploaded,
+            { fileName: getFileNameFromPath(fp), updateTime: new Date() }
+          ]);
+          console.log('content is over');
+          pushMsg(makeItemFromText('reading finished'));
+          window.electron.removeChannel(RequestParseFile);
+          resolve(true);
         }
       });
     });

@@ -1,6 +1,6 @@
 import React, { ElementRef, useEffect, useRef } from 'react';
 
-import { ConsoleItem } from '../console';
+import { ConsoleItem } from '../@types/console';
 
 import ScrollToBottom from './ScrollToBottom';
 

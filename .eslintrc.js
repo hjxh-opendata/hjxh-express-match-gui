@@ -1,6 +1,24 @@
 module.exports = {
-  extends: 'erb',
+  extends: ['erb'],
   rules: {
+    // to make prettier blank lines work
+    'prettier/prettier': 'off',
+    // deconstruct need
+    'prefer-const': 'warn',
+    // allow to use _id
+    '@typescript-eslint/naming-convention': 'off',
+    // allow me to use A._id
+    'no-underscore-dangle': 'off',
+    // I admit, this is not good
+    'consistent-return': 'off',
+    // prettier would help me
+    quotes: 'off',
+    // literal type define need
+    '@typescript-eslint/no-redeclare': 'off',
+    // I love it, for reduce
+    'no-sequences': 'off',
+    // I like it
+    'no-multi-assign': 'off',
     // when hook async updates, then need
     '@typescript-eslint/no-shadow': 'off',
     // I like no return assign, since shorter!
@@ -11,7 +29,8 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     // while(A = B), it's flexible
     'no-cond-assign': 'off',
-    'import/prefer-default-export': 'warn',
+    // inflexible
+    'import/prefer-default-export': 'off',
     'react/jsx-curly-brace-presence': 'off',
     // 'prettier/prettier': 1,
     'react/destructuring-assignment': 0,
@@ -31,6 +50,7 @@ module.exports = {
     // Since React 17 and typescript 4.1 you can safely disable the rule
     'react/react-in-jsx-scope': 'off',
   },
+  plugins: [],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',

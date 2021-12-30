@@ -19,7 +19,7 @@ exports.api = {
     request: electron_1.ipcRenderer.send,
     removeChannel: function (channel) {
         electron_1.ipcRenderer.removeAllListeners(channel);
-        console.log("disabled channel: " + channel);
+        // console.log(`disabled channel: ${channel}`);
     },
     listListeners: function (channel) {
         console.log("listing listeners of " + channel);
@@ -33,7 +33,7 @@ exports.api = {
             }
             return func.apply(void 0, args);
         });
-        console.log("enabled channel: " + channel);
+        // console.log(`enabled channel: ${channel}`);
     },
     once: function (channel, func) {
         electron_1.ipcRenderer.once(channel, function (_) {

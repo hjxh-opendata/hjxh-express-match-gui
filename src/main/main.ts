@@ -15,11 +15,13 @@ import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import 'regenerator-runtime/runtime';
 
-import { Channels } from '../universal';
+import { Ping, RequestParseFile, RequestSelectFile } from './@types/channels';
 
-import { handlePing, handleReadFile, handleSelectFile } from './handlers';
-import MenuBuilder from './menu';
-import { installExtensions, resolveHtmlPath } from './util';
+import { handleParseFile } from './handlers/handleParseFile';
+import { handlePing } from './handlers/handlePing';
+import { handleSelectFile } from './handlers/handleSelectFile';
+import MenuBuilder from './init/menu';
+import { installExtensions, resolveHtmlPath } from './init/util';
 
 export default class AppUpdater {
   constructor() {
@@ -119,8 +121,8 @@ app
   })
   .catch(console.log);
 
-ipcMain.on(Channels.ping, handlePing);
+ipcMain.on(Ping, handlePing);
 
-ipcMain.on(Channels.requestSelectFile, (e) => handleSelectFile(e, mainWindow));
+ipcMain.on(RequestSelectFile, (e) => handleSelectFile(e, mainWindow));
 
-ipcMain.on(Channels.requestReadFile, handleReadFile);
+ipcMain.on(RequestParseFile, handleParseFile);

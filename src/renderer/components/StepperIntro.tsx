@@ -10,10 +10,10 @@ import {
 import Step from '@mui/material/Step';
 import { useState } from 'react';
 
-import docSysIntro from '../../docs/sys_intro.md';
-import docUploadBase from '../../docs/upload_base.md';
-import docUploadErp from '../../docs/upload_erp.md';
-import docUploadTrd from '../../docs/upload_trd.md';
+import docSysIntro from '../docs/sys_intro.md';
+import docUploadBase from '../docs/upload_base.md';
+import docUploadErp from '../docs/upload_erp.md';
+import docUploadTrd from '../docs/upload_trd.md';
 
 import { MdWithDir } from './MdWithDir';
 
