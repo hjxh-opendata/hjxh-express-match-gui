@@ -15,7 +15,7 @@ model User {
 
 model erp {
   id        String @id @map("_id")
-  cp_name   String
+  cpName    String
   weight    Float
   area      String
   date      String
@@ -24,11 +24,11 @@ model erp {
 }
 
 model trd {
-  id      String @id @map("_id")
-  cp_name String
-  weight  Float
-  area    String
-  date    String
-  price   Float
-  erp     erp    @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id     String @id @map("_id")
+  cpName String
+  weight Float
+  area   String
+  date   String
+  price  Float
+  erp    erp    @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

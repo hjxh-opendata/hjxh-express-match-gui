@@ -1,13 +1,15 @@
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 
-import { Ping } from '../main/@types/channels';
+import { MenuKey } from './@types/menu';
+
+import { Ping } from '../main/modules/heartBeats/channels';
 
 import { StepperIntro } from './components/StepperIntro';
 
-import { MenuKey } from './@types/menu';
-import { UploadErp } from './UploadErp';
-import { UploadTrd } from './UploadTrd';
+import { MenuDB } from './MenuDB';
+import { MenuUploadErp } from './MenuUploadErp';
+import { MenuUploadTrd } from './MenuUploadTrd';
 
 import './styles/doc.scss';
 
@@ -28,19 +30,20 @@ export default function App() {
         indicatorColor="secondary"
         aria-label="nav tabs example"
       >
-        <Tab value={'ERP'} label="ERP" />
-        <Tab value="TRD" label="TRD" />
+        <Tab value={MenuKey.ERP} label="ERP" />
+        <Tab value={MenuKey.TRD} label="TRD" />
+        <Tab value={MenuKey.DB} label={'数据库'} />
       </Tabs>
 
-      <div
-        className={'doc min-h-0 flex-auto flex flex-wrap justify-center gap-10'}
-      >
-        <>
-          {curKey === 'ERP' && <UploadErp />}
-          {curKey === 'TRD' && <UploadTrd />}
-        </>
-
-        <StepperIntro />
+      <div className={'doc min-h-0 flex-auto flex flex-wrap justify-center gap-10'}>
+        {curKey === MenuKey.ERP && (
+          <>
+            <MenuUploadErp />
+            <StepperIntro />
+          </>
+        )}
+        {curKey === MenuKey.TRD && <MenuUploadTrd />}
+        {curKey === MenuKey.DB && <MenuDB />}
       </div>
     </div>
   );

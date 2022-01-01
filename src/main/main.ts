@@ -15,13 +15,16 @@ import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import 'regenerator-runtime/runtime';
 
-import { Ping, RequestParseFile, RequestSelectFile } from './@types/channels';
-
-import { handleParseFile } from './handlers/handleParseFile';
-import { handlePing } from './handlers/handlePing';
-import { handleSelectFile } from './handlers/handleSelectFile';
-import MenuBuilder from './init/menu';
-import { installExtensions, resolveHtmlPath } from './init/util';
+import { installExtensions, resolveHtmlPath } from './main_utils';
+import MenuBuilder from './menu';
+import { Ping } from './modules/heartBeats/channels';
+import { handlePing } from './modules/heartBeats/handler';
+import { RequestParseFile } from './modules/parseFile/channels';
+import { handleParseFile } from './modules/parseFile/handler';
+import { RequestQueryDatabase } from './modules/queryDB/channels';
+import { handleQueryDatabase } from './modules/queryDB/handler';
+import { RequestSelectFile } from './modules/selectFile/channels';
+import { handlerSelectFile } from './modules/selectFile/handler';
 
 export default class AppUpdater {
   constructor() {
@@ -33,8 +36,7 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-const isDevelopment =
-  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+const isDevelopment = process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDevelopment) {
   require('electron-debug')();
@@ -123,6 +125,9 @@ app
 
 ipcMain.on(Ping, handlePing);
 
-ipcMain.on(RequestSelectFile, (e) => handleSelectFile(e, mainWindow));
+// it needs mainWindow focus
+ipcMain.on(RequestSelectFile, (e) => handlerSelectFile(e, mainWindow));
 
 ipcMain.on(RequestParseFile, handleParseFile);
+
+ipcMain.on(RequestQueryDatabase, handleQueryDatabase);

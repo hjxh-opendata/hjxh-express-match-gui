@@ -1,6 +1,8 @@
 import FolderIcon from '@mui/icons-material/Folder';
 import React from 'react';
 
+import { timeSince } from '../utils/utils';
+
 export interface IUploadItem {
   fileName: string;
   updateTime: Date;
@@ -16,17 +18,21 @@ export const UploadHistory = ({ items }: UploadHistoryProps) => {
     <div
       id={'upload-history'}
       className={'flex flex-col items-center'}
-      style={{ width: 300 }}
+      style={{ width: 300, height: 200, overflow: 'auto' }}
     >
-      <div className={'text-center m-8 text-base'}>上传历史</div>
-      <div className={'flex justify-center items-center flex-col'}>
+      <div className={'flex justify-center items-start flex-col-reverse'}>
         {items.length === 0 ? (
-          <div>暂无</div>
+          <div className={'text-center'}>
+            <div className={'m-8 text-base'}>上传历史</div>
+            <div>暂无</div>
+          </div>
         ) : (
           items.map((item) => (
             <div key={item.fileName} className={'inline-flex overflow-hidden'}>
               <FolderIcon className={'mx-4'} />
-              <p>{item.fileName}</p>
+              <p>
+                {item.fileName} ({timeSince(item.updateTime)})
+              </p>
             </div>
           ))
         )}

@@ -1,17 +1,21 @@
-import { handleParseFileBase } from '../src/main/handlers/handleParseFile';
+import { handleParseFileBase } from '../src/main/modules/parseFile/handler';
 
 const fp: string = process.argv[2];
 
 const withHeader = process.argv[3] === '1';
 
 handleParseFileBase(
-  null,
   fp,
   withHeader,
-  (_, err) => {
-    console.dir(JSON.stringify(err));
+  (err) => {
+    console.dir(err);
   },
-  (_, err) => {
-    console.dir(JSON.stringify(err));
+  (err) => {
+    console.dir(err);
+  },
+  (data) => {
+    if (data.progress === undefined) {
+      console.dir(data);
+    }
   }
 );

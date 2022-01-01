@@ -832,7 +832,7 @@
   dependencies:
     "@babel/runtime" "^7.16.3"
 
-"@mui/material@^5.0.0", "@mui/material@^5.2.5":
+"@mui/material@^5.0.0", "@mui/material@^5.2.3", "@mui/material@^5.2.5":
   "integrity" "sha512-I0A5IgZlJVyVe9PUrXXuknAbdgij2wVynC2/iyBvoMwc79PoksUZTY4qKPfoy0gDyMRlexRGxZ68XpX5pleMgQ=="
   "resolved" "https://registry.npmmirror.com/@mui/material/download/@mui/material-5.2.5.tgz"
   "version" "5.2.5"
@@ -868,7 +868,7 @@
     "@emotion/cache" "^11.6.0"
     "prop-types" "^15.7.2"
 
-"@mui/system@^5.2.5":
+"@mui/system@^5.2.3", "@mui/system@^5.2.5":
   "integrity" "sha512-UHKsEZCZa0wuR9w8EXRmDVolHjjFBWinMhSmaRuR6nbmxVMUq7AhF5N0+Aw4IhFSehwfpVpf8FOlZDfg9QnGBA=="
   "resolved" "https://registry.npmmirror.com/@mui/system/download/@mui/system-5.2.5.tgz"
   "version" "5.2.5"
@@ -897,6 +897,16 @@
     "@types/react-is" "^16.7.1 || ^17.0.0"
     "prop-types" "^15.7.2"
     "react-is" "^17.0.2"
+
+"@mui/x-data-grid@^5.2.1":
+  "integrity" "sha512-d1kNZnISZy74uz9mDitSRqdOPLTyqPXue/BQJV42evZ2aGbEIo5WhrGrQUhz/wgfigGaeybphWo8b8+efnVjGw=="
+  "resolved" "https://registry.npmmirror.com/@mui/x-data-grid/download/@mui/x-data-grid-5.2.1.tgz"
+  "version" "5.2.1"
+  dependencies:
+    "@mui/utils" "^5.2.3"
+    "clsx" "^1.1.1"
+    "prop-types" "^15.7.2"
+    "reselect" "^4.1.5"
 
 "@nodelib/fs.scandir@2.1.4":
   "integrity" "sha512-33g3pMJk3bg5nXbL/+CY6I2eJDzZAni49PfJnL5fghPTggPvBd/pFNSgJsdAgWptuFu7qq/ERvOYFlhvsLTCKA=="
@@ -9526,6 +9536,11 @@
   "integrity" "sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8="
   "resolved" "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
   "version" "1.0.0"
+
+"reselect@^4.1.5":
+  "integrity" "sha512-uVdlz8J7OO+ASpBYoz1Zypgx0KasCY20H+N8JD13oUMtPvSHQuscrHop4KbXrbsBcdB9Ds7lVK7eRkBIfO43vQ=="
+  "resolved" "https://registry.npmmirror.com/reselect/download/reselect-4.1.5.tgz"
+  "version" "4.1.5"
 
 "resolve-alpn@^1.0.0":
   "integrity" "sha512-8OyfzhAtA32LVUsJSke3auIyINcwdh5l3cvYKdKO0nvsYSKuiLfTM5i78PJswFPT8y6cPW+L1v6/hE95chcpDA=="

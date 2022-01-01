@@ -1,6 +1,8 @@
 module.exports = {
   extends: ['erb'],
   rules: {
+    // suppress database callback
+    'no-useless-return': 'off',
     // to make prettier blank lines work
     'prettier/prettier': 'off',
     // deconstruct need
