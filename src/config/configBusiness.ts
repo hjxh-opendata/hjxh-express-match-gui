@@ -9,6 +9,9 @@ export const erpKeyMap: { [key in ErpKeys]: string } = {
 };
 
 export const MsgParseFileFinished = '文件读取完成！';
+export const MsgSaveDBFinished = '数据库存储完成！';
 
 export const MsgWhenParseHeaderError =
   '由于文件格式不规范导致无法解析，请在wps/excel中另存为.csv格式，然后尝试重新上传。\n如果仍无法解决，请反馈！';
+
+export const ENABLE_DB_UPSERT_MODE = true;

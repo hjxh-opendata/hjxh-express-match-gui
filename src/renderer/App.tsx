@@ -35,7 +35,7 @@ export default function App() {
         <Tab value={MenuKey.DB} label={'数据库'} />
       </Tabs>
 
-      <div className={'doc min-h-0 flex-auto flex flex-wrap justify-center gap-10'}>
+      <div className={'doc max-h-full overflow-auto flex-auto flex flex-wrap justify-center gap-10'}>
         {curKey === MenuKey.ERP && (
           <>
             <MenuUploadErp />

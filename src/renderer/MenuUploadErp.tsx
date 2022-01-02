@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 
 import { ConsoleItem } from './@types/console';
 
-import { MsgParseFileFinished } from '../config/configBusiness';
+import { MsgParseFileFinished, MsgSaveDBFinished } from '../config/configBusiness';
 import { MAX_CONSOLE_ITEMS, MAX_UPLOAD_HISTORY } from '../config/configSettings';
-import { GenericError } from '../main/modules/base/GenericError';
-import { MyProgrammeError } from '../main/modules/base/error_types';
 import { Level } from '../main/modules/base/response';
 import { RequestParseFile } from '../main/modules/parseFile/channels';
 import { ErrorParsingRow } from '../main/modules/parseFile/error_types';
-import { ParseKind } from '../main/modules/parseFile/handler/const';
 import { IContentValidateError } from '../main/modules/parseFile/handler/parse_validate';
 import { IReqParseFile } from '../main/modules/parseFile/request';
 import { IResParseFile } from '../main/modules/parseFile/response';
@@ -76,22 +73,26 @@ export const MenuUploadErp = () => {
           } else {
             // 3. parse error
             setPercent(0);
-            window.electron.removeChannel(RequestParseFile);
             pushMsg(makeItemFromMain(msg));
+            pushMsg(makeItemFromText('解析有误，等待数据库更新……'));
           }
-        } else if (msg.content.msg !== MsgParseFileFinished) {
-          // 1. success
-          setPercent(msg.content.progress.percentage);
-        } else {
-          // 4. finished
-          setPercent(0);
-          window.electron.removeChannel(RequestParseFile);
-          pushMsg(makeItemFromMain(msg, (c) => c.msg));
+        } else if (msg.content.msg === MsgParseFileFinished) {
+          // 4. finished parsing
+          pushMsg(makeItemFromText('读取完成，等待数据库更新……'));
+          // 值得注意的是，finish的时候，就可以标记上传文件了，
           // prettier-ignore
           setUploaded([...uploaded, {
             fileName: getFileNameFromPath(req.fp),
             updateTime: new Date()
           }].slice(-MAX_UPLOAD_HISTORY));
+        } else if (msg.content.msg === MsgSaveDBFinished) {
+          // 5. finished saving
+          setPercent(0);
+          window.electron.removeChannel(RequestParseFile);
+          pushMsg(makeItemFromMain(msg, (c) => c.msg));
+        } else {
+          // 6.  read one line
+          setPercent(msg.content.progress.percentage);
         }
       });
     });
@@ -104,13 +105,12 @@ export const MenuUploadErp = () => {
 
   return (
     // ui refer: https://medium.muz.li/file-upload-ui-inspiration-a82949ed191b
-    <div className={'min-w-1/2 max-w-full pt-20'}>
-      <div id={'upload-view'} className={'flex flex-wrap'} style={{ minHeight: 200 }}>
-        <UploadClick readPct={percent} onClick={onClickUpload} />
-        <UploadHistory items={uploaded} />
-      </div>
+    <div className={'min-w-1/2 max-w-full mt-8 overflow-auto'}>
+      <UploadClick readPct={percent} onClick={onClickUpload} />
 
       <Console items={consoles} />
+
+      <UploadHistory items={uploaded} />
     </div>
   );
 };

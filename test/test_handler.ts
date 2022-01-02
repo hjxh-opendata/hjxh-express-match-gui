@@ -2,20 +2,18 @@ import { handleParseFileBase } from '../src/main/modules/parseFile/handler';
 
 const fp: string = process.argv[2];
 
-const withHeader = process.argv[3] === '1';
-
-handleParseFileBase(
+handleParseFileBase({
   fp,
-  withHeader,
-  (err) => {
+  withHeader: true,
+  onValidateError: (err) => {
     console.dir(err);
   },
-  (err) => {
+  onParseError: (err) => {
     console.dir(err);
   },
-  (data) => {
+  onData: (data) => {
     if (data.progress === undefined) {
       console.dir(data);
     }
-  }
-);
+  },
+});

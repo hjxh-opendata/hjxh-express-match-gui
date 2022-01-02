@@ -16,7 +16,7 @@ export const Console = ({ items }: ConsoleProps) => {
   });
 
   return (
-    <div id={'upload-cmd'} className={'relative bg-pink-200'} style={{ width: 600 }}>
+    <div id={'upload-cmd'} className={'my-4 relative bg-pink-200'} style={{ width: 600 }}>
       <div className={'absolute top-0 left-0 z-100 w-full bg-pink-500'}>
         <p className={'text-base text-white font-bold p-2'}> CONSOLE</p>
         <div className={'h-0.5 bg-white'} />

@@ -3,14 +3,19 @@ import fs from 'fs';
 import iconv from 'iconv-lite';
 import progressStream from 'progress-stream';
 
-import { MsgParseFileFinished, MsgWhenParseHeaderError } from '../../../config/configBusiness';
+import {
+  ENABLE_DB_UPSERT_MODE,
+  MsgParseFileFinished,
+  MsgSaveDBFinished,
+  MsgWhenParseHeaderError,
+} from '../../../config/configBusiness';
 import { PARSE_WITH_HEADERS } from '../../../config/configSettings';
-import { DbUpdateStatus } from '../../db';
+import { DbInsertStatus, DbUpsertStatus, IDbInsertResult, IDbUpdateResult, isDbFinished } from '../../db';
 import { GenericError } from '../base/GenericError';
 import { IpcMainEvent, reply } from '../base/response';
 
 import { RequestParseFile } from './channels';
-import { dbCreateErp } from './db';
+import { dbCreateErp, dbUpsertErp } from './db';
 import { ErrorParsingRow } from './error_types';
 import { checkCsvEncoding } from './handler/checkCsvEncoding';
 import { ValidEncoding } from './handler/const';
@@ -62,18 +67,17 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
     // @ts-ignore
     s = s.pipe(iconv.decodeStream('gbk')).pipe(iconv.encodeStream('utf-8'));
 
-  /**
-   * monitor stream
-   */
+  // monitor stream
   let progress;
   // time: 100
   const pipeProgress = progressStream({ length: fs.statSync(fp).size }, (_) => (progress = _));
 
-  /**
-   * parse stream
-   * @type {number}
-   */
-  const result = { nInserted: 0, nDuplicated: 0, nTimeOut: 0, nUnknown: 0, nFailedValidation: 0 };
+  let result: (IDbInsertResult | IDbUpdateResult) & { nFailedValidation: number };
+  if (ENABLE_DB_UPSERT_MODE) {
+    result = { nTotal: 0, nUpdated: 0, nDropped: 0, nTimeout: 0, nUnknown: 0, nFailedValidation: 0 };
+  } else {
+    result = { nTotal: 0, nInserted: 0, nDuplicated: 0, nTimeout: 0, nUnknown: 0, nFailedValidation: 0 };
+  }
 
   let line = 0;
   // TODO: [-----] support no header
@@ -82,26 +86,43 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
   s.pipe(pipeProgress)
     .pipe(csv.parse({ headers: withHeader }))
     .on('data', async (row: Row) => {
+      result.nTotal += 1;
       try {
-        line += 1;
         const item = handler.handle(row);
         if (item) {
           // backend: store into database
-          const dbResult = await dbCreateErp(item);
-          switch (dbResult) {
-            case DbUpdateStatus.inserted:
-              result.nInserted += 1;
-              break;
-            case DbUpdateStatus.duplicated:
-              result.nDuplicated += 1;
-              break;
-            case DbUpdateStatus.timeout:
-              result.nTimeOut += 1;
-              break;
-            default:
-              result.nUnknown += 1;
+          if (ENABLE_DB_UPSERT_MODE) {
+            const dbStatus = await dbUpsertErp(item);
+            let _ = result as IDbUpdateResult;
+            switch (dbStatus) {
+              case DbUpsertStatus.updated:
+                _.nUpdated += 1;
+                break;
+              case DbUpsertStatus.timeout:
+                _.nTimeout += 1;
+                break;
+              default:
+                _.nUnknown += 1;
+                break;
+            }
+          } else {
+            const dbStatus = await dbCreateErp(item);
+            let _ = result as IDbInsertResult;
+            switch (dbStatus) {
+              case DbInsertStatus.inserted:
+                _.nInserted += 1;
+                break;
+              case DbInsertStatus.duplicated:
+                _.nDuplicated += 1;
+                break;
+              case DbInsertStatus.timeout:
+                _.nTimeout += 1;
+                break;
+              default:
+                _.nUnknown += 1;
+                break;
+            }
           }
-
           // frontend
           if (onData) {
             onData({ line, row, progress, item });
@@ -118,15 +139,21 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
           throw err;
         }
       }
+      line += 1;
+      if (onFinish && isDbFinished(result)) {
+        onFinish({ msg: MsgSaveDBFinished, total: result.nTotal });
+      }
+
+      // console.log(JSON.stringify(result));
     })
     .on('error', (err) => {
       console.error(err);
       if (onParseError) onParseError(new GenericError(ErrorParsingRow, MsgWhenParseHeaderError));
     })
     .on('close', () => {
-      console.log({ result });
+      console.log('finished');
       if (onFinish) {
-        onFinish({ msg: MsgParseFileFinished, result });
+        onFinish({ msg: MsgParseFileFinished, total: result.nTotal });
       }
     });
 };

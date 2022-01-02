@@ -1,19 +1,12 @@
-import {
-  Box,
-  Button,
-  Paper,
-  StepContent,
-  StepLabel,
-  Stepper,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Paper, StepContent, StepLabel, Stepper, Typography } from '@mui/material';
 import Step from '@mui/material/Step';
 import { useState } from 'react';
 
 import docSysIntro from '../docs/sys_intro.md';
 import docUploadBase from '../docs/upload_base.md';
-import docUploadErp from '../docs/upload_erp.md';
-import docUploadTrd from '../docs/upload_trd.md';
+import docUploadErp from '../docs/upload_erp_constaint.md';
+import docUploadErpParse from '../docs/upload_erp_parse.md';
+import docUploadTrd from '../docs/upload_trd_constraint.md';
 
 import { MdWithDir } from './MdWithDir';
 
@@ -38,7 +31,11 @@ const steps = [
   },
   {
     label: '解析文件',
-    description: 'TODO: ',
+    description: (
+      <div>
+        <MdWithDir content={docUploadErpParse} />
+      </div>
+    ),
   },
   {
     label: '上传数据',
@@ -62,16 +59,12 @@ export const StepperIntro = () => {
   };
 
   return (
-    <Box sx={{ width: 600 }} className={'max-h-full p-8 overflow-auto'}>
+    <Box sx={{ width: 600 }} className={'p-8 '}>
       <Stepper activeStep={activeStep} orientation={'vertical'}>
         {steps.map((step, index) => (
           <Step key={step.label}>
             <StepLabel
-              optional={
-                index === steps.length - 1 ? (
-                  <Typography variant={'caption'}>Last Step</Typography>
-                ) : null
-              }
+              optional={index === steps.length - 1 ? <Typography variant={'caption'}>Last Step</Typography> : null}
             >
               {step.label}
             </StepLabel>
@@ -81,18 +74,10 @@ export const StepperIntro = () => {
               <Typography component={'span'}>{step.description}</Typography>
               <Box sx={{ mb: 2 }}>
                 <div>
-                  <Button
-                    variant={'contained'}
-                    onClick={handleNext}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
+                  <Button variant={'contained'} onClick={handleNext} sx={{ mt: 1, mr: 1 }}>
                     {index === steps.length - 1 ? 'Finished' : 'Continue'}
                   </Button>
-                  <Button
-                    disabled={index === 0}
-                    onClick={handleBack}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
+                  <Button disabled={index === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
                     Back
                   </Button>
                 </div>

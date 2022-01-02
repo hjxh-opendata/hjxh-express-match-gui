@@ -17,8 +17,8 @@ export const UploadHistory = ({ items }: UploadHistoryProps) => {
   return (
     <div
       id={'upload-history'}
-      className={'flex flex-col items-center'}
-      style={{ width: 300, height: 200, overflow: 'auto' }}
+      className={'w-full my-4 flex flex-col items-center'}
+      style={{ minHeight: 50, maxHeight: 400, overflow: 'auto' }}
     >
       <div className={'flex justify-center items-start flex-col-reverse'}>
         {items.length === 0 ? (
