@@ -1,6 +1,6 @@
-import { erpKeyMap } from '../../../../../config/configBusiness';
 import { GenericError } from '../../../base/GenericError';
 import { ErrorParsingHeaders } from '../../error_types';
+import { erpKeyMap } from '../const';
 import { validateErpItemWithHeader } from '../parseValidate/validators';
 import { Row } from '../parse_base';
 import { IErpItem } from '../parse_success';

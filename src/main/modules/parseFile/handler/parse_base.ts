@@ -1,8 +1,9 @@
-import { Progress } from 'progress-stream';
-
-import { IResBase } from '../../base/response';
+import { IDbInsertResult, IDbUpdateResult } from '../../../db';
 
 import { ErpKeys } from './const';
+
+// ref: https://stackoverflow.com/a/58812812/9422455
+export type ErpPosMap = Record<ErpKeys, number>;
 
 export type Row = Record<string, string>;
 
@@ -10,17 +11,39 @@ export const isRow = (row: Row | string[]): row is Row => {
   return !Array.isArray(row);
 };
 
-/**
- * res parse file
- */
-export interface IParseContentBase {
-  line: number;
+export interface IContentWithRow {
   row: Row;
 }
 
-export interface IParseContentBase2Progress extends IParseContentBase {
-  progress: Progress;
+export interface IParseResult {
+  startTime: Date;
+  parseEndTime: Date;
+  dbEndTime: Date;
+  parseMileSeconds: number;
+  dbMileSeconds: number;
+  nTotalRows: number;
+  nSavedRows: number;
+  nFailedValidation: number;
+  sizePct: number;
+  rowsPct: number;
 }
 
-// ref: https://stackoverflow.com/a/58812812/9422455
-export type ErpPosMap = Record<ErpKeys, number>;
+export const initParseResult = (): IParseResult => ({
+  startTime: new Date(),
+  parseEndTime: new Date(),
+  dbEndTime: new Date(),
+  parseMileSeconds: 0,
+  dbMileSeconds: 0,
+  nTotalRows: 0,
+  nSavedRows: 0,
+  nFailedValidation: 0,
+  sizePct: 0,
+  rowsPct: 0,
+});
+
+export interface IContentWithResult {
+  result: {
+    dbResult: IDbInsertResult | IDbUpdateResult;
+    parseResult: IParseResult;
+  };
+}

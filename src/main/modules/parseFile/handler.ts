@@ -1,32 +1,73 @@
 import * as csv from '@fast-csv/parse';
-import fs from 'fs';
+import * as fs from 'fs';
 import iconv from 'iconv-lite';
-import progressStream from 'progress-stream';
 
 import {
-  ENABLE_DB_UPSERT_MODE,
-  MsgParseFileFinished,
-  MsgSaveDBFinished,
-  MsgWhenParseHeaderError,
-} from '../../../config/configBusiness';
-import { PARSE_WITH_HEADERS } from '../../../config/configSettings';
-import { DbInsertStatus, DbUpsertStatus, IDbInsertResult, IDbUpdateResult, isDbFinished } from '../../db';
+  DbInsertStatus,
+  DbUpsertStatus,
+  IDbInsertResult,
+  IDbUpdateResult,
+  initDbInsertResult,
+  initDbUpdateResult,
+  isDbFinished,
+} from '../../db';
+import { mainGetSetting } from '../../settings';
+import { ENABLE_DB_UPSERT_MODE, ENABLE_PARSE_WITH_HEADER } from '../../settings/boolean_settings';
+import { SET_PARSE_FILE_RETURN_FREQ } from '../../settings/number_settings';
+import { MsgParseFileFinished, MsgParseHeaderError, MsgSaveDbFinished } from '../../settings/string_settings';
 import { GenericError } from '../base/GenericError';
 import { IpcMainEvent, reply } from '../base/response';
 
 import { RequestParseFile } from './channels';
 import { dbCreateErp, dbUpsertErp } from './db';
 import { ErrorParsingRow } from './error_types';
+import { SizeTransformer } from './handler/SizeTransformer';
 import { checkCsvEncoding } from './handler/checkCsvEncoding';
 import { ValidEncoding } from './handler/const';
 import { ParseErpWithHeader } from './handler/parseHeader/parseErpWithHeader';
 import { ErrorValidate } from './handler/parseValidate/error_types';
-import { Row } from './handler/parse_base';
+import { Row, initParseResult } from './handler/parse_base';
 import { genResParseParseError } from './handler/parse_error';
 import { IContentParseFinish, genResParseFinish } from './handler/parse_finish';
 import { IContentParseSuccess, genResParseSuccess } from './handler/parse_success';
 import { IContentValidateError, genResContentValidateError } from './handler/parse_validate';
 import { IReqParseFile } from './request';
+
+const updateDBResult = async (result, item) => {
+  result.dbResult.nTotal += 1;
+  if (mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE)) {
+    const dbStatus = await dbUpsertErp(item);
+    const _ = result.dbResult as IDbUpdateResult;
+    switch (dbStatus) {
+      case DbUpsertStatus.updated:
+        _.nUpdated += 1;
+        break;
+      case DbUpsertStatus.timeout:
+        _.nTimeout += 1;
+        break;
+      default:
+        _.nUnknown += 1;
+        break;
+    }
+  } else {
+    const dbStatus = await dbCreateErp(item);
+    const _ = result.dbResult as IDbInsertResult;
+    switch (dbStatus) {
+      case DbInsertStatus.inserted:
+        _.nInserted += 1;
+        break;
+      case DbInsertStatus.duplicated:
+        _.nDuplicated += 1;
+        break;
+      case DbInsertStatus.timeout:
+        _.nTimeout += 1;
+        break;
+      default:
+        _.nUnknown += 1;
+        break;
+    }
+  }
+};
 
 /**
  *
@@ -67,93 +108,64 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
     // @ts-ignore
     s = s.pipe(iconv.decodeStream('gbk')).pipe(iconv.encodeStream('utf-8'));
 
-  // monitor stream
-  let progress;
-  // time: 100
-  const pipeProgress = progressStream({ length: fs.statSync(fp).size }, (_) => (progress = _));
+  let hasFinishedParsing = false;
+  const dbResult = mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE) ? initDbUpdateResult() : initDbInsertResult();
+  const result = { dbResult, parseResult: initParseResult() };
 
-  let result: (IDbInsertResult | IDbUpdateResult) & { nFailedValidation: number };
-  if (ENABLE_DB_UPSERT_MODE) {
-    result = { nTotal: 0, nUpdated: 0, nDropped: 0, nTimeout: 0, nUnknown: 0, nFailedValidation: 0 };
-  } else {
-    result = { nTotal: 0, nInserted: 0, nDuplicated: 0, nTimeout: 0, nUnknown: 0, nFailedValidation: 0 };
-  }
-
-  let line = 0;
   // TODO: [-----] support no header
   const handler = new ParseErpWithHeader();
 
-  s.pipe(pipeProgress)
+  s.pipe(new SizeTransformer(fs.statSync(fp).size, (pct) => (result.parseResult.sizePct = pct)))
     .pipe(csv.parse({ headers: withHeader }))
     .on('data', async (row: Row) => {
-      result.nTotal += 1;
       try {
+        result.parseResult.nTotalRows += 1;
         const item = handler.handle(row);
         if (item) {
           // backend: store into database
-          if (ENABLE_DB_UPSERT_MODE) {
-            const dbStatus = await dbUpsertErp(item);
-            let _ = result as IDbUpdateResult;
-            switch (dbStatus) {
-              case DbUpsertStatus.updated:
-                _.nUpdated += 1;
-                break;
-              case DbUpsertStatus.timeout:
-                _.nTimeout += 1;
-                break;
-              default:
-                _.nUnknown += 1;
-                break;
-            }
-          } else {
-            const dbStatus = await dbCreateErp(item);
-            let _ = result as IDbInsertResult;
-            switch (dbStatus) {
-              case DbInsertStatus.inserted:
-                _.nInserted += 1;
-                break;
-              case DbInsertStatus.duplicated:
-                _.nDuplicated += 1;
-                break;
-              case DbInsertStatus.timeout:
-                _.nTimeout += 1;
-                break;
-              default:
-                _.nUnknown += 1;
-                break;
-            }
-          }
+          await updateDBResult(result, item);
+          result.parseResult.rowsPct = (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
           // frontend
           if (onData) {
-            onData({ line, row, progress, item });
+            onData({ row, item, result });
           }
         }
       } catch (err) {
         if (err instanceof GenericError) {
-          result.nFailedValidation += 1;
+          result.parseResult.nFailedValidation += 1;
           console.error(err.toString());
+          result.parseResult.rowsPct = (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
           if (onValidateError)
             // prettier-ignore
-            onValidateError({ line, row, progress }, err);
+            onValidateError({ row, result }, err);
         } else {
           throw err;
         }
       }
-      line += 1;
-      if (onFinish && isDbFinished(result)) {
-        onFinish({ msg: MsgSaveDBFinished, total: result.nTotal });
+      if (hasFinishedParsing && isDbFinished(result.dbResult)) {
+        hasFinishedParsing = false;
+        if (onFinish) {
+          result.parseResult.dbMileSeconds =
+            (result.parseResult.dbEndTime = new Date()).getTime() - result.parseResult.startTime.getTime();
+          console.log(result);
+          onFinish({ msg: mainGetSetting('string', MsgSaveDbFinished), result });
+        }
       }
 
       // console.log(JSON.stringify(result));
     })
     .on('error', (err) => {
       console.error(err);
-      if (onParseError) onParseError(new GenericError(ErrorParsingRow, MsgWhenParseHeaderError));
+      if (onParseError) onParseError(new GenericError(ErrorParsingRow, mainGetSetting('string', MsgParseHeaderError)));
     })
-    .on('close', () => {
+    .on('end', () => {
+      hasFinishedParsing = true;
       console.log('finished');
       if (onFinish) {
-        onFinish({ msg: MsgParseFileFinished, total: result.nTotal });
+        result.parseResult.parseMileSeconds =
+          (result.parseResult.parseEndTime = new Date()).getTime() - result.parseResult.startTime.getTime();
+        console.log(result);
+        onFinish({ msg: mainGetSetting('string', MsgParseFileFinished), result });
       }
     });
 };
@@ -164,7 +176,7 @@ export const handleParseFile = async (e: IpcMainEvent, req: IReqParseFile) => {
 
   await handleParseFileBase({
     fp,
-    withHeader: PARSE_WITH_HEADERS,
+    withHeader: mainGetSetting('boolean', ENABLE_PARSE_WITH_HEADER),
     onParseError: (error) => {
       reply(e, RequestParseFile, genResParseParseError(error));
     },
@@ -174,7 +186,7 @@ export const handleParseFile = async (e: IpcMainEvent, req: IReqParseFile) => {
     },
     onData: (content) => {
       cnt += 1;
-      if (cnt % 10000 === 0) {
+      if (cnt % mainGetSetting('number', SET_PARSE_FILE_RETURN_FREQ) === 1) {
         reply(e, RequestParseFile, genResParseSuccess(content));
       }
     },

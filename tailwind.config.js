@@ -5,4 +5,6 @@ module.exports = {
   },
   plugins: [],
   important: true,
+  // todo: purge specific paths
+  purge: false,
 };

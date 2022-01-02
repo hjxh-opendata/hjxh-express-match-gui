@@ -1,12 +1,12 @@
-import { erpKeyMap } from '../../../../../../config/configBusiness';
+import { erpKeyMap } from '../../const';
 import { ErpPosMap } from '../../parse_base';
 import { IErpItem } from '../../parse_success';
 
 import { validateCpName } from './validateCpName';
 import { validateDate } from './validateDate';
+import { validateId } from './validateId';
 import { validateWeight } from './validateWeight';
 import { validateArea } from './validate_area/validateArea';
-import { validateId } from './validate_id';
 
 /**
  * when validate using header, then the keys are to serve as the bridge to database columns

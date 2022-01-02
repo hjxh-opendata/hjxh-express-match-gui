@@ -1,7 +1,6 @@
-import { erpKeyMap } from '../../../../../config/configBusiness';
 import { GenericError } from '../../../base/GenericError';
 import { ErrorMismatchingHeaders, ErrorParsingHeaders } from '../../error_types';
-import { ErpKeys } from '../const';
+import { ErpKeys, erpKeyMap } from '../const';
 import { validateErpItemWithoutHeader } from '../parseValidate/validators';
 import { ErpPosMap, Row } from '../parse_base';
 import { IErpItem } from '../parse_success';

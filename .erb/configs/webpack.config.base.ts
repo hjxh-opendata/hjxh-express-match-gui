@@ -8,7 +8,15 @@ import { dependencies as externals } from '../../release/app/package.json';
 import webpackPaths from './webpack.paths';
 
 const configuration: webpack.Configuration = {
-  externals: [...Object.keys(externals || {})],
+  externals: [
+    ...Object.keys(externals || {}),
+
+    // for prisma build
+    // https://github.com/prisma/prisma/issues/6564#issuecomment-899013495
+    {
+      _http_common: '_http_common',
+    },
+  ],
 
   stats: 'errors-only',
 
@@ -24,6 +32,11 @@ const configuration: webpack.Configuration = {
             transpileOnly: true,
           },
         },
+      },
+      // Markdown
+      {
+        test: /\.(md|markdown)/i,
+        use: 'raw-loader',
       },
     ],
   },

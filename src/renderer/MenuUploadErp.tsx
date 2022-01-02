@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 
 import { ConsoleItem } from './@types/console';
 
-import { MsgParseFileFinished, MsgSaveDBFinished } from '../config/configBusiness';
-import { MAX_CONSOLE_ITEMS, MAX_UPLOAD_HISTORY } from '../config/configSettings';
-import { Level } from '../main/modules/base/response';
+import { LogLevel } from '../main/modules/base/response';
 import { RequestParseFile } from '../main/modules/parseFile/channels';
 import { ErrorParsingRow } from '../main/modules/parseFile/error_types';
+import { IContentWithResult } from '../main/modules/parseFile/handler/parse_base';
 import { IContentValidateError } from '../main/modules/parseFile/handler/parse_validate';
 import { IReqParseFile } from '../main/modules/parseFile/request';
 import { IResParseFile } from '../main/modules/parseFile/response';
 import { RequestSelectFile } from '../main/modules/selectFile/channels';
-import { IResSelectFile } from '../main/modules/selectFile/response';
+import { IContentSelectFile, IResSelectFile } from '../main/modules/selectFile/response';
+import { SET_MAX_CONSOLE_ITEMS, SET_MAX_UPLOAD_HISTORY } from '../main/settings/number_settings';
+import { MsgParseFileFinished, MsgSaveDbFinished } from '../main/settings/string_settings';
 import { getFileNameFromPath } from '../universal';
 
 import { Console } from './components/Console';
@@ -19,6 +20,7 @@ import { UploadClick } from './components/UploadClick';
 import UploadHistory, { IUploadItem } from './components/UploadHistory';
 
 import { makeItemFromMain, makeItemFromText } from './utils/console';
+import { getSetting } from './utils/utils';
 
 /**
  * todo: [+++] 实现后台持久化log到文件
@@ -28,10 +30,21 @@ import { makeItemFromMain, makeItemFromText } from './utils/console';
 export const MenuUploadErp = () => {
   const [consoles, setConsoles] = useState<ConsoleItem[]>([]);
   const [uploaded, setUploaded] = useState<IUploadItem[]>([]);
-  const [percent, setPercent] = useState(0);
+  const [sizePct, setSizePct] = useState(0);
+  const [rowsPct, setRowsPct] = useState(0);
 
   const pushMsg = (msg: ConsoleItem) => {
-    setConsoles((msgs) => [...msgs, msg].slice(-MAX_CONSOLE_ITEMS));
+    setConsoles((msgs) => [...msgs, msg].slice(-getSetting('number', SET_MAX_CONSOLE_ITEMS)));
+  };
+
+  const resetPct = () => {
+    setSizePct(0);
+    setRowsPct(0);
+  };
+
+  const updatePct = (content: IContentWithResult) => {
+    setSizePct(Math.min(content.result.parseResult.sizePct * 100, 100));
+    setRowsPct(content.result.parseResult.rowsPct * 100);
   };
 
   const requestSelectFile = () =>
@@ -42,15 +55,17 @@ export const MenuUploadErp = () => {
         console.log('received files return: ', m);
         const { filePaths } = m.content;
         if (filePaths.length === 0) return pushMsg(makeItemFromText('cancelled'));
-        if (filePaths.length > 1) return pushMsg(makeItemFromText('should filePaths.length === 1', Level.error));
+        if (filePaths.length > 1) return pushMsg(makeItemFromText('should filePaths.length === 1', LogLevel.error));
 
-        pushMsg(makeItemFromMain(m, (c) => `selected file: ${c[0]}`));
+        pushMsg(
+          makeItemFromMain(m, (c: IContentSelectFile) => `selected file: ${getFileNameFromPath(c.filePaths[0])}`)
+        );
 
         const fp = filePaths[0];
         // check existed
         if (uploaded.some((i) => getFileNameFromPath(fp) === i.fileName))
           return pushMsg(
-            makeItemFromText(`[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`, Level.warn)
+            makeItemFromText(`[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`, LogLevel.warn)
           );
         return resolve(fp);
       });
@@ -60,23 +75,24 @@ export const MenuUploadErp = () => {
     new Promise<boolean>(() => {
       pushMsg(makeItemFromText('reading file...')); // for placeholder
       window.electron.request(RequestParseFile, req);
-      window.electron.on(RequestParseFile, (msg: IResParseFile) => {
-        console.log(msg);
-        if (msg.error?.msg) {
-          if (msg.error?.type !== ErrorParsingRow) {
+      window.electron.on(RequestParseFile, (res: IResParseFile) => {
+        console.log(res);
+        if (res.error) {
+          if (res.error?.type !== ErrorParsingRow) {
             //  2. validate error
-            setPercent(msg.content.progress.percentage);
+            updatePct(res.content);
+
             // prettier-ignore
-            pushMsg(makeItemFromMain(msg, (c: IContentValidateError) => {
-              return `line: ${c.line}, error: ${msg.error?.msg}`;
+            pushMsg(makeItemFromMain(res, (c: IContentValidateError) => {
+              return `line: ${c.result.parseResult.nSavedRows}, error: ${res.error?.msg}`;
             }));
           } else {
             // 3. parse error
-            setPercent(0);
-            pushMsg(makeItemFromMain(msg));
+            resetPct();
+            pushMsg(makeItemFromMain(res));
             pushMsg(makeItemFromText('解析有误，等待数据库更新……'));
           }
-        } else if (msg.content.msg === MsgParseFileFinished) {
+        } else if (res.content.msg === getSetting('string', MsgParseFileFinished)) {
           // 4. finished parsing
           pushMsg(makeItemFromText('读取完成，等待数据库更新……'));
           // 值得注意的是，finish的时候，就可以标记上传文件了，
@@ -84,15 +100,15 @@ export const MenuUploadErp = () => {
           setUploaded([...uploaded, {
             fileName: getFileNameFromPath(req.fp),
             updateTime: new Date()
-          }].slice(-MAX_UPLOAD_HISTORY));
-        } else if (msg.content.msg === MsgSaveDBFinished) {
+          }].slice(-getSetting('number', SET_MAX_UPLOAD_HISTORY)));
+        } else if (res.content.msg === getSetting('string', MsgSaveDbFinished)) {
           // 5. finished saving
-          setPercent(0);
+          resetPct();
           window.electron.removeChannel(RequestParseFile);
-          pushMsg(makeItemFromMain(msg, (c) => c.msg));
+          pushMsg(makeItemFromMain(res, (c) => c.msg));
         } else {
           // 6.  read one line
-          setPercent(msg.content.progress.percentage);
+          updatePct(res.content);
         }
       });
     });
@@ -106,7 +122,7 @@ export const MenuUploadErp = () => {
   return (
     // ui refer: https://medium.muz.li/file-upload-ui-inspiration-a82949ed191b
     <div className={'min-w-1/2 max-w-full mt-8 overflow-auto'}>
-      <UploadClick readPct={percent} onClick={onClickUpload} />
+      <UploadClick sizePct={sizePct} rowsPct={rowsPct} onClick={onClickUpload} />
 
       <Console items={consoles} />
 

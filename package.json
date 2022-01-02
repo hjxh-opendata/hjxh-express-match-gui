@@ -4,7 +4,7 @@
   "scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
-    "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
+    "build:renderer": "tsc src/main/preload.ts && cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
     "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
@@ -30,7 +30,7 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
+    "productName": "皇家小虎快递分析系统",
     "appId": "org.erb.ElectronReact",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
@@ -44,7 +44,6 @@
       "target": {
         "target": "default",
         "arch": [
-          "arm64",
           "x64"
         ]
       },
@@ -166,6 +165,7 @@
     "@trivago/prettier-plugin-sort-imports": "^3.1.1",
     "@types/history": "4.7.9",
     "@types/jest": "^27.0.2",
+    "@types/js-yaml": "^4.0.5",
     "@types/node": "^16.11.6",
     "@types/progress-stream": "^2.0.2",
     "@types/react": "^17.0.33",
@@ -255,6 +255,7 @@
     "esm": "^3.2.25",
     "history": "4.x.x",
     "iconv-lite": "^0.6.3",
+    "js-yaml": "^4.1.0",
     "progress-stream": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -264,8 +265,10 @@
     "regenerator-runtime": "^0.13.9",
     "remark": "^13.0.0",
     "remark-directive": "^2.0.1",
+    "remark-gfm": "^3.0.1",
     "remark-parse": "^10.0.1",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "undici": "^4.12.1"
   },
   "devEngines": {
     "node": ">=14.x",

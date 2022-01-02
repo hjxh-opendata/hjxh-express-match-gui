@@ -1,7 +1,7 @@
 import { IResBase, genResBase } from '../../base/response';
 
 import { ErpKeys } from './const';
-import { IParseContentBase2Progress } from './parse_base';
+import { IContentWithResult, IContentWithRow } from './parse_base';
 
 // omit the `weight` key since the type of all other is string, whereas we wanna it to be a number
 // inspired by: https://stackoverflow.com/a/67896916/9422455
@@ -11,7 +11,7 @@ export interface IErpItem extends ErpItemFields {
   weight: number;
 }
 
-export interface IContentParseSuccess extends IParseContentBase2Progress {
+export interface IContentParseSuccess extends IContentWithRow, IContentWithResult {
   item: IErpItem;
 }
 

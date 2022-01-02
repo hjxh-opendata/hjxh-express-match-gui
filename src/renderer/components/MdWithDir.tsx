@@ -1,19 +1,20 @@
 import ReactMarkdown from 'react-markdown';
-import remarkParse from 'remark-parse';
 import remarkDirective from 'remark-directive';
+import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+
 import { remarkMyDirective } from '../utils/remarkMyDirective';
 
 export interface MDWithDirProps {
   content: string;
 }
+
 export const MdWithDir = (props: MDWithDirProps) => {
   return (
-    <ReactMarkdown
-      remarkPlugins={[remarkParse, remarkDirective, remarkMyDirective]}
-    >
+    <ReactMarkdown remarkPlugins={[remarkParse, remarkDirective, remarkMyDirective, remarkGfm]}>
       {props.content}
     </ReactMarkdown>
   );
 };
 
-export default { MDWithDir: MdWithDir };
+export default MdWithDir;

@@ -6,6 +6,7 @@ import docSysIntro from '../docs/sys_intro.md';
 import docUploadBase from '../docs/upload_base.md';
 import docUploadErp from '../docs/upload_erp_constaint.md';
 import docUploadErpParse from '../docs/upload_erp_parse.md';
+import docUploadUpload from '../docs/upload_erp_upload.md';
 import docUploadTrd from '../docs/upload_trd_constraint.md';
 
 import { MdWithDir } from './MdWithDir';
@@ -38,8 +39,12 @@ const steps = [
     ),
   },
   {
-    label: '上传数据',
-    description: 'TODO: ',
+    label: '数据入库',
+    description: (
+      <div>
+        <MdWithDir content={docUploadUpload} />
+      </div>
+    ),
   },
 ];
 

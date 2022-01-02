@@ -1,6 +1,6 @@
 .doc {
   color: aliceblue;
-  
+
   padding: 5px 10px;
 
   text-align: left;
@@ -73,3 +73,5 @@
 .error {
   @include dir(#c33f38, url('../assets/svg/error.svg'));
 }
+
+

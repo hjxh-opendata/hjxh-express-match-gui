@@ -27,10 +27,26 @@ export interface IDbInsertResult extends IDbResultBase {
   nDuplicated: number;
 }
 
+export const initDbInsertResult = (): IDbInsertResult => ({
+  nTotal: 0,
+  nInserted: 0,
+  nDuplicated: 0,
+  nTimeout: 0,
+  nUnknown: 0,
+});
+
 export interface IDbUpdateResult extends IDbResultBase {
   nUpdated: number;
   nDropped: number;
 }
+
+export const initDbUpdateResult = (): IDbUpdateResult => ({
+  nTotal: 0,
+  nUpdated: 0,
+  nDropped: 0,
+  nTimeout: 0,
+  nUnknown: 0,
+});
 
 export const isDbFinished = (result: IDbResultBase): boolean => {
   let sum = 0;

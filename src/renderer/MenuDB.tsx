@@ -1,8 +1,7 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 
-import { erpKeyMap } from '../config/configBusiness';
-import { ErpKeys } from '../main/modules/parseFile/handler/const';
+import { ErpKeys, erpKeyMap } from '../main/modules/parseFile/handler/const';
 import { IErpItem } from '../main/modules/parseFile/handler/parse_success';
 import { RequestQueryDatabase } from '../main/modules/queryDB/channels';
 import { IReqQueryDB } from '../main/modules/queryDB/request';

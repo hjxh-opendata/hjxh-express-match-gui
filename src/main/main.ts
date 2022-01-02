@@ -25,6 +25,8 @@ import { RequestQueryDatabase } from './modules/queryDB/channels';
 import { handleQueryDatabase } from './modules/queryDB/handler';
 import { RequestSelectFile } from './modules/selectFile/channels';
 import { handlerSelectFile } from './modules/selectFile/handler';
+import { mainGetSetting, mainLoadSettings, mainSetSetting } from './settings';
+import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './settings/channels';
 
 export default class AppUpdater {
   constructor() {
@@ -113,7 +115,7 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(() => {
+  .then(async () => {
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
@@ -131,3 +133,9 @@ ipcMain.on(RequestSelectFile, (e) => handlerSelectFile(e, mainWindow));
 ipcMain.on(RequestParseFile, handleParseFile);
 
 ipcMain.on(RequestQueryDatabase, handleQueryDatabase);
+
+ipcMain.on(GET_SETTINGS, (e) => (e.returnValue = mainLoadSettings()));
+
+ipcMain.on(GET_SETTING, (e, type, name) => (e.returnValue = mainGetSetting(type, name)));
+
+ipcMain.on(SET_SETTING, (e, type, name, val) => (e.returnValue = mainSetSetting(type, name, val)));

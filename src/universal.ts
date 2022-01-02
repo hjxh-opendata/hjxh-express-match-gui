@@ -15,3 +15,4 @@ export const assert = (condition: boolean, msg?: string) => {
     throw new Error(msg);
   }
 };
+export const round = (k: number, fixed = 3): number => Math.round(10 ** fixed * k) / 10 ** fixed;

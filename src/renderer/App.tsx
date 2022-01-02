@@ -10,6 +10,7 @@ import { StepperIntro } from './components/StepperIntro';
 import { MenuDB } from './MenuDB';
 import { MenuUploadErp } from './MenuUploadErp';
 import { MenuUploadTrd } from './MenuUploadTrd';
+import { getSettings } from './utils/utils';
 
 import './styles/doc.scss';
 
@@ -18,6 +19,7 @@ export default function App() {
 
   window.electron.once(Ping, console.log);
   window.electron.heartBeats();
+  console.log({ globalSettings: getSettings() });
 
   return (
     <div className="h-screen w-screen flex flex-col" id="content">

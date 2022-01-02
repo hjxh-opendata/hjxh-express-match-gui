@@ -2,6 +2,8 @@ import React, { ElementRef, useEffect, useRef } from 'react';
 
 import { ConsoleItem } from '../@types/console';
 
+import { getLogLevel2number } from '../../main/modules/base/response';
+
 import ScrollToBottom from './ScrollToBottom';
 
 export interface ConsoleProps {
@@ -26,7 +28,9 @@ export const Console = ({ items }: ConsoleProps) => {
         {items.map((item, i) => (
           // eslint-disable-next-line react/no-array-index-key
           <p key={i} style={{ textIndent: '-2em', marginLeft: '2em' }}>
-            <span className={`mr-2 text-pink-${item.level * 200 + 300}`}>{item.time.toLocaleString()}</span>
+            <span className={`mr-2 text-pink-${getLogLevel2number(item.level) * 200 + 300}`}>
+              {item.time.toLocaleString()}
+            </span>
             <span> {item.text}</span>
           </p>
         ))}

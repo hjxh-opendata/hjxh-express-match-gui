@@ -1,16 +1,18 @@
-import { IResBase, Level, genResBase } from '../base/response';
+import { IResBase, LogLevel, genResBase } from '../base/response';
+
+export interface IContentSelectFile {
+  filePaths: string[];
+}
 
 /**
  * ref select file
  */
 export interface IResSelectFile extends IResBase {
-  level: Level.info;
-  content: {
-    filePaths: string[];
-  };
+  level: LogLevel.info;
+  content: IContentSelectFile;
 }
 
 export const genResSelectFile = (filePaths: string[]): IResSelectFile => ({
   ...genResBase(),
-  ...{ level: Level.info, content: { filePaths } },
+  ...{ level: LogLevel.info, content: { filePaths } },
 });

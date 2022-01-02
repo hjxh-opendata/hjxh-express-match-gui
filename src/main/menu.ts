@@ -1,10 +1,7 @@
-import {
-  BrowserWindow,
-  Menu,
-  MenuItemConstructorOptions,
-  app,
-  shell,
-} from 'electron';
+import { BrowserWindow, Menu, MenuItemConstructorOptions, app, shell } from 'electron';
+
+import { mainGetSetting, mainSetSetting } from './settings';
+import { ENABLE_DB_UPSERT_MODE } from './settings/boolean_settings';
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   selector?: string;
@@ -18,20 +15,38 @@ export default class MenuBuilder {
     this.mainWindow = mainWindow;
   }
 
+  buildSettings() {
+    return {
+      label: 'Settings',
+      submenu: [
+        {
+          label: '启用数据库更新模式',
+          type: 'checkbox',
+          checked: mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE),
+          click() {
+            mainSetSetting('boolean', ENABLE_DB_UPSERT_MODE, !mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE));
+          },
+        },
+
+        {
+          label: 'test',
+          click() {
+            console.log('hello');
+          },
+        },
+      ],
+    };
+  }
+
   buildMenu(): Menu {
-    if (
-      process.env.NODE_ENV === 'development' ||
-      process.env.DEBUG_PROD === 'true'
-    ) {
+    if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
       this.setupDevelopmentEnvironment();
     }
 
-    const template =
-      process.platform === 'darwin'
-        ? this.buildDarwinTemplate()
-        : this.buildDefaultTemplate();
+    const template = process.platform === 'darwin' ? this.buildDarwinTemplate() : this.buildDefaultTemplate();
 
-    const menu = Menu.buildFromTemplate(template);
+    const menus = [...template, this.buildSettings()];
+    const menu = Menu.buildFromTemplate(menus);
     Menu.setApplicationMenu(menu);
 
     return menu;
@@ -163,9 +178,7 @@ export default class MenuBuilder {
         {
           label: 'Documentation',
           click() {
-            shell.openExternal(
-              'https://github.com/electron/electron/tree/main/docs#readme'
-            );
+            shell.openExternal('https://github.com/electron/electron/tree/main/docs#readme');
           },
         },
         {
@@ -184,10 +197,7 @@ export default class MenuBuilder {
     };
 
     const subMenuView =
-      process.env.NODE_ENV === 'development' ||
-      process.env.DEBUG_PROD === 'true'
-        ? subMenuViewDev
-        : subMenuViewProd;
+      process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true' ? subMenuViewDev : subMenuViewProd;
 
     return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp];
   }
@@ -213,8 +223,7 @@ export default class MenuBuilder {
       {
         label: '&View',
         submenu:
-          process.env.NODE_ENV === 'development' ||
-          process.env.DEBUG_PROD === 'true'
+          process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'
             ? [
                 {
                   label: '&Reload',
@@ -227,9 +236,7 @@ export default class MenuBuilder {
                   label: 'Toggle &Full Screen',
                   accelerator: 'F11',
                   click: () => {
-                    this.mainWindow.setFullScreen(
-                      !this.mainWindow.isFullScreen()
-                    );
+                    this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
                   },
                 },
                 {
@@ -245,43 +252,10 @@ export default class MenuBuilder {
                   label: 'Toggle &Full Screen',
                   accelerator: 'F11',
                   click: () => {
-                    this.mainWindow.setFullScreen(
-                      !this.mainWindow.isFullScreen()
-                    );
+                    this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
                   },
                 },
               ],
-      },
-      {
-        label: 'Help',
-        submenu: [
-          {
-            label: 'Learn More',
-            click() {
-              shell.openExternal('https://electronjs.org');
-            },
-          },
-          {
-            label: 'Documentation',
-            click() {
-              shell.openExternal(
-                'https://github.com/electron/electron/tree/main/docs#readme'
-              );
-            },
-          },
-          {
-            label: 'Community Discussions',
-            click() {
-              shell.openExternal('https://www.electronjs.org/community');
-            },
-          },
-          {
-            label: 'Search Issues',
-            click() {
-              shell.openExternal('https://github.com/electron/electron/issues');
-            },
-          },
-        ],
       },
     ];
 

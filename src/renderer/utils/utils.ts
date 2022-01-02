@@ -1,13 +1,6 @@
 import progressStream from 'progress-stream';
 
-import {
-  DAYS,
-  HOURS,
-  MINUTES,
-  MONTHS,
-  SECONDS,
-  YEARS,
-} from '../@types/locales/ch';
+import { DAYS, HOURS, MINUTES, MONTHS, SECONDS, YEARS } from '../@types/locales/ch';
 
 export const dispProgress = (ps: progressStream.Progress) => {
   const DIVIDER = 1024 * 1024;
@@ -44,3 +37,9 @@ export function timeSince(date: Date) {
   }
   return `${Math.floor(seconds)} ${SECONDS}`;
 }
+
+export const getSetting = (type, name) => window.electron.getSetting(type, name);
+
+export const setSetting = (type, name, val) => window.electron.setSetting(type, name, val);
+
+export const getSettings = () => window.electron.getSettings();
