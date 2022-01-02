@@ -1,86 +1,209 @@
 # `hjxh_express_match` 皇家小虎快递匹配系统
 
-1. [Agenda](#agenda)
-	1. [Todo](#todo)
-	2. [Finished](#finished)
-2. [BugFix](#bugfix)
-	1. [- [ ] 解析数据有误问题：](#----解析数据有误问题)
-	2. [- [ ] `sqlite3、typeorm` native dependency](#----sqlite3typeorm-native-dependency)
-	3. [- [x] `progress-stream` cause bug](#--x-progress-stream-cause-bug)
-	4. [`try...catch...finally` problem](#trycatchfinally-problem)
-	5. [- [x] ipcRenderer duplicate response](#--x-ipcrenderer-duplicate-response)
-	6. [- [x] how to async and partially read csv](#--x-how-to-async-and-partially-read-csv)
-	7. [- [x] which to choose: `node-csv` or `fast-csv`](#--x-which-to-choose-node-csv-or-fast-csv)
-	8. [- [x] axios `form-data` parse bug](#--x-axios-form-data-parse-bug)
-3. [业务问题](#业务问题)
-	1. [[x] ERP表中，计算价格错误](#x-erp表中计算价格错误)
-	2. [[x] 第三方表匹配不上ERP表](#x-第三方表匹配不上erp表)
-	3. [[x] 第三方报表格式](#x-第三方报表格式)
-	4. [[x] 第三方表字段含义](#x-第三方表字段含义)
-4. [设计](#设计)
+1. [Diary](#diary)
+	1. [2022-01-02](#2022-01-02)
+	2. [2022-01-01](#2022-01-01)
+	3. [2021-12-30](#2021-12-30)
+	4. [2021-12-29](#2021-12-29)
+	5. [2021-12-28](#2021-12-28)
+	6. [2021-12-26](#2021-12-26)
+	7. [2021-12-24](#2021-12-24)
+2. [Todo](#todo)
+	1. [:white_circle: replace the progress stream, since it doesn't synchronize with the database, and not accurate for percentage measure](#white_circle-replace-the-progress-stream-since-it-doesnt-synchronize-with-the-database-and-not-accurate-for-percentage-measure)
+	2. [:white_circle: add the global settings json file, so that the frontend and the backend can mutually use it](#white_circle-add-the-global-settings-json-file-so-that-the-frontend-and-the-backend-can-mutually-use-it)
+	3. [:white_circle: add log module](#white_circle-add-log-module)
+	4. [:white_circle: 实现TRD的数据读取与存储](#white_circle-实现trd的数据读取与存储)
+	5. [:white_circle: 实现TRD与ERP的对比](#white_circle-实现trd与erp的对比)
+3. [Finished/Bugfix](#finishedbugfix)
+	1. [:white_check_mark: 省份匹配。2022-01-02，用之前的程序改成js版即可。](#white_check_mark-省份匹配2022-01-02用之前的程序改成js版即可)
+	2. [:white_check_mark: 测试ERP的数据读取与存储。1-1: finished.](#white_check_mark-测试erp的数据读取与存储1-1-finished)
+	3. [:white_check_mark: 优化文件读取过程中的前端界面展示。12-31: finished。](#white_check_mark-优化文件读取过程中的前端界面展示12-31-finished)
+	4. [:white_check_mark: TS2339: Property 'erp' does not exist on type 'PrismaClient '. 12-28: The solution is to use `npx prisma generate`.](#white_check_mark-ts2339-property-erp-does-not-exist-on-type-prismaclient--12-28-the-solution-is-to-use-npx-prisma-generate)
+	5. [:white_check_mark: 解析数据有误问题](#white_check_mark-解析数据有误问题)
+	6. [:white_check_mark: `sqlite3、typeorm` native dependency](#white_check_mark-sqlite3typeorm-native-dependency)
+	7. [:white_check_mark: 学习`prisma`的连接与插入业务流设计范式。](#white_check_mark-学习prisma的连接与插入业务流设计范式)
+	8. [:white_check_mark: csv只读取第一行](#white_check_mark-csv只读取第一行)
+	9. [:white_check_mark: 寻求`fast-csv` skip error的方案。](#white_check_mark-寻求fast-csv-skip-error的方案)
+	10. [:white_check_mark: 支持上传的文件的 Sample 备份预览（包含head与tail五行）。](#white_check_mark-支持上传的文件的-sample-备份预览包含head与tail五行)
+	11. [:white_check_mark: 完成数据库、前端、后端的基本设计。2021年12月22日](#white_check_mark-完成数据库前端后端的基本设计2021年12月22日)
+	12. [:white_check_mark: no-headers pass but headers not](#white_check_mark-no-headers-pass-but-headers-not)
+	13. [:white_check_mark: `progress-stream` cause bug](#white_check_mark-progress-stream-cause-bug)
+	14. [:white_check_mark: `try...catch...finally` problem](#white_check_mark-trycatchfinally-problem)
+	15. [:white_check_mark: ipcRenderer duplicate response](#white_check_mark-ipcrenderer-duplicate-response)
+	16. [:white_check_mark: how to asynchronously and partially read csv](#white_check_mark-how-to-asynchronously-and-partially-read-csv)
+	17. [:white_check_mark: which to choose: `node-csv` or `fast-csv`](#white_check_mark-which-to-choose-node-csv-or-fast-csv)
+	18. [:white_check_mark: axios `form-data` parse bug](#white_check_mark-axios-form-data-parse-bug)
+4. [业务问题](#业务问题)
+	1. [:white_check_mark: ERP表中，计算价格错误](#white_check_mark-erp表中计算价格错误)
+	2. [:white_check_mark: 第三方表匹配不上ERP表](#white_check_mark-第三方表匹配不上erp表)
+	3. [:white_check_mark: 第三方报表格式](#white_check_mark-第三方报表格式)
+	4. [:white_check_mark: 第三方表字段含义](#white_check_mark-第三方表字段含义)
+5. [设计](#设计)
 	1. [工作流设计](#工作流设计)
 	2. [数据库的选择](#数据库的选择)
 	3. [数据库的表设计](#数据库的表设计)
 	4. [[DEPRECIATED] Module Design](#depreciated-module-design)
-5. [[ARCHIVE] deploy script](#archive-deploy-script)
+6. [心得](#心得)
+	1. [I can only use Sqlite3 for one connection](#i-can-only-use-sqlite3-for-one-connection)
+	2. [Eslint is good](#eslint-is-good)
+	3. [module helps me done right](#module-helps-me-done-right)
+	4. [Interface helps done right!](#interface-helps-done-right)
+	5. [Interface 和 Object 之间的关系](#interface-和-object-之间的关系)
+	6. [Error类的继承设计](#error类的继承设计)
+7. [[ARCHIVE] deploy script](#archive-deploy-script)
 	1. [deploy backend (python, fastapi)](#deploy-backend-python-fastapi)
 	2. [deploy frontend (node, react)](#deploy-frontend-node-react)
-6. [[ARCHIVE] 表约定【重要】](#archive-表约定重要)
+8. [[ARCHIVE] 表约定【重要】](#archive-表约定重要)
 	1. [术语定义](#术语定义)
 	2. [通用表约定](#通用表约定)
 	3. [erp表约定](#erp表约定)
 	4. [trd表约定](#trd表约定)
 	5. [列字段约束](#列字段约束)
 
+## Diary
+
+### 2022-01-02
+- 增加了数据更新接口，并解决数据库插入timeout的问题
+- ⭐️实现了前后端的接口统一，项目完全模块化、接口化！
+
+### 2022-01-01
+- 实现了文件读取的分类统计，与数据库的错误检测，至此对文件、数据库的控制基本全部完成
+
+### 2021-12-30
+- ⭐️升级了程序的整体结构，奠定了前后端通信范式，整个项目开始规范化、模块化
+- 终于找到了csv读取quote异常导致中断的解决方案
+- 实现了对csv读取的再一次抽象封装
+
+### 2021-12-29
+完成了数据库ORM的选型工作，确定使用`Prisma`
+
+### 2021-12-28
+前端UI基本成型
+
+### 2021-12-26
+深入理解并实现了markdown的自定义解析
+
+### 2021-12-24
+完成了系统前端与业务流的重构
 
 
-## Agenda
-### Todo
-- [ ] 正在做：使用数据库+ODM进行数据存储管理
+## Todo
+### :white_circle: replace the progress stream, since it doesn't synchronize with the database, and not accurate for percentage measure
+### :white_circle: add the global settings json file, so that the frontend and the backend can mutually use it
+### :white_circle: add log module
+### :white_circle: 实现TRD的数据读取与存储
+### :white_circle: 实现TRD与ERP的对比
 
-### Finished
-- [x] 支持上传的文件的 Sample 备份预览（包含head与tail五行）。这是之前的方案，目前已经不采用，目前不存在0/1的问题，即不是按文件为基本单位传输给用户，而是在读取过程中持续地按行为基本单位（可选：筛选出有问题的部分）传输给用户，因此备份预览没有意义也不需要了。
-- [x] 完成数据库、前端、后端的基本设计。2021年12月22日
+
+## Finished/Bugfix
+
+### :white_check_mark: 省份匹配。2022-01-02，用之前的程序改成js版即可。
+
+### :white_check_mark: 测试ERP的数据读取与存储。1-1: finished.
+
+### :white_check_mark: 优化文件读取过程中的前端界面展示。12-31: finished。
+
+### :white_check_mark: TS2339: Property 'erp' does not exist on type 'PrismaClient '. 12-28: The solution is to use `npx prisma generate`.
+
+### :white_check_mark: 解析数据有误问题
+<img alt="picture 85" src=".imgs/1640727064460-hjxh_express_match-ef7ad551f05d995b7d62a68dd1266da479d4fe23db55bc33e90a88659de823b2.png" width="480" />  
+
+webstorm csv
+<img alt="picture 1" src=".imgs/1640818483726-readme-6b9898d3ca36fd93ba344066a0a0edc4ae1f5ded1bb4514d7b6a6b7f826ee23f.png" width="480" />  
+
+wps csv
+<img alt="picture 2" src=".imgs/1640818676192-readme-234f19b03d36c2ed0dbf4b4e63ac9ff71eb7403f548a2ced3a95fef68fc09ebf.png" width="480" />  
+
+sublime csv
+<img alt="picture 3" src=".imgs/1640818798363-readme-23414155e8d44b50106386793550f69266edb4bb56ab2265acb53e5579beb927.png" width="480" />  
+
+:heart: attempt to save to wps [update: 不愧是我]
+<img alt="picture 1" src=".imgs/1640850093908-readme-5eed7e6b10041c726e1ed91bda8847e6bd0739ba086c507777fa06b100bffbc1.png" width="480" />  
+
+This solution is rather robust, and does solve my problem, which achieves a balance between server code and user experience! 
+
+What a genius I am that a flash of inspiration occurred to my mind which suggested me to give 're-saving' a shot :heavy_exclamation_mark:
+
+<img alt="picture 2" src=".imgs/1640852978049-readme-a3aeac71d966dc7ba96fcfa5d8250f8dc9cfd32219644f4c776876bab9f1bb57.png" width="480" />  
 
 
-## BugFix
-### - [ ] 解析数据有误问题：
-<img alt="picture 85" src=".imgs/1640727064460-%23%20hjxh_express_match-ef7ad551f05d995b7d62a68dd1266da479d4fe23db55bc33e90a88659de823b2.png" width="480" />  
 
-### - [ ] `sqlite3、typeorm` native dependency
+### :white_check_mark: `sqlite3、typeorm` native dependency
+
+2021-12-30 update：there is no need to think about `typeorm` any longer since I have decided to use `prisma` which works well.
 
 安装`sqlite3, typeorm`之后没法运行`electron`了
-<img alt="picture 87" src=".imgs/1640739763499-%23%20hjxh_express_match-9a466a1ba9c7e3921873956cbed26e0aec705605d42efc653a7d45e76ae73aab.png" width="480" />  
+<img alt="picture 87" src=".imgs/1640739763499-hjxh_express_match-9a466a1ba9c7e3921873956cbed26e0aec705605d42efc653a7d45e76ae73aab.png" width="480" />  
+
+ref:
 - [What is exactly native dependency? · Issue #1042 · electron-react-boilerplate/electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/1042)
 
-### - [x] `progress-stream` cause bug
+
+### :white_check_mark: 学习`prisma`的连接与插入业务流设计范式。
+
+方案：`prisma`会在第一次query时自动连接数据库，拥有一个数据库连接池，所以无需我自己管理。ref: [Connecting and disconnecting (Concepts) | Prisma Docs](https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/connection-management)
+
+### :white_check_mark: csv只读取第一行
+
+方案：在`fast-csv`的第一个回调里处理就可以，这里就是第一行；如果不是行的话，可以用`fs`的`start | end`参数控制。
+
+### :white_check_mark: 寻求`fast-csv` skip error的方案。
+
+结果：官方回复：[Skip row at on('error') event ](https://github.com/C2FO/fast-csv/issues/179#:~:text=No%2C%20if%20an%20error%20is%20encountered%20it%20is%20usually%20because%20the%20parser%20is%20unsure%20how%20to%20proceed%20with%20the%20file%2C%20and%20can%20lead%20to%20very%20unpredictable%20results.)
+
+<img alt="picture 2" src=".imgs/1640844862434-readme-d430a803f9cf6cba63b866ddfde9bf1a40e94425b20f27b0be462ee986a75e7f.png" width="480" />  
+
+### :white_check_mark: 支持上传的文件的 Sample 备份预览（包含head与tail五行）。
+
+这是之前的方案，目前已经不采用，目前不存在0/1的问题，即不是按文件为基本单位传输给用户，而是在读取过程中持续地按行为基本单位（可选：筛选出有问题的部分）传输给用户，因此备份预览没有意义也不需要了。
+
+
+### :white_check_mark: 完成数据库、前端、后端的基本设计。2021年12月22日
+
+### :white_check_mark: no-headers pass but headers not
+The reason is that I wrote condition of `_id === null` with always return `true` since the default 'error result' is `""`, an empty string not `null`.
+
+So, I remedied it by changing the condition to `!_id` which can detect not only `null` but also 'empty'. And then I fixed this bug.
+
+<img alt="picture 1" src=".imgs/1640844532391-readme-097119c7c9ee1495027a008fa92a7e3a24200f32e1b76f5b6aa00ed875defc30.png" width="480" />  
+
+
+### :white_check_mark: `progress-stream` cause bug
 
 2021年12月29日04:47:04，在引入`progress-stream`包后导致了`csv`解析的错误，后来测试发现，只要把`progress-stream`放在`fast-csv`之前就行了。想来也是，毕竟`progress-stream`是处理`stream`的，而`csv`那一步已经变成`row`了，具体细节我也不明白也不是很重要，这里会用就行了。
-<img alt="picture 84" src=".imgs/1640724530991-%23%20hjxh_express_match-c68e2f5550740af90b70137dcd9b0cc1946817232135f21bc5bd39e311b27b2d.png" width="480" />  
+<img alt="picture 84" src=".imgs/1640724530991-hjxh_express_match-c68e2f5550740af90b70137dcd9b0cc1946817232135f21bc5bd39e311b27b2d.png" width="480" />  
 - [freeall/progress-stream: Read the progress of a stream](https://github.com/freeall/progress-stream)
 - [progress-stream - npm](https://www.npmjs.com/package/progress-stream)
 - [node.js - streams with percentage complete - Stack Overflow](https://stackoverflow.com/questions/17798047/streams-with-percentage-complete)
 
-### `try...catch...finally` problem
+### :white_check_mark: `try...catch...finally` problem
 
-- [x] 2021年12月29日03:40:04，`try...catch`结构中，`finally`为什么会提前结束？事实上这个问题是我对js中的`try...catch...finally`理解不够深刻，还拿着`python`中的同步思维去理解的。js里的这套结构体远比我想象地复杂，但是呢，为了避免这种复杂（在`try`或者`catch`中各种乱返回），一种好的办法就是只在`finally`里返回（当然，这点我是知道的，只不过没有把它当做信仰）。具体可以见这些：
+:white_check_mark: 2021年12月29日03:40:04，`try...catch`结构中，`finally`为什么会提前结束？事实上这个问题是我对js中的`try...catch...finally`理解不够深刻，还拿着`python`中的同步思维去理解的。js里的这套结构体远比我想象地复杂，但是呢，为了避免这种复杂（在`try`或者`catch`中各种乱返回），一种好的办法就是只在`finally`里返回（当然，这点我是知道的，只不过没有把它当做信仰）。
+
+更新：我后续在那块代码中修改了写法，剔除了`try...catch...`，所以`finally`的问题也就不存在了。
+
+启示：尽量不要在异步程序中使用`t...c...f`，否则可要小心了。
+
 - [Finally in Promises & Try/Catch - DEV Community](https://dev.to/annarankin/finally-in-promises--trycatch-2c44)
 - [javascript - Why does a return in `finally` override `try`? - Stack Overflow](https://stackoverflow.com/questions/3837994/why-does-a-return-in-finally-override-try)
 
-### - [x] ipcRenderer duplicate response
+### :white_check_mark: ipcRenderer duplicate response
 
 2021年12月29日01:03:02，ipc通信中前端逐步累积渲染问题，猜测原因，可能是1. `ipcRenderer`中的端口使用`on`导致重复监听，并且最后的`removeAllListeners`方法没有生效；2.`react`问题。貌似重新启动一下`electron`就好了……
-<img alt="picture 83" src=".imgs/1640720270634-%23%20hjxh_express_match-62f7db110abe26336dac47f3e63730fad39c52dc2808b2fc6e52df7f5968309c.png" width="480" />  
-现在已经能够正常地控制`channel`的监听与关闭了，不过一个新的，也是真正的问题确实发现了：js中的`finally`与`try...catch`之间，有点微妙的关系，因为的`finally`运行的比`try...catch`要早，导致`channel`提前被关了（预期应该是数据传完之后（也就是`try`完后）才关闭）。
 
-### - [x] how to async and partially read csv
+<img alt="picture 83" src=".imgs/1640720270634-hjxh_express_match-62f7db110abe26336dac47f3e63730fad39c52dc2808b2fc6e52df7f5968309c.png" width="480" />  
+
+更新：实际上这个问题，是由`try...catch...finally`使用不当导致的，和`electron`、`react`都没关系，它们的部分都是正常的，`electron`的`listener`监听部分失效，但是重新启动一下它也正常了。关于`t...c...f`问题见[:white_check_mark: `try...catch...finally` problem](#--x-trycatchfinally-problem)
+
+### :white_check_mark: how to asynchronously and partially read csv
+
 csv异步、小量快读读取.csv文件头部信息，以确定编码。已实现，基于`fast-csv`解决了中文乱码导致`node-csv`无法读取的问题，同时基于`iconv`实现了`gbk`与`utf-8`之间的无缝转换
 
-### - [x] which to choose: `node-csv` or `fast-csv`
+### :white_check_mark: which to choose: `node-csv` or `fast-csv`
 
 csv文件读取的选型与方法。经过鉴定，`node-csv`的接口比较低级，`fast-csv`更高些，并且更加稳健，输出方式（可以设置headers有或者无）比较友好，所以选择`fast-csv`。在读取上，有`fs.read`，`fs.readFile`，`fs.createReadStream`等几种方式，经过比较，`fs.read`接口比较低级，速度快，适合用于编码测试；等测试完后使用`fs.createReadStream`处理流数据比较好，方便与`iconv`、`fast-csv`等配合。
 
-### - [x] axios `form-data` parse bug
+### :white_check_mark: axios `form-data` parse bug
 本地前端上传文件`options`信息：
 ![](.imgs/ac1429ee.png)
 远程前端上传文件`options`信息：
@@ -90,40 +213,33 @@ csv文件读取的选型与方法。经过鉴定，`node-csv`的接口比较低�
 基于这个，再进行服务端文件调试，比对文件信息的不同。但是现在的问题是服务端进入不了程序逻辑，直接被fastapi拒绝了。
 
 
-
-
-
-
-
-
-
 ## 业务问题
 
-### [x] ERP表中，计算价格错误
+### :white_check_mark: ERP表中，计算价格错误
 目前已发现的主要有两种错误：
 1. 收货地区填写不规范（6/50+w），导致未能正确识别省份名称，例如：
-<img width="50%" alt="picture 1" src=".imgs/1639525460152-97579f7fe2ca3a38b79dbe31af8d7d443f6bb2e389770af37b7cbfcb930e6c4a.png" />
+<img width="480" alt="picture 1" src=".imgs/1639525460152-97579f7fe2ca3a38b79dbe31af8d7d443f6bb2e389770af37b7cbfcb930e6c4a.png" />
 
 更新：对于这种问题，直接提示报错即可。
 
 2. 重量为0（这个还比较多，146/50+w），无法理解,例如：
-<img width="50%"  alt="picture 4" src=".imgs/1639526551331-6afaff748574f058027b17e33888123b28141b9574b5c35784c49ed5ae093697.png" />  
+<img width="480"  alt="picture 4" src=".imgs/1639526551331-6afaff748574f058027b17e33888123b28141b9574b5c35784c49ed5ae093697.png" />  
 
 更新：对于这个问题，一开始是某张表给的问题，后续小范围问题可以直接报错提示。
 
 
-### [x] 第三方表匹配不上ERP表
+### :white_check_mark: 第三方表匹配不上ERP表
 更新：初期是因为发现有很多表的id导出是`=`开头的，后期加了稳健的检测与转换，这个问题就基本没了。
 
-### [x] 第三方报表格式
+### :white_check_mark: 第三方报表格式
 注意到发来的第三方对账单，例如："11月第三方仓韵达"是Excel格式，且包含着"订单明细wms"表与"快递核算标准"表，请问这个应该属于"惯例"吧？
 anyway，这个倒不是啥问题哈，个人可以接受。
 
 更新：这个问题其实不重要，因为有一个专门的快递核算大表，可以根据那个进行运费计算。
 
 
-### [x] 第三方表字段含义
-<img width="50%" alt="picture 5" src=".imgs/1639527863226-37f709795842582ded91cf80e8799c28e39db020bf2712c395ae8fb9e397cb78.png" />  
+### :white_check_mark: 第三方表字段含义
+<img width="480" alt="picture 5" src=".imgs/1639527863226-37f709795842582ded91cf80e8799c28e39db020bf2712c395ae8fb9e397cb78.png" />  
 
 1. 发货订单号 和 快递单号 之间的区别？该选用哪个？
 2. 涨价金额 是不是无关紧要？
@@ -174,7 +290,7 @@ Part5FieldsValidation
 对数据库选择的倾向：mongodb --> mysql --> sqlite3
 
 【2021年12月28日】我是觉得，应该用`sqlite3`，也是今天才意识到的。
-<img alt="picture 88" src=".imgs/1640739926114-%23%20hjxh_express_match-225f963d5859c2d1a81caaa7cf53b12e9821defc7641a9dd387ff8ade8ec7a97.png" width="480" />  
+<img alt="picture 88" src=".imgs/1640739926114-hjxh_express_match-225f963d5859c2d1a81caaa7cf53b12e9821defc7641a9dd387ff8ade8ec7a97.png" width="480" />  
 ref:
 - [javascript - Electron app with database - Stack Overflow](https://stackoverflow.com/questions/51119248/electron-app-with-database/51119689)
 
@@ -201,6 +317,84 @@ ref:
 - Comparison Panel
 - Database Panel
 - Feedback Panel
+
+## 心得
+
+### I can only use Sqlite3 for one connection
+Developers of `prisma` are devoted to work, and I learned a lot from their github issue.
+
+And I am surprised to find that I can only use one connection limit in order not to cause timeout.
+
+<img alt="picture 3" src=".imgs/readme-1641077750638-95aae5aa45812bd1b433bc2d273b093369e4cd8b4209ebf48deeda8150bbc411.png" width="480" />  
+
+ref:
+- [Support setting a timeout for SQLite · Issue #2955 · prisma/prisma](https://github.com/prisma/prisma/issues/2955)
+
+
+
+### Eslint is good
+
+If you want to improve your coding ability, especially the coding quality, the most recommend way is to read `eslint`.
+
+ref:
+- [no-plusplus - Rules - ESLint - Pluggable JavaScript linter](https://eslint.org/docs/rules/no-plusplus)
+
+
+### module helps me done right
+After hours of module composition, I'm happy to find my design error.
+
+module yyds!
+<img alt="picture 1" src=".imgs/readme-1641052998954-2fc1cb2343ca3e9e40f19538182c72d0f43e2e7476e521683caf46d59050aa62.png" width="480" />  
+
+
+### Interface helps done right!
+
+<img alt="picture 7" src=".imgs/%24readme-%7Btimestamp%7D-d7a46ab674b86b2c28e65dc92b42cf1e98582d198eaeec97bce367a445f65b01.png" width="480" />  
+
+
+
+### Interface 和 Object 之间的关系
+
+如图，在我花了漫长的时间终于设计出一个目前接口比较良好的`handleParseFile`的函数之后，为了暴露给前端，我需要写一个接口。
+
+<img alt="picture 4" src=".imgs/%24readme-%7Btimestamp%7D-08c70036013b62c68d84bf1538263862871efec0814c921e3517ed365e3aa06e.png" width="480" />  
+
+这个时候，问题来了，我当然可以直接用`ReturnType`自动追踪这个函数的参数与返回类型……
+
+OH NO！
+
+写着写着我发现我想错了，我虽然可以从函数自动得到它的返回类型，但我貌似是没法得到这个函数的参数类型的吧（待确定）！
+
+你看，写笔记还是有帮助的，不写还不知道自己的认知其实是错的呢！
+
+这就先去查一查，是否可以将接口自动同步于某个函数，或者说，是否可以从函数生成接口。
+
+<img alt="picture 5" src=".imgs/%24readme-%7Btimestamp%7D-92782ca14860a1fdd296780dacb182dc39b77a46003287b9840ab4418c7fa926.png" width="480" />  
+
+
+确实不行！都没有相关问题！
+
+老老实实写接口吧！（原以为是先有鸡再有蛋的问题呢！结果ts直接把“蛋生鸡”路给封了！）
+
+<img alt="picture 6" src=".imgs/%24readme-%7Btimestamp%7D-33d3c4df2305f5bec0d0e224f3c0d3b4bf975c4dcf8e97b12acbc91231dc2d89.png" width="480" />  
+
+
+### Error类的继承设计
+
+很有意思的一点，就是在整合优化代码时，发现整合到了Error类的冗余定义。
+
+再仔细想想`eslint`对每个文件只能有一个`class`导出的约定，还挺有意思的，把类拆开，代码变得更加好组织了。
+
+<img alt="picture 1" src=".imgs/%24readme-%7Btimestamp%7D-7c97f8ad346bedd96babc43432586abaf2e8021cc544ee9104bd4acc60f758ad.png" width="480" />  
+
+所以接下来就是把所有用这个类的代码都消掉了。
+
+<img alt="picture 2" src=".imgs/%24readme-%7Btimestamp%7D-3509c6d0e8faed8ed48bba788d98982be9a409fcf0a82a50018d991dd96e0a33.png" width="480" />  
+
+OK，很快就消除完了，毕竟我后续定义的`MyError`类是这个`TestCsv...`类的超集。
+
+<img alt="picture 3" src=".imgs/%24readme-%7Btimestamp%7D-336828a9db961bc373c845d3c389506aecfd61e11ef6532912755f04657f595c.png" width="480" />  
+
 
 ## [ARCHIVE] deploy script
 This section is done in the primary era of this project, and the solution is based on web, which is proved to be not suitable later (but valuable for reuse).
