@@ -1,38 +1,59 @@
 # `hjxh_express_match` 皇家小虎快递匹配系统
 
 1. [Diary](#diary)
-	1. [2022-01-02](#2022-01-02)
-	2. [2022-01-01](#2022-01-01)
-	3. [2021-12-30](#2021-12-30)
-	4. [2021-12-29](#2021-12-29)
-	5. [2021-12-28](#2021-12-28)
-	6. [2021-12-26](#2021-12-26)
-	7. [2021-12-24](#2021-12-24)
+	1. [2022-01-03](#2022-01-03)
+	2. [2022-01-02](#2022-01-02)
+	3. [2022-01-01](#2022-01-01)
+	4. [2021-12-30](#2021-12-30)
+	5. [2021-12-29](#2021-12-29)
+	6. [2021-12-28](#2021-12-28)
+	7. [2021-12-26](#2021-12-26)
+	8. [2021-12-24](#2021-12-24)
 2. [Todo](#todo)
-	1. [:white_circle: replace the progress stream, since it doesn't synchronize with the database, and not accurate for percentage measure](#white_circle-replace-the-progress-stream-since-it-doesnt-synchronize-with-the-database-and-not-accurate-for-percentage-measure)
-	2. [:white_circle: add the global settings json file, so that the frontend and the backend can mutually use it](#white_circle-add-the-global-settings-json-file-so-that-the-frontend-and-the-backend-can-mutually-use-it)
-	3. [:white_circle: add log module](#white_circle-add-log-module)
-	4. [:white_circle: 实现TRD的数据读取与存储](#white_circle-实现trd的数据读取与存储)
-	5. [:white_circle: 实现TRD与ERP的对比](#white_circle-实现trd与erp的对比)
+	1. [:white_check_mark: cannot start when integrated with sqlite in packed version](#white_check_mark-cannot-start-when-integrated-with-sqlite-in-packed-version)
+	2. [using pure `sqlite3` and the programme goes well under prod, then failed with a popup suggesting me to integrate sqlite3](#using-pure-sqlite3-and-the-programme-goes-well-under-prod-then-failed-with-a-popup-suggesting-me-to-integrate-sqlite3)
+	3. [integrate prisma like sqlite](#integrate-prisma-like-sqlite)
+	4. [I am quite sure now the problem is about package import with `prisma`](#i-am-quite-sure-now-the-problem-is-about-package-import-with-prisma)
+	5. [Yeah, thanks Mac's console, I saw the dawn :sparkles::sparkles::sparkles:!](#yeah-thanks-macs-console-i-saw-the-dawn-sparklessparklessparkles)
+	6. [Finally found the problem, it's about the block of searching path](#finally-found-the-problem-its-about-the-block-of-searching-path)
+	7. [I finally understand why programme start by `double click` would be so slow!](#i-finally-understand-why-programme-start-by-double-click-would-be-so-slow)
+	8. [what's the `findSync`](#whats-the-findsync)
+	9. [Current Solution: avoid `findSync'](#current-solution-avoid-findsync)
+	10. [make binary can use `prisma db push`](#make-binary-can-use-prisma-db-push)
+		1. [若在`release/package.json`里指定了`@prisma/client`，则打包里没有`.prisma/client/index.js`](#若在releasepackagejson里指定了prismaclient则打包里没有prismaclientindexjs)
+		2. [若未指定（只指定一个`sqlite3`），则有](#若未指定只指定一个sqlite3则有)
+		3. [在binary里需要用`npm i prisma`安装脚本](#在binary里需要用npm-i-prisma安装脚本)
+		4. [指定prisma文件](#指定prisma文件)
+		5. [`prisma/client`](#prismaclient)
+		6. [极小自动化程序搭建](#极小自动化程序搭建)
+	11. [FIXME: `prisma` in binary](#fixme-prisma-in-binary)
+	12. [:white_circle: add log module](#white_circle-add-log-module)
+	13. [:white_circle: 实现TRD的数据读取与存储](#white_circle-实现trd的数据读取与存储)
+	14. [:white_circle: 实现TRD与ERP的对比](#white_circle-实现trd与erp的对比)
 3. [Finished/Bugfix](#finishedbugfix)
-	1. [:white_check_mark: 省份匹配。2022-01-02，用之前的程序改成js版即可。](#white_check_mark-省份匹配2022-01-02用之前的程序改成js版即可)
-	2. [:white_check_mark: 测试ERP的数据读取与存储。1-1: finished.](#white_check_mark-测试erp的数据读取与存储1-1-finished)
-	3. [:white_check_mark: 优化文件读取过程中的前端界面展示。12-31: finished。](#white_check_mark-优化文件读取过程中的前端界面展示12-31-finished)
-	4. [:white_check_mark: TS2339: Property 'erp' does not exist on type 'PrismaClient '. 12-28: The solution is to use `npx prisma generate`.](#white_check_mark-ts2339-property-erp-does-not-exist-on-type-prismaclient--12-28-the-solution-is-to-use-npx-prisma-generate)
-	5. [:white_check_mark: 解析数据有误问题](#white_check_mark-解析数据有误问题)
-	6. [:white_check_mark: `sqlite3、typeorm` native dependency](#white_check_mark-sqlite3typeorm-native-dependency)
-	7. [:white_check_mark: 学习`prisma`的连接与插入业务流设计范式。](#white_check_mark-学习prisma的连接与插入业务流设计范式)
-	8. [:white_check_mark: csv只读取第一行](#white_check_mark-csv只读取第一行)
-	9. [:white_check_mark: 寻求`fast-csv` skip error的方案。](#white_check_mark-寻求fast-csv-skip-error的方案)
-	10. [:white_check_mark: 支持上传的文件的 Sample 备份预览（包含head与tail五行）。](#white_check_mark-支持上传的文件的-sample-备份预览包含head与tail五行)
-	11. [:white_check_mark: 完成数据库、前端、后端的基本设计。2021年12月22日](#white_check_mark-完成数据库前端后端的基本设计2021年12月22日)
-	12. [:white_check_mark: no-headers pass but headers not](#white_check_mark-no-headers-pass-but-headers-not)
-	13. [:white_check_mark: `progress-stream` cause bug](#white_check_mark-progress-stream-cause-bug)
-	14. [:white_check_mark: `try...catch...finally` problem](#white_check_mark-trycatchfinally-problem)
-	15. [:white_check_mark: ipcRenderer duplicate response](#white_check_mark-ipcrenderer-duplicate-response)
-	16. [:white_check_mark: how to asynchronously and partially read csv](#white_check_mark-how-to-asynchronously-and-partially-read-csv)
-	17. [:white_check_mark: which to choose: `node-csv` or `fast-csv`](#white_check_mark-which-to-choose-node-csv-or-fast-csv)
-	18. [:white_check_mark: axios `form-data` parse bug](#white_check_mark-axios-form-data-parse-bug)
+	1. [:white_check_mark: db init with `generate table in source code` or via `.env`.](#white_check_mark-db-init-with-generate-table-in-source-code-or-via-env)
+	2. [:white_check_mark: change `asar: false`. 2022-01-03 tried this option, but does no help to out project, except let me more clear about what there are in the archive.](#white_check_mark-change-asar-false-2022-01-03-tried-this-option-but-does-no-help-to-out-project-except-let-me-more-clear-about-what-there-are-in-the-archive)
+	3. [:white_check_mark: add electron menu. 2022-01-02](#white_check_mark-add-electron-menu-2022-01-02)
+	4. [:white_circle: replace the progress stream, since it doesn't synchronize with the database, and not accurate for percentage measure。2022-01-02 19:49:20。](#white_circle-replace-the-progress-stream-since-it-doesnt-synchronize-with-the-database-and-not-accurate-for-percentage-measure2022-01-02-194920)
+	5. [:white_check_mark: add the global settings json file, so that the frontend and the backend can mutually use it。2022-01-02 17:04:24。](#white_check_mark-add-the-global-settings-json-file-so-that-the-frontend-and-the-backend-can-mutually-use-it2022-01-02-170424)
+	6. [:white_check_mark: 省份匹配。2022-01-02，用之前的程序改成js版即可。](#white_check_mark-省份匹配2022-01-02用之前的程序改成js版即可)
+	7. [:white_check_mark: 测试ERP的数据读取与存储。1-1: finished.](#white_check_mark-测试erp的数据读取与存储1-1-finished)
+	8. [:white_check_mark: 优化文件读取过程中的前端界面展示。12-31: finished。](#white_check_mark-优化文件读取过程中的前端界面展示12-31-finished)
+	9. [:white_check_mark: TS2339: Property 'erp' does not exist on type 'PrismaClient '. 12-28: The solution is to use `npx prisma generate`.](#white_check_mark-ts2339-property-erp-does-not-exist-on-type-prismaclient--12-28-the-solution-is-to-use-npx-prisma-generate)
+	10. [:white_check_mark: 解析数据有误问题](#white_check_mark-解析数据有误问题)
+	11. [:white_check_mark: `sqlite3、typeorm` native dependency](#white_check_mark-sqlite3typeorm-native-dependency)
+	12. [:white_check_mark: 学习`prisma`的连接与插入业务流设计范式。](#white_check_mark-学习prisma的连接与插入业务流设计范式)
+	13. [:white_check_mark: csv只读取第一行](#white_check_mark-csv只读取第一行)
+	14. [:white_check_mark: 寻求`fast-csv` skip error的方案。](#white_check_mark-寻求fast-csv-skip-error的方案)
+	15. [:white_check_mark: 支持上传的文件的 Sample 备份预览（包含head与tail五行）。](#white_check_mark-支持上传的文件的-sample-备份预览包含head与tail五行)
+	16. [:white_check_mark: 完成数据库、前端、后端的基本设计。2021年12月22日](#white_check_mark-完成数据库前端后端的基本设计2021年12月22日)
+	17. [:white_check_mark: no-headers pass but headers not](#white_check_mark-no-headers-pass-but-headers-not)
+	18. [:white_check_mark: `progress-stream` cause bug](#white_check_mark-progress-stream-cause-bug)
+	19. [:white_check_mark: `try...catch...finally` problem](#white_check_mark-trycatchfinally-problem)
+	20. [:white_check_mark: ipcRenderer duplicate response](#white_check_mark-ipcrenderer-duplicate-response)
+	21. [:white_check_mark: how to asynchronously and partially read csv](#white_check_mark-how-to-asynchronously-and-partially-read-csv)
+	22. [:white_check_mark: which to choose: `node-csv` or `fast-csv`](#white_check_mark-which-to-choose-node-csv-or-fast-csv)
+	23. [:white_check_mark: axios `form-data` parse bug](#white_check_mark-axios-form-data-parse-bug)
 4. [业务问题](#业务问题)
 	1. [:white_check_mark: ERP表中，计算价格错误](#white_check_mark-erp表中计算价格错误)
 	2. [:white_check_mark: 第三方表匹配不上ERP表](#white_check_mark-第三方表匹配不上erp表)
@@ -43,17 +64,19 @@
 	2. [数据库的选择](#数据库的选择)
 	3. [数据库的表设计](#数据库的表设计)
 	4. [[DEPRECIATED] Module Design](#depreciated-module-design)
-6. [心得](#心得)
-	1. [I can only use Sqlite3 for one connection](#i-can-only-use-sqlite3-for-one-connection)
-	2. [Eslint is good](#eslint-is-good)
-	3. [module helps me done right](#module-helps-me-done-right)
-	4. [Interface helps done right!](#interface-helps-done-right)
-	5. [Interface 和 Object 之间的关系](#interface-和-object-之间的关系)
-	6. [Error类的继承设计](#error类的继承设计)
-7. [[ARCHIVE] deploy script](#archive-deploy-script)
+6. [Philosophy](#philosophy)
+	1. [Eslint is good](#eslint-is-good)
+	2. [Modularization helps me done right](#modularization-helps-me-done-right)
+	3. [Interface helps me done right!](#interface-helps-me-done-right)
+	4. [Interface 和 Object 之间的关系](#interface-和-object-之间的关系)
+	5. [Error类的继承设计](#error类的继承设计)
+7. [Experience](#experience)
+	1. [Do not use global electron](#do-not-use-global-electron)
+	2. [I can only use Sqlite3 for one connection](#i-can-only-use-sqlite3-for-one-connection)
+8. [[ARCHIVE] deploy script](#archive-deploy-script)
 	1. [deploy backend (python, fastapi)](#deploy-backend-python-fastapi)
 	2. [deploy frontend (node, react)](#deploy-frontend-node-react)
-8. [[ARCHIVE] 表约定【重要】](#archive-表约定重要)
+9. [[ARCHIVE] 表约定【重要】](#archive-表约定重要)
 	1. [术语定义](#术语定义)
 	2. [通用表约定](#通用表约定)
 	3. [erp表约定](#erp表约定)
@@ -62,9 +85,15 @@
 
 ## Diary
 
+### 2022-01-03
+- ⭐️ 理解并实现了数据库自定义修改存储位置的方法
+- 解决了打包后程序运行超时、数据库连接不上等问题
+
 ### 2022-01-02
+- ⭐️增加了文件上传与解析的计时统计，并自主实现替换了原先的第三方依赖
+- ⭐️增加了系统全局设置，允许前端修改后端的配置
 - 增加了数据更新接口，并解决数据库插入timeout的问题
-- ⭐️实现了前后端的接口统一，项目完全模块化、接口化！
+- ⭐️⭐️实现了前后端的接口统一，项目完全模块化、接口化！
 
 ### 2022-01-01
 - 实现了文件读取的分类统计，与数据库的错误检测，至此对文件、数据库的控制基本全部完成
@@ -87,15 +116,637 @@
 完成了系统前端与业务流的重构
 
 
+
+
 ## Todo
-### :white_circle: replace the progress stream, since it doesn't synchronize with the database, and not accurate for percentage measure
-### :white_circle: add the global settings json file, so that the frontend and the backend can mutually use it
+
+### :white_check_mark: cannot start when integrated with sqlite in packed version
+
+suppose:
+```yaml
+APP=release/app
+```
+
+1. add dependency in `APP/package.json`
+
+```json
+// release/app/package.json
+  "dependencies": {
+    "sqlite3": "^5.0.2"
+  },
+```  
+
+2. rebuild project
+
+:::warn
+maybe we should `node i -g node-gyp` first
+:::
+
+```sh
+[npm run rebuild] electron-rebuild --parallel --types prod,dev,optional --module-dir $APP
+```
+
+3. build and pack again
+
+```sh
+npm run build
+[npm run app:dir] electron-builder --dir
+```
+
+ref:
+- [在 Electron 中使用 SQLite3 - 掘金](https://juejin.cn/post/6844903661336788999)
+
+- [electron-builder electron (8.2.0) & sqlite3 (4.1.1) · Issue #4852 · electron-userland/electron-builder](https://github.com/electron-userland/electron-builder/issues/4852)
+
+- [chore(deps): upgrade node-gyp to ^6.0.1 by malept · Pull Request #327 · electron/electron-rebuild](https://github.com/electron/electron-rebuild/pull/327)
+
+- [sqlite - electron-packager with sqlite3 and webpack - Stack Overflow](https://stackoverflow.com/questions/50991453/electron-packager-with-sqlite3-and-webpack/51256562)
+
+4. * PLUS: if we don't pack `sqlite3` into $APP, then we won't pass the webpack build process only if we add this:
+   
+```js
+// .erb/configs/webpack.config.base.ts
+  externals: [
+    ...Object.keys(externals || {}),
+
+      // for prisma build
+      // https://github.com/prisma/prisma/issues/6564#issuecomment-899013495
+    {
+      _http_common: '_http_common',
+    },
+
+	// for sqlite3 build
+    // https://stackoverflow.com/a/51256562/9422455
+    { sqlite3: 'commonjs sqlite3' },
+  ],
+
+```	
+
+#### :white_check_mark: can normally open if no database connection in source code 
+```ts
+// src/main/db.ts
+interface FakePrisma {
+  erp: {
+    create: any;
+    upsert: any;
+    findMany: any;
+  };
+}
+
+export const prisma: FakePrisma = {
+  erp: {
+    create: () => {
+      console.log('fake-database: creating one');
+    },
+    findMany: () => {
+      console.log('fake-database: finding many');
+    },
+    upsert: () => {
+      console.log('fake-database: upserting one');
+    },
+  },
+};
+```
+
+### using pure `sqlite3` and the programme goes well under prod, then failed with a popup suggesting me to integrate sqlite3
+
+
+<img alt="picture 11" src=".imgs/readme-1641287704584-613d44afa250b17be45e5b366487d1dbd42939da44543700b5e7fbd7f6a8ca9e.png" width="480" />  
+
+### integrate prisma like sqlite
+
+When add the `"@prisma/client": "^3.7.0"` into `APP/package.json`:
+<img alt="picture 12" src=".imgs/readme-1641290264413-57cae0d3b39ee3b8783d83a56ea24476ccbfdddc76b12d2c345f9cced752415c.png" width="480" />  
+
+So we then try to add `.prisma` into it.
+
+```json
+  "dependencies": {
+    "@prisma/client": "^3.7.0",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "prisma": "^3.7.0",
+    "@prisma/client": "^3.7.0"
+  }
+
+```
+
+<img alt="picture 13" src=".imgs/readme-1641293795481-b2c1a6b69d6a1b726668058367a514807d2dfdb0800bd355d419b48db85fe557.png" width="480" />  
+
+<img alt="picture 14" src=".imgs/readme-1641294082849-a16d9878554cebc58aed0ac7ce8b87b32f5ba62f4fe957a7e30b6b13162185c3.png" width="480" />  
+
+<img alt="picture 15" src=".imgs/readme-1641294185753-c1bf2a6bf3db20c554daeee3b02332667ff24f6542f7da8f85dfb166794e9f5b.png" width="480" />  
+
+After I moved the `libxxxxnode` into `main`, then things are ok, except still too slow!
+
+<img alt="picture 16" src=".imgs/readme-1641294596528-f65b42bf2bc804b70c7c3f6254eff77d607048906fb64c3ca34f7d81aab9c3b8.png" width="480" />  
+
+I try to debug as [Other packages make Prisma load very slow · Issue #8484 · prisma/prisma](https://github.com/prisma/prisma/issues/8484) did:
+
+<img alt="picture 17" src=".imgs/readme-1641295180935-1184a4b6fedb71a7de0cc9ef7d529bbeccd822dd3dd370014c3e449ca8965223.png" width="480" />  
+
+I found this app used my local packages, which maybe the issue behind the load problem.
+
+So I uninstalled the global prisma:
+```sh
+npm uninstall -g prisma
+```
+
+Then I run again.
+
+<img alt="picture 18" src=".imgs/readme-1641295340433-9db9c014cb84a5ee31e8600175343fbaa8465c99c2808a66ef5079202f695a6d.png" width="480" />  
+
+However, it starts to use the packages in my dev project.
+
+Finally I do a copy before I run for test:
+```sh
+// $erb
+# copy
+cp prisma/schema.prisma $app/Contents/Resources/app/dist/main/
+cp node_modules/.prisma/client/libquery_engine-darwin.dylib.node $app/Contents/Resources/app/dist/main 
+
+# run
+open release/build/mac/皇家小虎快递分析系统.app/Contents/MacOS/皇家小虎快递分析系统
+```
+
+:sparkles: maybe it's because prisma is searching file location, so that the system runs slow! (since finally it didn't search any `schema.prisma`, which enlightened me!)
+
+
+### I am quite sure now the problem is about package import with `prisma` 
+
+I added one log just at the entrance of the whole programme.
+
+<img alt="picture 20" src=".imgs/readme-1641300763719-36feb313c6ae07962b53e5140d909ed3b462de2a8e425f3eefa789746adfe833.png" width="480" />  
+
+And I am lucky to see it is printed after programme runs in binary, and then wait, which indicates the start of programme is ok, except the packages.
+
+<img alt="picture 19" src=".imgs/readme-1641300743690-a321e7f6c6325a6210c8c694936e99cb18c76ddba1748061953908cc1d7e2e5f.png" width="480" />  
+
+### Yeah, thanks Mac's console, I saw the dawn :sparkles::sparkles::sparkles:!
+
+Stupid!
+
+I found nothing helpful!
+
+(Since the programme didn't cause any system exception, except block)
+
+### Finally found the problem, it's about the block of searching path
+
+Just add these two lines for debug the `findSync` sentence.
+<img alt="picture 24" src=".imgs/readme-1641309385635-2c7f27383d90ee8aac8e0e32db1af1556f44c6ce1375e3b8a5e43d220a263a04.png" width="480" />  
+
+Then you would know where does it go wrong.
+<img alt="picture 23" src=".imgs/readme-1641309113293-e1bedee09b6842acbf3a2b9df051fca3e7612735e584bf70113035b2301a64c7.png" width="480" />  
+
+I located to the source code.
+<img alt="picture 25" src=".imgs/readme-1641309815216-65fbe7024490017e84223d0a82247e52ddd400994c9a61491476e6abd8b6cbb4.png" width="480" />  
+
+It seems the path generated incorrectly.
+
+Since this directory is generated via cli, I re-generate it, which looks more normal then.
+
+<img alt="picture 26" src=".imgs/readme-1641309960859-813a4586ebe04ff12d61d4632641f4ee7bfb18a3c2d5171b9c70d26a1db081b1.png" width="480" />  
+
+And then we pack again.
+```sh
+npm run build
+npm run app:dir
+```
+
+Look into what's new in the `APP/../main.js`
+<img alt="picture 27" src=".imgs/readme-1641310502054-05ca31db8f32b47a028d463efeb660dbcb3a04f7f5107e48bd230be78afd0dfd.png" width="480" />  
+
+OK, it's consistent with the source code after we `prisma generate`.
+
+However, there's no `node_modules` neither `.prisma` under `main.js` directory now:
+
+```sh
+➜  main git:(main) ✗ ls
+main.js             main.js.LICENSE.txt preload.js
+```
+It's because we didn't pack it into `app.asar` in electron.
+
+So how to achieve this goal?
+
+1. we cannot use `externalResources` choice since it only pack files into `Resources/` not `app/main/`
+2. if we use `files`, then the files would list in `app.asar` under `app` directory, this is what we are looking for.
+3. if we add the dependencies under `app/package.json`, then there would be `node_modules` installed under `app`. It is also suitable if there would generate a `.prisma/client`, we can give it a shot only if we add `@prisma/client` into `app/package.json`.
+
+```json
+// release/app/package.json
+  "dependencies": {
+    "sqlite3": "^5.0.2",
+    "@prisma/client": "^3.7.0"
+  }
+```
+
+However, I tried but to find there is NO `.prisma` folder in the target place.
+
+And I tried locally to find that if I do not use `prisma generate` then I only got an blank template `index.js`, which is certainly not I want.
+
+<img alt="picture 28" src=".imgs/readme-1641311767968-ad39fe926e5eb38bc8bda6d19f8950fd48937490b710e9b4e8b94d732254a453.png" width="480" />  
+
+So, the answer is clear now: we can't put `@prisma/client` into `app/package.json`, since it won't generate the right sql model unless we use `prisma generate`. And even the `.prisma` generated locally, it won't be packed into out target application's app.asar folder.
+
+Therefore, the only way best suitable for us is to manually copy the local `.prisma` folder to `app/dist/main/` so that can be searched by `prisma` in the binary application.
+
+We then use `prisma generate` to synchronize the `node_modules/.prisma/client/index.js` with out `prisma/schema.prisma` file (which would copied into `node_modules/.prisma/client/schema.prisma`), along with the generated query engine for MacOS: `node_modules/.prisma/client/libquery_engine-darwin.dylib.node`.[TODO: what should windows user do; maybe copy all the files into app is not ideal for cross platform use. Instead, we should consider about only copy the `schema.prisma` file, and let all the other work generated by platforms]
+
+<img alt="picture 29" src=".imgs/readme-1641312184877-79c3520e1b1f69e51de79ffcbf8e380d7312f4a46878b205bc0b17be2600658c.png" width="480" />  
+
+### I finally understand why programme start by `double click` would be so slow!
+
+I added log before `findSync` again, and run by double click of the main programme.
+
+<img alt="picture 32" src=".imgs/readme-1641313449263-88324bddd0fbb97399caee5b72123ffbbb24e3eab8fb8178a60df72e0561b001.png" width="480" />  
+
+And it should tell me that the `process.cwd()` is `/` that means from my computer root!
+
+<img alt="picture 30" src=".imgs/readme-1641313359005-aaed92dce777b54143a8dd9e8e0fef9324be40bf97bfc9505008f3ef53c391dd.png" width="480" />  
+
+As a contrast, I ran it according the electron helper which is within the main programme.
+
+And the `process.cwd()` is `~`, which is much much faster!
+<img alt="picture 33" src=".imgs/readme-1641313624357-a725375b40e1c762592a7944d97f514f4166824854722db189f5686000b3c66b.png" width="480" />  
+
+
+### what's the `findSync`
+
+
+<img alt="picture 34" src=".imgs/readme-1641314504643-a85fb0c38c3b5f5d201cf17469b50cb23e82246ee94e8ae18d06eeeb2042a586.png" width="480" />  
+
+So, according the source code, the `findSync` starts from the `root`, then to search target `pattern`.
+
+<img alt="picture 35" src=".imgs/readme-1641314655645-e8a564598b87018e4914e1d0e8b5b1cd3cbd624b4900715e3a4d791cc31bf751.png" width="480" />  
+
+Thus, from the commands before, we can see, it would search target pattern `node_modules/.prisma/client` or `.prisma/client` from `process.cwd()` (i.e. `/` when run main programme and `~` when run in shell)
+
+What's the solution?
+
+1. directly change the logic into `_ = __dirname`, and put `.prisma/client` under the `__dirname`, i.e. `app/main`
+
+2. perhaps there's way (i.e. package or not) to not go this logic, which is so-called best practice? But sadly, I haven't found one after many times of hard search in github of prisma. I am looking forward the developers of prisma can give one.
+
+	1. For example, maybe there is a way allows me to fill some parameters so that to disable the hard search or change the root from? 
+
+<img alt="picture 37" src=".imgs/readme-1641323620341-43c3b49ec507dca9a7bfc9907e7a70c40a78f4fafafe4f80f18d6394572e94cb.png" width="480" />  
+
+ref:
+- [prisma/buildDirname.ts at 62b91fd9bd32da983f457857411edef6daeecda1 · prisma/prisma](https://github.com/prisma/prisma/blob/62b91fd9bd32da983f457857411edef6daeecda1/packages/client/src/generation/utils/buildDirname.ts)
+
+
+
+### Current Solution: avoid `findSync'
+
+avoid any call of `findSync`
+
+```js
+// node_modules/.prisma/client/index.js
+
+// to save the hard search time(maybe from '/'), let us directly point out the target prisma client place
+console.log({ process_cwd: process.cwd(), __dirname });
+const dirname = path.join(__dirname, '.prisma/client');
+console.log({ dirname });
+
+// const { findSync } = require('@prisma/client/runtime')
+//
+// const dirname = findSync(process.cwd(), [
+//     "node_modules/.prisma/client",
+//     ".prisma/client",
+// ], ['d'], ['d'], 1)[0] || __dirname
+```
+
+
+```text
+// main files structure of an packed electron on Mac 
+// with `.prisma/client` besides `main.js`
+// generate via ` find . ! -path '*node_modules/*' ! -path '*Frameworks/*' ! -path '*assets*' ! -path '*lproj'  ! -path '*svg'  | tree --fromfile --noreport -aC`
+
+. // Main Entrance
+└── Contents
+	├── Frameworks
+	├── Info.plist
+	├── MacOS
+	│   └── HJXH-DATA-ANALYSIS // Script Entrance
+	├── PkgInfo
+	└── Resources
+		├── app
+		│   ├── dist
+		│   │   ├── main
+		│   │   │   ├── .prisma
+		│   │   │   │   └── client
+		│   │   │   │       ├── index-browser.js
+		│   │   │   │       ├── index.js
+		│   │   │   │       ├── libquery_engine-darwin.dylib.node
+		│   │   │   │       ├── package.json
+		│   │   │   │       └── schema.prisma 
+		│   │   │   ├── main.js // Main Runner
+		│   │   │   ├── main.js.LICENSE.txt
+		│   │   │   └── preload.js
+		│   │   └── renderer
+		│   │       ├── index.html
+		│   │       ├── renderer.js
+		│   │       └── renderer.js.LICENSE.txt
+		│   ├── node_modules
+		│   └── package.json
+		└── icon.icns
+```
+
+### make binary can use `prisma db push` 
+
+The question is to intercept `prisma` into package use, am I right?(maybe not...)
+
+Anyway, we'd better have a try at the first: add `prisma` as a dependency of app.
+
+<img alt="picture 36" src=".imgs/readme-1641321785532-83ca4daa59910c730e2bad819c3150024b3ad2ed11442a0b13c32bac10b9803a.png" width="480" />  
+
+Now, we have `prisma` in node_modules.
+
+However, I doesn't be positive about running with `prisma` since it's only a dependency not a command.
+
+There are at least two kinds of commands we can use, one for global, one for those under `node_modules/.bin`.
+
+The sad truth is that only when we run `npm i prisma` in packed app, we can have a `prisma` under `node_modules/.bin`, which seems unacceptable. [TODO: so why they cannot generate a `prisma` under `.bin` when I have assigned `prisma` in `package.json` of released app]
+
+```sh
+➜  app git:(main) ✗ npm i prisma
+
+added 2 packages, and changed 1 package in 2s
+
+3 packages are looking for funding
+  run `npm fund` for details
+➜  app git:(main) ✗ ls node_modules/.bin
+detect-libc  node-gyp     prisma       rimraf       sshpk-sign   which
+mkdirp       node-pre-gyp prisma2      semver       sshpk-verify
+needle       nopt         rc           sshpk-conv   uuid
+```
+
+So let's have a try step by step.
+
+First, only add `prisma` in the `package.json` of release.
+
+
+
+#### 若在`release/package.json`里指定了`@prisma/client`，则打包里没有`.prisma/client/index.js`
+
+
+<img alt="picture 38" src=".imgs/readme-1641324945482-fa4db7120dea10e4574be593ce72e09deb916861a0dc70ed3013e7be5bb7c7cc.png" width="480" />  
+
+#### 若未指定（只指定一个`sqlite3`），则有
+
+<img alt="picture 39" src=".imgs/readme-1641325459183-9c244e08847be8d54907006fe7756d3434c355a2bc0c69ed1590dcb7cbe6b9ae.png" width="480" />  
+
+#### 在binary里需要用`npm i prisma`安装脚本
+```sh
+➜  app git:(main) ✗ ls node_modules/.bin
+detect-libc  needle       node-pre-gyp rc           semver       sshpk-sign   uuid
+mkdirp       node-gyp     nopt         rimraf       sshpk-conv   sshpk-verify which
+➜  app git:(main) ✗ npm i prisma
+
+added 2 packages in 2s
+
+3 packages are looking for funding
+  run `npm fund` for details
+➜  app git:(main) ✗ ls node_modules/.bin
+detect-libc  needle       node-pre-gyp prisma       rc           semver       sshpk-sign   uuid
+mkdirp       node-gyp     nopt         prisma2      rimraf       sshpk-conv   sshpk-verify which
+➜  app git:(main) ✗ which prisma
+prisma not found
+```
+
+但尽管如此，在程序中依旧是不可以直接用`prisma`的cli命令的，因为这个依赖于全局`prisma`。
+<img alt="picture 40" src=".imgs/readme-1641325864607-2eef51948928ecdea5945715cbcc3849ddc26853568fff06053836804a64d967.png" width="480" />  
+
+可以考虑一下指定脚本。
+
+<img alt="picture 41" src=".imgs/readme-1641326080156-7dc342f49aac66cb4bd0494096f70a72c692f9a64faaf0141bae89788a5701fc.png" width="480" />  
+
+不过脚本里用相对路径需要格外小心，`.|..`的拼接，是相对于脚本执行者的路径而言的，而不是脚本文件！
+
+```js
+const absDir=require('path').resolve("../../node_modules/.bin/prisma");
+```
+比如这句话，在我使用`open ./MacOS/HJXH-DATA-ANALYSIS`打开时，因为脚本执行者是`~`，即`/Users/mark`，所以它其实以这个路径为基准，最终转换成了`/node_modules/.bin/prisma`，这显然是不对的。
+
+<img alt="picture 42" src=".imgs/readme-1641327264657-175bfcdadaca7a51529cbd8825454b81f68a210316fe55ddff53e5dbde64d1eb.png" width="480" />  
+
+
+所以在拼接时要连接上文件路径，像这样就对了。
+```js
+const absDir=require('path').resolve(
+    __dirname, "../../node_modules/.bin/prisma");
+console.log(`database: "prisma db push", curDir: ${__dirname}, targetPrisma: ${absDir}`);
+```
+
+<img alt="picture 43" src=".imgs/readme-1641327334520-499a53220b0945365efd324d7b3b608b7c6f5434cff333074c7eba9734bcc3e2.png" width="480" />  
+
+不过接下来又报文件找不到了，不过这是小事，马上解决。
+
+这里总结一下：
+1. 在二进制程序里，用全局命令是不合适的，比较好的是用自己包里的命令，但这不像开发环境那样仿佛天生就有，具体要先`npm i prisma`安装生成`.bin/prisma`可执行文件，然后再用绝对路径去引用它，当然，我们既然可以执行命令行，当然也可以导出一个变量。
+2. TODO： 将prisma命令导出，这样，在其他地方都可以用prisma了
+3. TODO: 我忘了。。
+
+
+#### 指定prisma文件
+注意看上面的报错，其实它已经提供了我们方法了，就是将`schema.prisma`放到指定位置，即`prisma/`下。
+
+不过这里也能看出，他们的代码规范不统一，比如`prisma.schema`在主程序中，被搜索的路径可不止这点，而且貌似还是以`schema.`优先的，而不是`prisma/schema.prisma`。
+
+方法1. 在`package.json`中加入`prisma.schema`字段
+方法2. 移动目前的文件（从`schema.prisma`到`prisma/schema.prisma`）
+
+这里就用方法1了：
+```json
+// app/package.json
+  6   "prisma": {
+  7     "schema": "dist/main/schema.prisma"
+  8   },
+```
+
+然而还是报错了。
+
+<img alt="picture 45" src=".imgs/readme-1641328243751-1aca13f23cfe42d39a7e6e163f36b408ca1825b281f5c7046af681baf4572ac0.png" width="480" />  
+
+我验证了一下路径，是没问题的，于是顺着链接去官网看了看，突然就意识到了，这可能又是相对路径的问题。
+
+<img alt="picture 44" src=".imgs/readme-1641328226861-1929fd1ce321d98fdd99aae4fc2230af695176fa38764dd25687793f3b1ee4d6.png" width="480" />  
+
+为验证我的想法， copy一份为`prisma/schema.prisma`，预期应该还是不行，因为都是相对路径，根据官网的搜索路径`./prisma/schema.prisma`就变成了`~/prisma/schema.prisma`，`./schema.prisma`就变成了`~/schema.prisma`。
+
+不出所料，果然！即便我路径里已经包含了两种`prisma`，它都找不到，就是因为相对路径拼接错误。
+
+```text
+➜  main git:(main) ✗ tree .
+.
+├── main.js
+├── main.js.LICENSE.txt
+├── preload.js
+├── prisma
+│   └── schema.prisma
+└── schema.prisma
+```
+
+所以，我们应该自己指定路径了，既然这样，那么在`package.json`中指定路径也没有意义了，因为绝对路径肯定要基于文件路径拼接的，所以只能在程序中动态拼接。
+
+```js
+  3 const _p = require("path");
+  4
+  5 const schemaExePath = _p.resolve(
+  6     __dirname, "../../node_modules/.bin/prisma");
+  7
+  8 const schemaFilePath = _p.resolve(__dirname, "schema.prisma");
+  9
+ 10 console.log(`database: "prisma db push", curDir: ${__dirname}, targetPrismaExeP    ath: ${schemaExePath}, targetPrismaFilePath: ${schemaFilePath}`);
+ 11
+ 12 i.default.exec(`${schemaExePath} db push --schema ${schemaFilePath}`,
+ ```
+
+#### `prisma/client`
+OK！用路径拼接转绝对路径的方式，解决了上面的问题【TODO:给prisma提一个pr，考虑一波基于文件的路径拼接，而非process，要烦死了】，新的问题就是装一下`prisma/client`，
+
+<img alt="picture 46" src=".imgs/readme-1641329044401-924bc44ed86e843bbf3d7f95bd397b823454b6390a2bdd8434d17585f4680012.png" width="480" />  
+
+这个比较简单。不过也有两种办法：
+1. 直接命令行安装：`npm i @prisma/client`
+2. TODO:尝试把外部包导入看看是不是就不需要装了
+
+这里用第一种办法：
+
+<img alt="picture 47" src=".imgs/readme-1641329276722-1de83c864711b6136a77e6b4d78546bb25b06af805a31f86b886daa26c62ca12.png" width="480" />  
+
+成了！
+
+#### 极小自动化程序搭建
+1. prisma init and generate --> in order to generate target table
+2. change `findSync` function to fasten speed --> in order to avoid search from pc root, which would cause even minutes wait
+3. move `schema.prisma` into `release/app/` --> easy and default for programme search, which is consistent when in local development since `schema.prisma` is besides `index.js` under `node_modules/.prisma/client/`
+4. use path-merge to generate ABSOLUTE path, both for `.bin/prisma` and `schema.prisma`  --> in case for the default merge behavior of prisma is wrong when the base path is offered by programme rather then by file.
+5. install `prisma`/`@prisma/client` in binary or try to pre-install
+
+
+
+### FIXME: `prisma` in binary
+
+<img alt="picture 5" src=".imgs/readme-1641244081948-ae8a83efcb1be3facf26b469c01373c949ac5290b5992996fd678650b16b2e87.png" width="480" />  
+
+
+When I didn't install `prisma` globally, neither had I placed `prisma` into binary, then the error `prisma command not found` occurred:
+
+<img alt="picture 7" src=".imgs/readme-1641245007081-71ea6e315a6d7d980e03a74450dc5e57661ec5497791211443a37785d0e70f98.png" width="480" />  
+
+
+When I installed `prisma` globally, the error then came from `prisma file not found`.
+
+<img alt="picture 6" src=".imgs/readme-1641244869137-b8237c6a5828025fe176e7e26acb08823ae96da2413a6cf25cf701e609913f38.png" width="480" />  
+
+So:
+
+| install prisma globally | :white_check_mark: | :x: | 
+
+
+But when I added `prisma` file in the `package.json`:
+
+```json
+// package.json
+    "extraResources": [
+      "./assets/**",
+      "prisma/schema.prisma"
+    ],
+```
+
+And it did go to the target application at: `build/mac/皇家小虎快递分析系统.app/Contents/Resources/prisma/schema.prisma`
+
+The file cannot be found yet in fact.
+
+<img alt="picture 8" src=".imgs/readme-1641245255584-de651b38a5327b83e309e98e63ef7891f33b30bd48eb015d2f95dd66614b67f5.png" width="480" />  
+
+I thought of adding into `files` so that it can go to the `app.asar`, but in vain:
+
+<img alt="picture 9" src=".imgs/readme-1641245688562-d7a4098c6a0ea4b5e465de2c2186a9c557dfd71b493ed7afdc533d6d0f407c10.png" width="480" />  
+
+Also failed for (in case it uses the relative path to `release/app`):
+```js
+     "../../prisma/schema.prisma",
+```
+
+
 ### :white_circle: add log module
 ### :white_circle: 实现TRD的数据读取与存储
 ### :white_circle: 实现TRD与ERP的对比
 
 
 ## Finished/Bugfix
+
+### :white_check_mark: db init with `generate table in source code` or via `.env`.
+2022-01-04，it's very successful and valuable to finally solve this problem!
+
+### :white_check_mark: change `asar: false`. 2022-01-03 tried this option, but does no help to out project, except let me more clear about what there are in the archive.
+
+### :white_check_mark: add electron menu. 2022-01-02
+
+### :white_circle: replace the progress stream, since it doesn't synchronize with the database, and not accurate for percentage measure。2022-01-02 19:49:20。
+
+I have done some research on how to do the `pipe` on node stream, and learned a lot.
+
+In fact, I first browsed node.js documentation, but in a loss.
+
+Then I dived into the source code of the package I am using: `progress-stream`, and realized he used the dependent package of `through2`.
+
+Then I followed the github of `through2`, which gave me the following valuable instruction:
+<img alt="picture 4" src=".imgs/readme-1641124409482-1c069776954120fe6eee94cfce02304aa1df52ba6f439eafde9fe08aff5dfa3f.png" width="480" />  
+
+Hence, based on my knowledge, I diy one for simplicity without any third package.
+
+```ts
+import { Transform } from 'stream';
+
+import { round } from '../../../../universal';
+
+export class SizeTransformer extends Transform {
+  private hasRead = 0;
+
+  private readonly size;
+
+  private readonly f;
+
+  constructor(size, f: (size: number) => void) {
+    super();
+    this.size = size;
+    this.f = f;
+  }
+
+  _transform(chunk, _, callback) {
+    // @ts-ignore
+    this.push(chunk);
+    this.hasRead += chunk.length;
+    const pct = round(this.hasRead / this.size, 3);
+    this.f(pct);
+    callback();
+  }
+}
+```
+
+And also, I came up with the idea of using two percentage calculator, one for read file size, one for saved rows.
+
+Afterwards, I realized the final ideal effect, which is accurate and lovely -- two circular progresses:
+
+<img alt="picture 5" src=".imgs/readme-1641124623310-610165c32f2a9c057a43b9bce837f83a949d1b5cb514d84c83fa00fd25a638ae.png" width="480" />  
+
+Thanks for all !
+
+ref:
+- [stream 流 | Node.js API 文档](http://nodejs.cn/api/stream.html#class-streamwritable)
+
+
+- [API 文档 - Node.js 中文网](http://api.nodejs.cn/)
+
+- [rvagg/through2: Tiny wrapper around Node streams2 Transform to avoid explicit subclassing noise](https://github.com/rvagg/through2)
+
+- [through2原理解析 - SegmentFault 思否](https://segmentfault.com/a/1190000011740894)
+
+### :white_check_mark: add the global settings json file, so that the frontend and the backend can mutually use it。2022-01-02 17:04:24。
 
 ### :white_check_mark: 省份匹配。2022-01-02，用之前的程序改成js版即可。
 
@@ -318,18 +969,7 @@ ref:
 - Database Panel
 - Feedback Panel
 
-## 心得
-
-### I can only use Sqlite3 for one connection
-Developers of `prisma` are devoted to work, and I learned a lot from their github issue.
-
-And I am surprised to find that I can only use one connection limit in order not to cause timeout.
-
-<img alt="picture 3" src=".imgs/readme-1641077750638-95aae5aa45812bd1b433bc2d273b093369e4cd8b4209ebf48deeda8150bbc411.png" width="480" />  
-
-ref:
-- [Support setting a timeout for SQLite · Issue #2955 · prisma/prisma](https://github.com/prisma/prisma/issues/2955)
-
+## Philosophy
 
 
 ### Eslint is good
@@ -340,14 +980,14 @@ ref:
 - [no-plusplus - Rules - ESLint - Pluggable JavaScript linter](https://eslint.org/docs/rules/no-plusplus)
 
 
-### module helps me done right
+### Modularization helps me done right
 After hours of module composition, I'm happy to find my design error.
 
-module yyds!
+Modularization yyds!
 <img alt="picture 1" src=".imgs/readme-1641052998954-2fc1cb2343ca3e9e40f19538182c72d0f43e2e7476e521683caf46d59050aa62.png" width="480" />  
 
 
-### Interface helps done right!
+### Interface helps me done right!
 
 <img alt="picture 7" src=".imgs/%24readme-%7Btimestamp%7D-d7a46ab674b86b2c28e65dc92b42cf1e98582d198eaeec97bce367a445f65b01.png" width="480" />  
 
@@ -394,6 +1034,23 @@ OH NO！
 OK，很快就消除完了，毕竟我后续定义的`MyError`类是这个`TestCsv...`类的超集。
 
 <img alt="picture 3" src=".imgs/%24readme-%7Btimestamp%7D-336828a9db961bc373c845d3c389506aecfd61e11ef6532912755f04657f595c.png" width="480" />  
+
+## Experience
+### Do not use global electron
+These days, 
+
+### I can only use Sqlite3 for one connection
+Developers of `prisma` are devoted to work, and I learned a lot from their github issue.
+
+And I am surprised to find that I can only use one connection limit in order not to cause timeout.
+
+<img alt="picture 3" src=".imgs/readme-1641077750638-95aae5aa45812bd1b433bc2d273b093369e4cd8b4209ebf48deeda8150bbc411.png" width="480" />  
+
+ref:
+- [Support setting a timeout for SQLite · Issue #2955 · prisma/prisma](https://github.com/prisma/prisma/issues/2955)
+
+
+
 
 
 ## [ARCHIVE] deploy script
