@@ -1,7 +1,6 @@
 import chProcess from 'child_process';
 import { BrowserWindow, Menu, MenuItemConstructorOptions, app, shell } from 'electron';
 
-import { prismaBinPath } from './db';
 import { mainGetSetting, mainSetSetting } from './settings';
 import { ENABLE_DB_UPSERT_MODE } from './settings/boolean_settings';
 
@@ -34,7 +33,7 @@ export default class MenuBuilder {
           label: '打开网页端数据库',
           click() {
             console.log('database: opening studio from specified');
-            chProcess.exec(`${prismaBinPath} studio`, (error, stdout, stderr) => {
+            chProcess.exec(`prisma studio`, (error, stdout, stderr) => {
               if (error) {
                 console.error(error);
                 return;
