@@ -1,6 +1,7 @@
 /**
  * Webpack config for production electron main process
  */
+import DotenvWebpackPlugin from 'dotenv-webpack';
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
@@ -44,6 +45,7 @@ const configuration: webpack.Configuration = {
     minimizer: [
       new TerserPlugin({
         parallel: true,
+        exclude: /.*db\.[tj]s$/,
       }),
     ],
   },
@@ -66,6 +68,13 @@ const configuration: webpack.Configuration = {
       NODE_ENV: 'production',
       DEBUG_PROD: false,
       START_MINIMIZED: false,
+    }),
+
+    new DotenvWebpackPlugin(),
+
+    // for variable node environment
+    new webpack.DefinePlugin({
+      VAR_ENV: 'process.env',
     }),
   ],
 

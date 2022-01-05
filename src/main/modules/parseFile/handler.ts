@@ -2,21 +2,15 @@ import * as csv from '@fast-csv/parse';
 import * as fs from 'fs';
 import iconv from 'iconv-lite';
 
-import {
-  DbInsertStatus,
-  DbUpsertStatus,
-  IDbInsertResult,
-  IDbUpdateResult,
-  initDbInsertResult,
-  initDbUpdateResult,
-  isDbFinished,
-} from '../../db';
 import { mainGetSetting } from '../../settings';
 import { ENABLE_DB_UPSERT_MODE, ENABLE_PARSE_WITH_HEADER } from '../../settings/boolean_settings';
 import { SET_PARSE_FILE_RETURN_FREQ } from '../../settings/number_settings';
 import { MsgParseFileFinished, MsgParseHeaderError, MsgSaveDbFinished } from '../../settings/string_settings';
 import { GenericError } from '../base/GenericError';
 import { IpcMainEvent, reply } from '../base/response';
+import { IDbInsertResult, IDbUpdateResult, initDbInsertResult, initDbUpdateResult } from '../db/db_result';
+import { DB_INSERT_DUPLICATED, DB_INSERT_SUCCESS, DB_TABLE_NOT_EXISTED, DB_TIMEOUT, DB_UPDATED } from '../db/db_status';
+import { isDbFinished } from '../db/db_utils';
 
 import { RequestParseFile } from './channels';
 import { dbCreateErp, dbUpsertErp } from './db';
@@ -39,11 +33,14 @@ const updateDBResult = async (result, item) => {
     const dbStatus = await dbUpsertErp(item);
     const _ = result.dbResult as IDbUpdateResult;
     switch (dbStatus) {
-      case DbUpsertStatus.updated:
+      case DB_UPDATED:
         _.nUpdated += 1;
         break;
-      case DbUpsertStatus.timeout:
+      case DB_TIMEOUT:
         _.nTimeout += 1;
+        break;
+      case DB_TABLE_NOT_EXISTED:
+        _.nTableNotExist += 1;
         break;
       default:
         _.nUnknown += 1;
@@ -53,14 +50,17 @@ const updateDBResult = async (result, item) => {
     const dbStatus = await dbCreateErp(item);
     const _ = result.dbResult as IDbInsertResult;
     switch (dbStatus) {
-      case DbInsertStatus.inserted:
+      case DB_INSERT_SUCCESS:
         _.nInserted += 1;
         break;
-      case DbInsertStatus.duplicated:
+      case DB_INSERT_DUPLICATED:
         _.nDuplicated += 1;
         break;
-      case DbInsertStatus.timeout:
+      case DB_TIMEOUT:
         _.nTimeout += 1;
+        break;
+      case DB_TABLE_NOT_EXISTED:
+        _.nTableNotExist += 1;
         break;
       default:
         _.nUnknown += 1;

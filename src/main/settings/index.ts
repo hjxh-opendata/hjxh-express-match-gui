@@ -1,3 +1,4 @@
+import { app } from 'electron';
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import * as path from 'path';
@@ -8,7 +9,8 @@ import { BooleanKeys, booleanSettings } from './boolean_settings';
 import { NumberKeys, numberSettings } from './number_settings';
 import { StringKeys, stringSettings } from './string_settings';
 
-export const SETTINGS_PATH = path.join(__dirname, 'settings.yaml');
+// ref: https://www.electronjs.org/docs/latest/api/app#appgetpathname
+export const SETTINGS_PATH = path.join(app.getPath('userData'), 'settings.yaml');
 
 let settings = {
   boolean: booleanSettings,

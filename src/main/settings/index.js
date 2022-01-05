@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
 exports.mainSetSetting = exports.mainGetSetting = exports.mainLoadSettings = exports.mainDumpSettings = exports.SETTINGS_PATH = void 0;
+var electron_1 = require("electron");
 var fs = require("fs");
 var yaml = require("js-yaml");
 var path = require("path");
@@ -8,7 +9,8 @@ var const_1 = require("../const");
 var boolean_settings_1 = require("./boolean_settings");
 var number_settings_1 = require("./number_settings");
 var string_settings_1 = require("./string_settings");
-exports.SETTINGS_PATH = path.join(__dirname, 'settings.yaml');
+// ref: https://www.electronjs.org/docs/latest/api/app#appgetpathname
+exports.SETTINGS_PATH = path.join(electron_1.app.getPath('userData'), 'settings.yaml');
 var settings = {
     boolean: boolean_settings_1.booleanSettings,
     number: number_settings_1.numberSettings,

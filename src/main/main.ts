@@ -1,5 +1,4 @@
 /* eslint global-require: off, no-console: off, promise/always-return: off */
-
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -27,6 +26,15 @@ import { RequestSelectFile } from './modules/selectFile/channels';
 import { handlerSelectFile } from './modules/selectFile/handler';
 import { mainGetSetting, mainLoadSettings, mainSetSetting } from './settings';
 import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './settings/channels';
+
+/**
+ * add log to file support
+ * ref: https://github.com/megahertz/electron-log#overriding-consolelog
+ */
+// @ts-ignore
+console.log = log;
+Object.assign(console, log.functions);
+
 
 export default class AppUpdater {
   constructor() {
@@ -64,10 +72,11 @@ const createWindow = async () => {
     show: false,
     width: 1200,
     height: 800,
-    icon: getAssetPath('icon.png'),
+    // custom app icon
+    icon: getAssetPath('icon.icns'),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
+      preload: path.join(__dirname, 'preload.js')
+    }
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
@@ -98,7 +107,7 @@ const createWindow = async () => {
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
-  new AppUpdater();
+  // new AppUpdater();
 };
 
 /**

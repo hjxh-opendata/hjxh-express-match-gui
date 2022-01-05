@@ -1,4 +1,5 @@
 boolean:
+  ENABLE_DATABASE: true
   ENABLE_DB_UPSERT_MODE: false
   ENABLE_PARSE_WITH_HEADER: true
 number:
@@ -12,3 +13,4 @@ string:
   MsgParseHeaderError: |-
     由于文件格式不规范导致无法解析，请在wps/excel中另存为.csv格式，然后尝试重新上传。
     如果仍无法解决，请反馈！
+  MsgDatabaseNotEnabled: Database not enabled

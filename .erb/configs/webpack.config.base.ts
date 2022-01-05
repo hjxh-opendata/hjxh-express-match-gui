@@ -11,7 +11,7 @@ const configuration: webpack.Configuration = {
   externals: [
     ...Object.keys(externals || {}),
 
-    // for prisma build
+    // for @prisma build
     // https://github.com/prisma/prisma/issues/6564#issuecomment-899013495
     {
       _http_common: '_http_common',
@@ -35,7 +35,7 @@ const configuration: webpack.Configuration = {
       },
       // Markdown
       {
-        test: /\.(md|markdown)/i,
+        test: /\.md$/,
         use: 'raw-loader',
       },
     ],

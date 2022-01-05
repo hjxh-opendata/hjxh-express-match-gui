@@ -1,5 +1,7 @@
+import chProcess from 'child_process';
 import { BrowserWindow, Menu, MenuItemConstructorOptions, app, shell } from 'electron';
 
+import { prismaBinPath } from './db';
 import { mainGetSetting, mainSetSetting } from './settings';
 import { ENABLE_DB_UPSERT_MODE } from './settings/boolean_settings';
 
@@ -15,6 +17,7 @@ export default class MenuBuilder {
     this.mainWindow = mainWindow;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   buildSettings() {
     return {
       label: 'Settings',
@@ -27,11 +30,18 @@ export default class MenuBuilder {
             mainSetSetting('boolean', ENABLE_DB_UPSERT_MODE, !mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE));
           },
         },
-
         {
-          label: 'test',
+          label: '打开网页端数据库',
           click() {
-            console.log('hello');
+            console.log('database: opening studio from specified');
+            chProcess.exec(`${prismaBinPath} studio`, (error, stdout, stderr) => {
+              if (error) {
+                console.error(error);
+                return;
+              }
+              console.error(`stderr: ${stderr}`);
+              console.log(`stdout: ${stdout}`);
+            });
           },
         },
       ],
@@ -39,13 +49,13 @@ export default class MenuBuilder {
   }
 
   buildMenu(): Menu {
-    if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-      this.setupDevelopmentEnvironment();
-    }
+    // if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
+    this.setupDevelopmentEnvironment();
 
     const template = process.platform === 'darwin' ? this.buildDarwinTemplate() : this.buildDefaultTemplate();
 
     const menus = [...template, this.buildSettings()];
+    // @ts-ignore
     const menu = Menu.buildFromTemplate(menus);
     Menu.setApplicationMenu(menu);
 

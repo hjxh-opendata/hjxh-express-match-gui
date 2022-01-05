@@ -1,6 +1,9 @@
 module.exports = {
   extends: ['erb'],
   rules: {
+    // for test
+    'import/first': 'warn',
+    '@typescript-eslint/dot-notation': 'warn',
     // suppress database callback
     'no-useless-return': 'off',
     // to make prettier blank lines work
