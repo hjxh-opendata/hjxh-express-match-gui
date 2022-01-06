@@ -1,6 +1,6 @@
 {
   "name": "mark.hjxh.express_match",
-  "version": "0.1.0",
+  "version": "0.2.6",
   "description": "皇家小虎快递数据对比系统",
   "main": "./dist/main/main.js",
   "author": {
@@ -14,8 +14,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "sqlite3": "^5.0.2",
-    "prisma": "^3.7.0",
-    "@prisma/client": "^3.7.0"
+    "better-sqlite3": "^7.4.6"
+  },
+  "devDependencies": {
   }
 }

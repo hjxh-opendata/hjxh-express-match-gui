@@ -20,9 +20,9 @@ export const handlerSelectFile = async (e, mainWindow) => {
     message: '选择文件上传',
     properties: [
       'createDirectory',
-      'openDirectory',
+      // 'openDirectory', // ! cannot add this choice since it would cause windows cannot select file
       'openFile',
-      'multiSelections', // todo: [-----] enabled just for test now
+      // 'multiSelections', // todo: [-----] enabled just for test now
     ],
     filters: [{ name: '*', extensions: ['.csv'] }],
   });

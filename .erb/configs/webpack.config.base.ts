@@ -9,13 +9,7 @@ import webpackPaths from './webpack.paths';
 
 const configuration: webpack.Configuration = {
   externals: [
-    ...Object.keys(externals || {}),
-
-    // for @prisma build
-    // https://github.com/prisma/prisma/issues/6564#issuecomment-899013495
-    {
-      _http_common: '_http_common',
-    },
+    ...Object.keys(externals || {})
   ],
 
   stats: 'errors-only',
@@ -29,24 +23,24 @@ const configuration: webpack.Configuration = {
           loader: 'ts-loader',
           options: {
             // Remove this line to enable type checking in webpack builds
-            transpileOnly: true,
-          },
-        },
+            transpileOnly: true
+          }
+        }
       },
       // Markdown
       {
         test: /\.md$/,
-        use: 'raw-loader',
-      },
-    ],
+        use: 'raw-loader'
+      }
+    ]
   },
 
   output: {
     path: webpackPaths.srcPath,
     // https://github.com/webpack/webpack/issues/1114
     library: {
-      type: 'commonjs2',
-    },
+      type: 'commonjs2'
+    }
   },
 
   /**
@@ -54,14 +48,14 @@ const configuration: webpack.Configuration = {
    */
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
-    modules: [webpackPaths.srcPath, 'node_modules'],
+    modules: [webpackPaths.srcPath, 'node_modules']
   },
 
   plugins: [
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production',
-    }),
-  ],
+      NODE_ENV: 'production'
+    })
+  ]
 };
 
 export default configuration;

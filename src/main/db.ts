@@ -1,20 +1,27 @@
-import { PrismaClient } from '@prisma/client';
-import { app } from 'electron';
+import Database from 'better-sqlite3';
 import path from 'path';
-import { dbPush } from './modules/db/db_utils';
+import { app } from 'electron';
 
-const isProd = process.env.NODE_ENV === 'production';
-const newDBPath = path.join(app.getPath('userData'), 'express_match.sqlite.db');
-const newDBUrl = `file:${newDBPath}?connection_limit=1`;
+const dbPath = path.join(app.getPath('userData'), 'foobar.db');
 
-if (isProd) {
-  // @ts-ignore !important, change the default environment variable
-  VAR_ENV.DATABASE_URL = newDBUrl;
+const db = new Database(dbPath, { verbose: console.log, fileMustExist: false });
 
-}
+const createTable = '';
+db.exec(createTable);
 
-console.log({ rawDBPath: process.env.DATABASE_URL, newDBPath });
 
-export const prisma = new PrismaClient();
+const insert = db.prepare('INSERT INTO cats (name, age) VALUES (@name, @age)');
 
-dbPush(prisma, 'prisma db push');
+const insertMany = db.transaction((cats) => {
+  cats.forEach(cat => insert.run(cat));
+});
+
+insertMany([
+  { name: 'Joey', age: 2 },
+  { name: 'Sally', age: 4 },
+  { name: 'Junior', age: 1 }
+]);
+
+console.log('inserted db');
+
+export default db;

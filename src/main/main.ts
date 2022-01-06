@@ -26,6 +26,7 @@ import { RequestSelectFile } from './modules/selectFile/channels';
 import { handlerSelectFile } from './modules/selectFile/handler';
 import { mainGetSetting, mainLoadSettings, mainSetSetting } from './settings';
 import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './settings/channels';
+import db from './db';
 
 /**
  * add log to file support
@@ -34,6 +35,8 @@ import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './settings/channels';
 // @ts-ignore
 console.log = log;
 Object.assign(console, log.functions);
+
+console.log({ db });
 
 
 export default class AppUpdater {

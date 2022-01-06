@@ -6,6 +6,7 @@ import { LogLevel } from '../main/modules/base/response';
 import { RequestParseFile } from '../main/modules/parseFile/channels';
 import { ErrorParsingRow } from '../main/modules/parseFile/error_types';
 import { IContentWithResult } from '../main/modules/parseFile/handler/parse_base';
+import { IContentParseFinish } from '../main/modules/parseFile/handler/parse_finish';
 import { IContentValidateError } from '../main/modules/parseFile/handler/parse_validate';
 import { IReqParseFile } from '../main/modules/parseFile/request';
 import { IResParseFile } from '../main/modules/parseFile/response';
@@ -20,7 +21,7 @@ import { UploadClick } from './components/UploadClick';
 import UploadHistory, { IUploadItem } from './components/UploadHistory';
 
 import { makeItemFromMain, makeItemFromText } from './utils/console';
-import { getSetting } from './utils/utils';
+import { getSetting, renderResult } from './utils/utils';
 
 /**
  * todo: [+++] 实现后台持久化log到文件
@@ -106,6 +107,8 @@ export const MenuUploadErp = () => {
           resetPct();
           window.electron.removeChannel(RequestParseFile);
           pushMsg(makeItemFromMain(res, (c) => c.msg));
+          pushMsg(makeItemFromText(renderResult((res.content as IContentParseFinish).result.dbResult)));
+          console.log({ res });
         } else {
           // 6.  read one line
           updatePct(res.content);

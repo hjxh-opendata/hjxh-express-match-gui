@@ -1,10 +1,11 @@
 {
-  "name": "hjxh_express_match",
+  "name": "hjxh_dba",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Fast Refresh for rapid application development",
   "scripts": {
-    "build": "concurrently \"npm run build:main\" \"npm run build:renderer\" && say build ok",
+    "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
     "build:renderer": "tsc src/main/preload.ts && cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
+    "postbuild": "sh script_postbuild.sh",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never && say package ok",
@@ -17,8 +18,9 @@
     "prepare": "husky install",
     "app:dir": "electron-builder --dir && say dir ok",
     "app:dist": "electron-builder",
-    "pack:win": "electron-builder build --win && cd release/build/win-unpacked/resources/app && npm i prisma @prisma/client",
-    "pack:mac": "electron-builder build --mac && cd release/build/mac/HJXH-DATA-ANALYSIS.app/Contents/Resources/app && npm i prisma @prisma/client && cp node_modules/@prisma/engines/libquery_engine-darwin.dylib.node dist/main/ && say pack ok"
+    "pack:win": "electron-builder build --win",
+    "pack:mac": "electron-builder build --mac",
+    "postpack": "say pack ok"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -58,6 +60,7 @@
     },
     "win": {
       "target": [
+        "nsis",
         "portable"
       ]
     },
@@ -81,13 +84,7 @@
       "./assets/**"
     ]
   },
-  "comment.extraResources": [
-    "node_modules/.prisma/client/**",
-    "node_modules/@prisma/client/**",
-    "node_modules/sqlite3/**/*",
-    "node_modules/node-pre-gyp/**/*",
-    "node_modules/abbrev/**/*"
-  ],
+  "comment.extraResources": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
@@ -144,6 +141,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@trivago/prettier-plugin-sort-imports": "^3.1.1",
+    "@types/better-sqlite3": "^7.4.2",
     "@types/history": "4.7.9",
     "@types/jest": "^27.0.2",
     "@types/js-yaml": "^4.0.5",
@@ -161,6 +159,7 @@
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "autoprefixer": "^10.4.0",
     "babel-eslint": "^10.1.0",
+    "better-sqlite3": "^7.4.6",
     "browserslist-config-erb": "^0.0.3",
     "chalk": "^4.1.2",
     "concurrently": "^6.3.0",
@@ -200,7 +199,6 @@
     "postcss": "^8.4.5",
     "postcss-loader": "^6.2.1",
     "prettier": "^2.4.1",
-    "prisma": "^3.7.0",
     "raw-loader": "^4.0.2",
     "react-refresh": "^0.10.0",
     "react-refresh-typescript": "^2.0.2",
@@ -208,7 +206,6 @@
     "rimraf": "^3.0.2",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
-    "sqlite3": "^5.0.2",
     "style-loader": "^3.3.1",
     "tailwindcss": "^2.0.1-compat",
     "tape": "^5.4.0",
@@ -231,12 +228,8 @@
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.5",
     "@mui/x-data-grid": "^5.2.1",
-    "@prisma/client": "^3.7.0",
     "asar": "^3.1.0",
-    "aws-sdk": "^2.1049.0",
     "build": "^0.1.4",
-    "csv-parse": "^5.0.3",
-    "dotenv": "^10.0.0",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.4",
     "electron-updater": "^4.6.4",
@@ -244,7 +237,6 @@
     "history": "4.x.x",
     "iconv-lite": "^0.6.3",
     "js-yaml": "^4.1.0",
-    "progress-stream": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-markdown": "^7.1.1",
@@ -255,8 +247,7 @@
     "remark": "^13.0.0",
     "remark-directive": "^2.0.1",
     "remark-gfm": "^3.0.1",
-    "remark-parse": "^10.0.1",
-    "undici": "^4.12.1"
+    "remark-parse": "^10.0.1"
   },
   "devEngines": {
     "node": ">=14.x",

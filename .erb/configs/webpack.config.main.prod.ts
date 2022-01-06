@@ -20,8 +20,8 @@ deleteSourceMaps();
 const devtoolsConfig =
   process.env.DEBUG_PROD === 'true'
     ? {
-        devtool: 'source-map',
-      }
+      devtool: 'source-map'
+    }
     : {};
 
 const configuration: webpack.Configuration = {
@@ -33,26 +33,26 @@ const configuration: webpack.Configuration = {
 
   entry: {
     main: path.join(webpackPaths.srcMainPath, 'main.ts'),
-    preload: path.join(webpackPaths.srcMainPath, 'preload.js'),
+    preload: path.join(webpackPaths.srcMainPath, 'preload.js')
   },
 
   output: {
     path: webpackPaths.distMainPath,
-    filename: '[name].js',
+    filename: '[name].js'
   },
 
   optimization: {
     minimizer: [
       new TerserPlugin({
         parallel: true,
-        exclude: /.*db\.[tj]s$/,
-      }),
-    ],
+        exclude: /.*db\.[tj]s$/
+      })
+    ]
   },
 
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: process.env.ANALYZE === 'true' ? 'server' : 'disabled',
+      analyzerMode: process.env.ANALYZE === 'true' ? 'server' : 'disabled'
     }),
 
     /**
@@ -67,15 +67,11 @@ const configuration: webpack.Configuration = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
       DEBUG_PROD: false,
-      START_MINIMIZED: false,
+      START_MINIMIZED: false
     }),
 
-    new DotenvWebpackPlugin(),
+    new DotenvWebpackPlugin()
 
-    // for variable node environment
-    new webpack.DefinePlugin({
-      VAR_ENV: 'process.env',
-    }),
   ],
 
   /**
@@ -85,8 +81,8 @@ const configuration: webpack.Configuration = {
    */
   node: {
     __dirname: false,
-    __filename: false,
-  },
+    __filename: false
+  }
 };
 
 export default merge(baseConfig, configuration);
