@@ -25,3 +25,11 @@ export const genResParseSuccess = (content: IContentParseSuccess): IResParseSucc
     content,
   },
 });
+
+export const sampleErpItem: IErpItem = {
+  id: 'test--' + new Date(),
+  weight: 1,
+  area: '上海',
+  date: '2022-01-01',
+  cpName: '顺丰快递',
+};

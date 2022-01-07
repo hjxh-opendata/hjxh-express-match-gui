@@ -1,4 +1,5 @@
 /* eslint global-require: off, no-console: off, promise/always-return: off */
+
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -12,8 +13,11 @@ import { BrowserWindow, app, ipcMain, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
+// typeorm support
+import 'reflect-metadata';
 import 'regenerator-runtime/runtime';
 
+import { createDefaultDatabase } from './db';
 import { installExtensions, resolveHtmlPath } from './main_utils';
 import MenuBuilder from './menu';
 import { Ping } from './modules/heartBeats/channels';
@@ -26,7 +30,6 @@ import { RequestSelectFile } from './modules/selectFile/channels';
 import { handlerSelectFile } from './modules/selectFile/handler';
 import { mainGetSetting, mainLoadSettings, mainSetSetting } from './settings';
 import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './settings/channels';
-import { db } from './db';
 
 /**
  * add log to file support
@@ -36,8 +39,10 @@ import { db } from './db';
 console.log = log;
 Object.assign(console, log.functions);
 
-console.log({ db });
-
+/**
+ * init database
+ */
+createDefaultDatabase(path.join(app.getPath('appData'), 'hjxh_data.sqlite'));
 
 export default class AppUpdater {
   constructor() {
@@ -78,12 +83,11 @@ const createWindow = async () => {
     // custom app icon
     icon: getAssetPath('icon.icns'),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
-
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {

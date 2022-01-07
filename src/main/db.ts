@@ -1,11 +1,16 @@
-import path from 'path';
-import { app } from 'electron';
+import { createConnection } from 'typeorm';
 
-const sqlite3 = require('sqlite3').verbose();
+import { ErpModel } from './modules/parseFile/models';
 
-// it's flexible for test
-const dbDir = app === undefined ? '.' : app.getPath('userData');
-const dbPath = path.join(dbDir, 'foobar.db');
-
-export const db = new sqlite3.Database(':memory:');
-
+export const createDefaultDatabase = async (fp) =>
+  createConnection({
+    type: 'sqlite',
+    database: fp,
+    entities: [ErpModel],
+    // logging: true,
+    synchronize: true,
+  })
+    .then((conn) => conn)
+    .catch((e) => {
+      throw e;
+    });

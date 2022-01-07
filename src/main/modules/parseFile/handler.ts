@@ -8,12 +8,12 @@ import { SET_PARSE_FILE_RETURN_FREQ } from '../../settings/number_settings';
 import { MsgParseFileFinished, MsgParseHeaderError, MsgSaveDbFinished } from '../../settings/string_settings';
 import { GenericError } from '../base/GenericError';
 import { IpcMainEvent, reply } from '../base/response';
-import { IDbInsertResult, IDbUpdateResult, initDbInsertResult, initDbUpdateResult } from '../db/db_result';
-import { DB_INSERT_DUPLICATED, DB_INSERT_SUCCESS, DB_TABLE_NOT_EXISTED, DB_TIMEOUT, DB_UPDATED } from '../db/db_status';
+import { IDbInsertResult, initDbInsertResult, initDbUpdateResult } from '../db/db_result';
+import { DB_INSERT_DUPLICATED, DB_INSERT_SUCCESS, DB_TABLE_NOT_EXISTED, DB_TIMEOUT } from '../db/db_status';
 import { isDbFinished } from '../db/db_utils';
 
 import { RequestParseFile } from './channels';
-import { dbCreateErp, dbUpsertErp } from './db';
+import { dbCreateErp } from './db';
 import { ErrorParsingHeader, ErrorParsingRow } from './error_types';
 import { SizeTransformer } from './handler/SizeTransformer';
 import { checkCsvEncoding } from './handler/checkCsvEncoding';
@@ -30,22 +30,22 @@ import { IReqParseFile } from './request';
 const updateDBResult = async (result, item) => {
   result.dbResult.nTotal += 1;
   if (mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE)) {
-    const dbStatus = await dbUpsertErp(item);
-    const _ = result.dbResult as IDbUpdateResult;
-    switch (dbStatus) {
-      case DB_UPDATED:
-        _.nUpdated += 1;
-        break;
-      case DB_TIMEOUT:
-        _.nTimeout += 1;
-        break;
-      case DB_TABLE_NOT_EXISTED:
-        _.nTableNotExist += 1;
-        break;
-      default:
-        _.nUnknown += 1;
-        break;
-    }
+    throw new Error('todo');
+    // const _ = result.dbResult as IDbUpdateResult;
+    // switch (dbStatus) {
+    //   case DB_UPDATED:
+    //     _.nUpdated += 1;
+    //     break;
+    //   case DB_TIMEOUT:
+    //     _.nTimeout += 1;
+    //     break;
+    //   case DB_TABLE_NOT_EXISTED:
+    //     _.nTableNotExist += 1;
+    //     break;
+    //   default:
+    //     _.nUnknown += 1;
+    //     break;
+    // }
   } else {
     const dbStatus = await dbCreateErp(item);
     const _ = result.dbResult as IDbInsertResult;
