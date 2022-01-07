@@ -1,6 +1,4 @@
-import { SqliteError } from 'better-sqlite3';
-
-import db from '../../db';
+import { db } from '../../db';
 import {
   DB_INSERT_DUPLICATED,
   DB_INSERT_SUCCESS,
@@ -22,29 +20,29 @@ const SQL_CREATE_ERP = `CREATE TABLE IF NOT EXISTS erp (
 
 db.exec(SQL_CREATE_ERP);
 
-const stmtInsertErp = db.prepare(
-  'INSERT INTO erp (id, weight, area, date, cpName) VALUES (@id, @weight, @area, @date, @cpName)'
-);
+const stmtInsertErp = db.prepare('INSERT INTO erp (id, weight, area, date, cpName) VALUES (?, ?, ?, ?, ?)');
 const item: IErpItem = {
   id: 'test-' + new Date(),
   weight: 1,
-  cpName: '顺丰快递',
   area: '上海',
   date: '2022-01-01',
+  cpName: '顺丰快递',
 };
 
 export async function dbCreateErp(item: IErpItem): Promise<DbInsertStatus> {
-  try {
-    stmtInsertErp.run(item);
-    console.log('insert success');
-    return DB_INSERT_SUCCESS;
-  } catch (e) {
-    if (e instanceof SqliteError) {
-      if (e.code === 'SQLITE_CONSTRAINT_PRIMARYKEY') return DB_INSERT_DUPLICATED;
-    }
-    console.error(e);
-    return DB_UNKNOWN;
-  }
+  return new Promise((resolve) => {
+    stmtInsertErp.run(item.id, item.weight, item.area, item.date, item.cpName, (e) => {
+      console.log({ e });
+      if (!e) {
+        console.log('insert success');
+        resolve(DB_INSERT_SUCCESS);
+      } else {
+        // TODO: insert error check
+        console.error(e);
+        resolve(DB_UNKNOWN);
+      }
+    });
+  });
 }
 
 export async function dbUpsertErp(item: IErpItem): Promise<DbUpdateStatus> {

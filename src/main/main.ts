@@ -26,7 +26,7 @@ import { RequestSelectFile } from './modules/selectFile/channels';
 import { handlerSelectFile } from './modules/selectFile/handler';
 import { mainGetSetting, mainLoadSettings, mainSetSetting } from './settings';
 import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './settings/channels';
-import db from './db';
+import { db } from './db';
 
 /**
  * add log to file support
@@ -60,7 +60,7 @@ if (isDevelopment) {
 
 const createWindow = async () => {
   if (isDevelopment) {
-    await installExtensions();
+    // await installExtensions();
   }
 
   const RESOURCES_PATH = app.isPackaged
@@ -83,6 +83,7 @@ const createWindow = async () => {
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
+
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {

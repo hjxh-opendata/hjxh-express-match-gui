@@ -4,7 +4,7 @@ import { execSync, spawn } from 'child_process';
 import fs from 'fs';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import webpack from 'webpack';
+import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
 
 import checkNodeEnv from '../scripts/check-node-env';
@@ -149,6 +149,7 @@ const configuration: webpack.Configuration = {
     __filename: false,
   },
 
+  // @ts-ignore
   devServer: {
     port,
     compress: true,
