@@ -3,7 +3,7 @@ import remarkDirective from 'remark-directive';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 
-import { remarkMyDirective } from '../utils/remarkMyDirective';
+import { remarkMyDirective } from '../plugins/remarkMyDirective';
 
 export interface MDWithDirProps {
   content: string;

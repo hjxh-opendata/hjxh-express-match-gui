@@ -1,8 +1,8 @@
 /**
  * error when select file, in fact, it won't occur yet know
  */
-export const ErrorSelectFile = 'ErrorSelectFile';
-export type ErrorSelectFile = typeof ErrorSelectFile;
+export const ErrorSelectingFile = 'ErrorSelectingFile';
+export type ErrorSelectingFile = typeof ErrorSelectingFile;
 /**
  * when use fs to open a file, error may occur
  */
@@ -14,4 +14,5 @@ export type ErrorOpenFile = typeof ErrorOpenFile;
 export const ErrorReadFile = 'ErrorReadFile';
 export type ErrorReadFile = typeof ErrorReadFile;
 
-export type ErrorPreParseFile = ErrorSelectFile | ErrorOpenFile | ErrorReadFile;
+export const errorSelectFiles = [ErrorReadFile, ErrorSelectingFile, ErrorOpenFile] as const;
+export type ErrorSelectFile = ErrorSelectingFile | ErrorOpenFile | ErrorReadFile;

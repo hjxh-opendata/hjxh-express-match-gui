@@ -4176,6 +4176,11 @@
   dependencies:
     "jake" "^10.6.1"
 
+"electorn@^0.0.1-security":
+  "integrity" "sha1-kfUtT+I2BmMjolPYHTnXWEkgl7s="
+  "resolved" "https://registry.nlark.com/electorn/download/electorn-0.0.1-security.tgz"
+  "version" "0.0.1-security"
+
 "electron-builder@^22.13.1":
   "integrity" "sha1-OiVUe9T+NyjUcE2oCVanlMXDFJY="
   "resolved" "https://registry.npmmirror.com/electron-builder/download/electron-builder-22.14.5.tgz"
@@ -11283,7 +11288,7 @@
     "yargs" "^17.0.1"
     "zen-observable-ts" "^1.0.0"
 
-"typescript@*", "typescript@^4", "typescript@^4.4.4", "typescript@>=2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta", "typescript@>=3.8 <5.0":
+"typescript@*", "typescript@^4", "typescript@^4.5.4", "typescript@>=2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta", "typescript@>=3.8 <5.0":
   "integrity" "sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg=="
   "resolved" "https://registry.npmmirror.com/typescript/download/typescript-4.5.4.tgz"
   "version" "4.5.4"

@@ -1,5 +1,6 @@
-import { GenericError } from '../../../../base/GenericError';
-import { ErrorValidateInvalid } from '../error_types';
+import { GenericError } from '../../../base/GenericError';
+
+import { ErrorValidateInvalid } from './error_types';
 
 export const validateDate = (dateInput: string): string => {
   // TODO: [-----] fix the webstorm dummy inspection of named capture group, since the code actually works
@@ -13,6 +14,9 @@ export const validateDate = (dateInput: string): string => {
   const date = [g.groups?.year, g.groups?.month, g.groups?.day].join('-');
   // console.log(dateInput, g.groups, date);
   if (date > '2030-01-01' || date < '2020-01-01')
-    throw new GenericError(ErrorValidateInvalid, `should date(${date}) is valid, raw string: ${date}`);
+    throw new GenericError(
+      ErrorValidateInvalid,
+      `should date(${date}) is valid, raw string: ${date}`
+    );
   return date;
 };

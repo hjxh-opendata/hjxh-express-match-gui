@@ -1,11 +1,11 @@
 import { IResBase, genResBase } from '../../base/response';
+import { COL_WEIGHT, ErpCols } from '../cols';
 
-import { ErpKeys } from './const';
 import { IContentWithResult, IContentWithRow } from './parse_base';
 
 // omit the `weight` key since the type of all other is string, whereas we wanna it to be a number
 // inspired by: https://stackoverflow.com/a/67896916/9422455
-type ErpItemFields = Omit<Record<ErpKeys, string>, ErpKeys.weight>;
+type ErpItemFields = Omit<Record<ErpCols, string>, COL_WEIGHT>;
 
 export interface IErpItem extends ErpItemFields {
   weight: number;
@@ -31,5 +31,5 @@ export const sampleErpItem: IErpItem = {
   weight: 1,
   area: '上海',
   date: '2022-01-01',
-  cpName: '顺丰快递',
+  cp: '顺丰快递',
 };

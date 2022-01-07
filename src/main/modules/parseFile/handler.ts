@@ -5,26 +5,37 @@ import iconv from 'iconv-lite';
 import { mainGetSetting } from '../../settings';
 import { ENABLE_DB_UPSERT_MODE, ENABLE_PARSE_WITH_HEADER } from '../../settings/boolean_settings';
 import { SET_PARSE_FILE_RETURN_FREQ } from '../../settings/number_settings';
-import { MsgParseFileFinished, MsgParseHeaderError, MsgSaveDbFinished } from '../../settings/string_settings';
+import {
+  MsgParseFileFinished,
+  MsgParseHeaderError,
+  MsgSaveDbFinished,
+} from '../../settings/string_settings';
 import { GenericError } from '../base/GenericError';
+import { MyProgrammeError } from '../base/error_types';
 import { IpcMainEvent, reply } from '../base/response';
 import { IDbInsertResult, initDbInsertResult, initDbUpdateResult } from '../db/db_result';
-import { DB_INSERT_DUPLICATED, DB_INSERT_SUCCESS, DB_TABLE_NOT_EXISTED, DB_TIMEOUT } from '../db/db_status';
+import {
+  DB_INSERT_DUPLICATED,
+  DB_INSERT_SUCCESS,
+  DB_TABLE_NOT_EXISTED,
+  DB_TIMEOUT,
+} from '../db/db_status';
 import { isDbFinished } from '../db/db_utils';
 
 import { RequestParseFile } from './channels';
+import { ErpCols, TrdCols, erpCols, trdCols } from './cols';
 import { dbCreateErp } from './db';
-import { ErrorParsingHeader, ErrorParsingRow } from './error_types';
+import { ErrorParsingRow, ErrorPreParsingRows } from './error_types';
 import { SizeTransformer } from './handler/SizeTransformer';
-import { checkCsvEncoding } from './handler/checkCsvEncoding';
-import { ValidEncoding } from './handler/const';
-import { ParseErpWithHeader } from './handler/parseHeader/parseErpWithHeader';
-import { ErrorValidate } from './handler/parseValidate/error_types';
+import { preParsing } from './handler/checkCsvEncoding';
 import { Row, initParseResult } from './handler/parse_base';
 import { genResParseParseError } from './handler/parse_error';
 import { IContentParseFinish, genResParseFinish } from './handler/parse_finish';
-import { IContentParseSuccess, genResParseSuccess } from './handler/parse_success';
+import { genResParsePreParseError } from './handler/parse_pre_error';
+import { IContentParseSuccess, IErpItem, genResParseSuccess } from './handler/parse_success';
 import { IContentValidateError, genResContentValidateError } from './handler/parse_validate';
+import { validateErpItemWithHeader } from './handler/validators';
+import { ErrorValidate } from './handler/validators/error_types';
 import { IReqParseFile } from './request';
 
 const updateDBResult = async (result, item) => {
@@ -84,6 +95,8 @@ const updateDBResult = async (result, item) => {
 export interface ReqParseFile {
   fp: string;
   withHeader: boolean;
+  isErp: boolean;
+  onPreParseError?: (error: GenericError<ErrorPreParsingRows>) => void;
   onParseError?: (error: GenericError<ErrorParsingRow>) => void;
   onValidateError?: (content: IContentValidateError, error: GenericError<ErrorValidate>) => void;
   onData?: (content: IContentParseSuccess) => void;
@@ -91,67 +104,72 @@ export interface ReqParseFile {
 }
 
 export const handleParseFileBase = async (req: ReqParseFile) => {
-  const { fp, withHeader, onData, onFinish, onParseError, onValidateError } = req;
+  const { fp, withHeader, onData, onFinish, onPreParseError, onParseError, onValidateError } = req;
   console.log(`reading file, name: ${fp}`);
 
   /**
    * encoding
    */
-  const encoding = await checkCsvEncoding(fp);
-  if (!(encoding in ValidEncoding)) return console.log('ErrorUnknownEncoding');
+  let useIconv;
+  try {
+    useIconv = await preParsing(fp, req.isErp);
+  } catch (e) {
+    console.error(e);
+    if (onPreParseError) onPreParseError(e as unknown as GenericError<ErrorPreParsingRows>);
+    return;
+  }
 
   /**
    * create stream
    */
-  let s = fs.createReadStream(fp);
-  if (encoding === ValidEncoding.gbk)
-    // @ts-ignore
-    s = s.pipe(iconv.decodeStream('gbk')).pipe(iconv.encodeStream('utf-8'));
+  const s = fs.createReadStream(fp);
+  const s2 = useIconv ? s.pipe(iconv.decodeStream('gbk')).pipe(iconv.encodeStream('utf-8')) : s;
 
   let hasFinishedParsing = false;
-  const dbResult = mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE) ? initDbUpdateResult() : initDbInsertResult();
+  const dbResult = mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE)
+    ? initDbUpdateResult()
+    : initDbInsertResult();
   const result = { dbResult, parseResult: initParseResult() };
 
   // TODO: [-----] support no header
-  const handler = new ParseErpWithHeader();
 
-  s.pipe(new SizeTransformer(fs.statSync(fp).size, (pct) => (result.parseResult.sizePct = pct)))
+  const cols = req.isErp ? erpCols : trdCols;
+  s2.pipe(new SizeTransformer(fs.statSync(fp).size, (pct) => (result.parseResult.sizePct = pct)))
     .pipe(csv.parse({ headers: withHeader }))
     .on('data', async (row: Row) => {
       try {
+        validateErpItemWithHeader(row);
+
+        const item = row as unknown as IErpItem;
         result.parseResult.nTotalRows += 1;
-        const item = handler.handle(row);
-        if (item) {
-          // backend: store into database
-          await updateDBResult(result, item);
-          result.parseResult.rowsPct = (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
-          // frontend
-          if (onData) {
-            onData({ row, item, result });
-          }
+        Object.keys(item).forEach((k) => {
+          if (!cols.includes(k as ErpCols)) delete item[k];
+        });
+        // backend: store into database
+        await updateDBResult(result, row);
+        result.parseResult.rowsPct =
+          (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
+        // frontend
+        if (onData) {
+          onData({ item, result });
         }
       } catch (err) {
         console.error(err);
         if (err instanceof GenericError) {
-          if (err.errorType === ErrorParsingHeader) {
-            console.log('ERROR IS PARSING HEADER');
-            s.close();
-          } else {
-            console.log('ERROR NOT PARSING HEADER');
-            result.parseResult.nFailedValidation += 1;
-            result.parseResult.rowsPct = (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
-          }
+          result.parseResult.nFailedValidation += 1;
+          result.parseResult.rowsPct =
+            (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
           if (onValidateError) onValidateError({ row, result }, err);
         } else {
-          console.log('ERROR IS UNKNOWN');
-          throw err;
+          throw new GenericError(MyProgrammeError, 'MyProgrammeError on ValidateError Detect');
         }
       }
       if (hasFinishedParsing && isDbFinished(result.dbResult)) {
         hasFinishedParsing = false;
         if (onFinish) {
           result.parseResult.dbMileSeconds =
-            (result.parseResult.dbEndTime = new Date()).getTime() - result.parseResult.startTime.getTime();
+            (result.parseResult.dbEndTime = new Date()).getTime() -
+            result.parseResult.startTime.getTime();
           console.log(result);
           onFinish({ msg: mainGetSetting('string', MsgSaveDbFinished), result });
         }
@@ -161,14 +179,18 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
     })
     .on('error', (err) => {
       console.error(err);
-      if (onParseError) onParseError(new GenericError(ErrorParsingRow, mainGetSetting('string', MsgParseHeaderError)));
+      if (onParseError)
+        onParseError(
+          new GenericError(ErrorParsingRow, mainGetSetting('string', MsgParseHeaderError))
+        );
     })
     .on('end', () => {
       hasFinishedParsing = true;
       console.log('finished');
       if (onFinish) {
         result.parseResult.parseMileSeconds =
-          (result.parseResult.parseEndTime = new Date()).getTime() - result.parseResult.startTime.getTime();
+          (result.parseResult.parseEndTime = new Date()).getTime() -
+          result.parseResult.startTime.getTime();
         console.log(result);
         onFinish({ msg: mainGetSetting('string', MsgParseFileFinished), result });
       }
@@ -181,7 +203,11 @@ export const handleParseFile = async (e: IpcMainEvent, req: IReqParseFile) => {
 
   await handleParseFileBase({
     fp,
+    isErp: req.isErp,
     withHeader: mainGetSetting('boolean', ENABLE_PARSE_WITH_HEADER),
+    onPreParseError: (error) => {
+      reply(e, RequestParseFile, genResParsePreParseError(error));
+    },
     onParseError: (error) => {
       reply(e, RequestParseFile, genResParseParseError(error));
     },

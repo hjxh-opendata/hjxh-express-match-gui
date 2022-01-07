@@ -1,5 +1,6 @@
-import { GenericError } from '../../../../base/GenericError';
-import { ErrorValidateInvalid } from '../error_types';
+import { GenericError } from '../../../base/GenericError';
+
+import { ErrorValidateInvalid } from './error_types';
 
 export const validateWeight = (weightInput: string): number => {
   let weight;

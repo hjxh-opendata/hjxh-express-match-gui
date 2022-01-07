@@ -14,11 +14,17 @@ export class ErpModel {
 
   @Column({
     type: 'float'
-
   })
   weight: number;
 
   @Column()
-  cpName: string;
+  cp: string;
 }
 
+
+
+export class TrdModel extends ErpModel {
+
+  @Column()
+  fee: number
+}

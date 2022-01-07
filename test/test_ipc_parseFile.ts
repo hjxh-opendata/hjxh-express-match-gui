@@ -4,14 +4,18 @@ const fp: string = process.argv[2];
 
 handleParseFileBase({
   fp,
+  isErp: true,
   withHeader: true,
-  onValidateError: (err) => {
-    console.dir(err);
+  onPreParseError: (e) => {
+    console.error(e);
   },
-  onParseError: (err) => {
-    console.dir(err);
+  onValidateError: () => {
+    // console.dir(err);
   },
-  onData: (data) => {
-    console.dir(data);
+  onParseError: () => {
+    // console.dir(err);
+  },
+  onData: () => {
+    // console.dir(data);
   },
 });

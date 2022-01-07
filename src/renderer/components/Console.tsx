@@ -1,10 +1,14 @@
 import React, { ElementRef, useEffect, useRef } from 'react';
 
-import { ConsoleItem } from '../@types/console';
-
-import { getLogLevel2number } from '../../main/modules/base/response';
+import { IResBase, LogLevel, getLogLevel2number } from '../../main/modules/base/response';
 
 import ScrollToBottom from './ScrollToBottom';
+
+export interface ConsoleItem {
+  text: string;
+  time: Date;
+  level: LogLevel;
+}
 
 export interface ConsoleProps {
   items: ConsoleItem[];
@@ -24,7 +28,10 @@ export const Console = ({ items }: ConsoleProps) => {
         <div className={'h-0.5 bg-white'} />
       </div>
 
-      <div style={{ minHeight: 200, maxHeight: 400 }} className={'overflow-auto p-2 pt-12 text-black text-sm'}>
+      <div
+        style={{ minHeight: 200, maxHeight: 400 }}
+        className={'overflow-auto p-2 pt-12 text-black text-sm'}
+      >
         {items.map((item, i) => (
           // eslint-disable-next-line react/no-array-index-key
           <p key={i} style={{ textIndent: '-2em', marginLeft: '2em' }}>
@@ -40,3 +47,18 @@ export const Console = ({ items }: ConsoleProps) => {
     </div>
   );
 };
+
+export const makeItemFromMain = (msg: IResBase, func?: (any) => string): ConsoleItem => {
+  const text = msg.content ? msg.content : msg.error?.msg || '';
+  return {
+    text: func ? func(text) : text,
+    time: msg.sendTime,
+    level: msg.level || LogLevel.debug,
+  };
+};
+
+export const makeItemFromText = (text: string, level = LogLevel.debug): ConsoleItem => ({
+  text,
+  time: new Date(),
+  level,
+});

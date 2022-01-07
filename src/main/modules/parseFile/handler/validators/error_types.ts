@@ -9,4 +9,5 @@ export type ErrorValidateDuplicate = typeof ErrorValidateDuplicate;
 export const ErrorValidateInvalid = 'ErrorValidateInvalid';
 export type ErrorValidateInvalid = typeof ErrorValidateInvalid;
 
+export const errorValidates = [ErrorValidateInvalid, ErrorValidateDuplicate, ErrorValidateNotNull];
 export type ErrorValidate = ErrorValidateInvalid | ErrorValidateDuplicate | ErrorValidateNotNull;

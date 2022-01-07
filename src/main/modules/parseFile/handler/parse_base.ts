@@ -1,10 +1,5 @@
 import { IDbInsertResult, IDbUpdateResult } from '../../db/db_result';
 
-import { ErpKeys } from './const';
-
-// ref: https://stackoverflow.com/a/58812812/9422455
-export type ErpPosMap = Record<ErpKeys, number>;
-
 export type Row = Record<string, string>;
 
 export const isRow = (row: Row | string[]): row is Row => {
@@ -12,7 +7,7 @@ export const isRow = (row: Row | string[]): row is Row => {
 };
 
 export interface IContentWithRow {
-  row: Row;
+  row?: Row;
 }
 
 export interface IParseResult {

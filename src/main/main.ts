@@ -52,6 +52,11 @@ export default class AppUpdater {
   }
 }
 
+/**
+ * electron main window
+ *
+ * @type {BrowserWindow}
+ */
 let mainWindow: BrowserWindow | null = null;
 
 const isDevelopment = process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';

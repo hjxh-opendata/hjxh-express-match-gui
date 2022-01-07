@@ -2,7 +2,7 @@
  * 1. for csv files, gbk or utf-8 are supported, others not
  * 2. for xlsx|xls files, TODO: [+]
  */
-import { ErrorValidate } from './handler/parseValidate/error_types';
+import { ErrorValidate, errorValidates } from './handler/validators/error_types';
 
 export const ErrorUnknownEncoding = 'ErrorUnknownEncoding';
 export type ErrorUnknownEncoding = typeof ErrorUnknownEncoding;
@@ -18,14 +18,27 @@ export type ErrorParsingHeader = typeof ErrorParsingHeader;
 export const ErrorMismatchingHeaders = 'ErrorMismatchingHeaders';
 export type ErrorMismatchingHeaders = typeof ErrorMismatchingHeaders;
 
+/**
+ * pre parse rows
+ */
+export const errorPreParsingRows = [
+  ErrorUnknownEncoding,
+  ErrorParsingHeader,
+  ErrorMismatchingHeaders,
+] as const;
+export type ErrorPreParsingRows = typeof errorPreParsingRows[number];
+
+/**
+ * in parsing rows
+ */
 export const ErrorParsingRow = 'ErrorParsingRow';
 export type ErrorParsingRow = typeof ErrorParsingRow;
 
-export type ErrorParsing =
-  | ErrorUnknownEncoding
-  | ErrorParsingHeader
-  | ErrorMismatchingHeaders
-  | ErrorValidate
-  | ErrorParsingRow;
+export const errorParsingFiles = [
+  ...errorPreParsingRows,
+  ...errorValidates,
+  ErrorParsingRow,
+] as const;
+export type ErrorParsingFile = ErrorPreParsingRows | ErrorValidate | ErrorParsingRow;
 
-export type ParsingError = Generator<ErrorParsing>;
+export type ParsingFileError = Generator<ErrorParsingFile>;

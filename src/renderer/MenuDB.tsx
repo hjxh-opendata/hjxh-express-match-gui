@@ -1,7 +1,6 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 
-import { ErpKeys, erpKeyMap } from '../main/modules/parseFile/handler/const';
 import { IErpItem } from '../main/modules/parseFile/handler/parse_success';
 import { RequestQueryDatabase } from '../main/modules/queryDB/channels';
 import { IReqQueryDB } from '../main/modules/queryDB/request';
@@ -12,21 +11,21 @@ export const MenuDB = () => {
 
   const columns: GridColDef[] = [
     {
-      field: ErpKeys.id,
-      headerName: erpKeyMap[ErpKeys.id],
+      field: 'id',
+      headerName: 'id',
       width: 160,
     },
     {
-      field: ErpKeys.date,
-      headerName: erpKeyMap[ErpKeys.date],
+      field: 'date',
+      headerName: 'date',
     },
     {
-      field: ErpKeys.area,
-      headerName: erpKeyMap[ErpKeys.area],
+      field: 'area',
+      headerName: 'area',
     },
     {
-      field: ErpKeys.weight,
-      headerName: erpKeyMap[ErpKeys.weight],
+      field: 'weight',
+      headerName: 'weight',
       type: 'number',
     },
   ];

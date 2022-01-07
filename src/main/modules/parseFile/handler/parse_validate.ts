@@ -2,8 +2,8 @@
 import { GenericError } from '../../base/GenericError';
 import { IResBase, LogLevel, genResBase } from '../../base/response';
 
-import { ErrorValidate } from './parseValidate/error_types';
 import { IContentWithResult, IContentWithRow } from './parse_base';
+import { ErrorValidate } from './validators/error_types';
 
 export type IContentValidateError = IContentWithRow & IContentWithResult;
 

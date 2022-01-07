@@ -14,12 +14,13 @@
     "start:main": "cross-env NODE_ENV=development electron -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "tsc src/main/preload.ts && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "enode": "node --loader ts-node/esm",
-    "tnode": "node --loader ts-node/register",
+    "tnode": "node --loader ts-node/register/transpile-only",
     "prepare": "husky install",
     "app:dir": "electron-builder --dir && say dir ok",
     "app:dist": "electron-builder",
     "pack:win": "electron-builder build --win && say pack ok",
-    "pack:mac": "electron-builder build --mac && say pack ok"
+    "pack:mac": "electron-builder build --mac && say pack ok",
+    "doc": "jsdoc -d docs --configure jsdoc.config.js src/main/main.js"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -169,6 +170,7 @@
     "css-minimizer-webpack-plugin": "^3.1.1",
     "detect-port": "^1.3.0",
     "dotenv-webpack": "^7.0.3",
+    "electorn": "^0.0.1-security",
     "electron": "^15.3.4",
     "electron-builder": "^22.13.1",
     "electron-devtools-installer": "^3.2.0",
@@ -216,7 +218,7 @@
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
     "typeorm": "^0.2.41",
-    "typescript": "^4.4.4",
+    "typescript": "^4.5.4",
     "url-loader": "^4.1.1",
     "webpack": "^5.60.0",
     "webpack-bundle-analyzer": "^4.5.0",

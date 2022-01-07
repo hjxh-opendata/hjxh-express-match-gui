@@ -1,7 +1,7 @@
 import FolderIcon from '@mui/icons-material/Folder';
 import React from 'react';
 
-import { timeSince } from '../utils/utils';
+import { timeSince } from '../locales/utils';
 
 export interface IUploadItem {
   fileName: string;

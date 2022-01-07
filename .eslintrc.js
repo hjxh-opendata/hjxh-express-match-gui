@@ -1,6 +1,8 @@
 module.exports = {
   extends: ['erb'],
   rules: {
+    // suppress for see all the classes together, especially database models
+    'max-classes-per-file': 'warn',
     // I have my own judge
     'prefer-template': 'off',
     // for test

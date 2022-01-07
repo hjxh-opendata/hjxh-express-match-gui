@@ -1,8 +1,6 @@
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 
-import { MenuKey } from './@types/menu';
-
 import { Ping } from '../main/modules/heartBeats/channels';
 
 import { StepperIntro } from './components/StepperIntro';
@@ -10,9 +8,15 @@ import { StepperIntro } from './components/StepperIntro';
 import { MenuDB } from './MenuDB';
 import { MenuUploadErp } from './MenuUploadErp';
 import { MenuUploadTrd } from './MenuUploadTrd';
-import { getSettings } from './utils/utils';
+import { getSettings } from './utils';
 
 import './styles/doc.scss';
+
+export enum MenuKey {
+  ERP = 'ERP',
+  TRD = 'TRD',
+  DB = 'DB',
+}
 
 export default function App() {
   const [curKey, setCurKey] = useState(MenuKey.ERP as string);
@@ -37,7 +41,9 @@ export default function App() {
         <Tab value={MenuKey.DB} label={'数据库'} />
       </Tabs>
 
-      <div className={'doc max-h-full overflow-auto flex-auto flex flex-wrap justify-center gap-10'}>
+      <div
+        className={'doc max-h-full overflow-auto flex-auto flex flex-wrap justify-center gap-10'}
+      >
         {curKey === MenuKey.ERP && (
           <>
             <MenuUploadErp />

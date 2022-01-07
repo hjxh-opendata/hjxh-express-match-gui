@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
-import { ConsoleItem } from './@types/console';
-
 import { LogLevel } from '../main/modules/base/response';
 import { RequestParseFile } from '../main/modules/parseFile/channels';
-import { ErrorParsingRow } from '../main/modules/parseFile/error_types';
+import {
+  ErrorParsingRow,
+  ErrorPreParsingRows,
+  errorPreParsingRows,
+} from '../main/modules/parseFile/error_types';
 import { IContentWithResult } from '../main/modules/parseFile/handler/parse_base';
 import { IContentParseFinish } from '../main/modules/parseFile/handler/parse_finish';
 import { IContentValidateError } from '../main/modules/parseFile/handler/parse_validate';
@@ -16,12 +18,11 @@ import { SET_MAX_CONSOLE_ITEMS, SET_MAX_UPLOAD_HISTORY } from '../main/settings/
 import { MsgParseFileFinished, MsgSaveDbFinished } from '../main/settings/string_settings';
 import { getFileNameFromPath } from '../universal';
 
-import { Console } from './components/Console';
+import { Console, ConsoleItem, makeItemFromMain, makeItemFromText } from './components/Console';
 import { UploadClick } from './components/UploadClick';
 import UploadHistory, { IUploadItem } from './components/UploadHistory';
 
-import { makeItemFromMain, makeItemFromText } from './utils/console';
-import { getSetting, renderResult } from './utils/utils';
+import { getSetting, renderResult } from './utils';
 
 /**
  * todo: [+++] 实现后台持久化log到文件
@@ -56,17 +57,24 @@ export const MenuUploadErp = () => {
         console.log('received files return: ', m);
         const { filePaths } = m.content;
         if (filePaths.length === 0) return pushMsg(makeItemFromText('cancelled'));
-        if (filePaths.length > 1) return pushMsg(makeItemFromText('should filePaths.length === 1', LogLevel.error));
+        if (filePaths.length > 1)
+          return pushMsg(makeItemFromText('should filePaths.length === 1', LogLevel.error));
 
         pushMsg(
-          makeItemFromMain(m, (c: IContentSelectFile) => `selected file: ${getFileNameFromPath(c.filePaths[0])}`)
+          makeItemFromMain(
+            m,
+            (c: IContentSelectFile) => `selected file: ${getFileNameFromPath(c.filePaths[0])}`
+          )
         );
 
         const fp = filePaths[0];
         // check existed
         if (uploaded.some((i) => getFileNameFromPath(fp) === i.fileName))
           return pushMsg(
-            makeItemFromText(`[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`, LogLevel.warn)
+            makeItemFromText(
+              `[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`,
+              LogLevel.warn
+            )
           );
         return resolve(fp);
       });
@@ -79,6 +87,11 @@ export const MenuUploadErp = () => {
       window.electron.on(RequestParseFile, (res: IResParseFile) => {
         console.log(res);
         if (res.error) {
+          if (errorPreParsingRows.includes(res.error?.type as ErrorPreParsingRows)) {
+            window.electron.removeChannel(RequestParseFile);
+            pushMsg(makeItemFromMain(res));
+            return;
+          }
           if (res.error?.type !== ErrorParsingRow) {
             //  2. validate error
             updatePct(res.content);
@@ -107,7 +120,9 @@ export const MenuUploadErp = () => {
           resetPct();
           window.electron.removeChannel(RequestParseFile);
           pushMsg(makeItemFromMain(res, (c) => c.msg));
-          pushMsg(makeItemFromText(renderResult((res.content as IContentParseFinish).result.dbResult)));
+          pushMsg(
+            makeItemFromText(renderResult((res.content as IContentParseFinish).result.dbResult))
+          );
           console.log({ res });
         } else {
           // 6.  read one line
@@ -119,7 +134,7 @@ export const MenuUploadErp = () => {
   const onClickUpload = async () => {
     const fp = await requestSelectFile();
     if (fp === null) return console.log('no valid file chose');
-    return requestReadFile({ fp });
+    return requestReadFile({ fp, isErp: true });
   };
 
   return (
