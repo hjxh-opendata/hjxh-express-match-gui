@@ -12,8 +12,6 @@ handleParseFileBase({
     console.dir(err);
   },
   onData: (data) => {
-    if (data.progress === undefined) {
-      console.dir(data);
-    }
+    console.dir(data);
   },
 });

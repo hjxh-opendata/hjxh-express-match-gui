@@ -14,7 +14,7 @@ import { isDbFinished } from '../db/db_utils';
 
 import { RequestParseFile } from './channels';
 import { dbCreateErp, dbUpsertErp } from './db';
-import { ErrorParsingRow } from './error_types';
+import { ErrorParsingHeader, ErrorParsingRow } from './error_types';
 import { SizeTransformer } from './handler/SizeTransformer';
 import { checkCsvEncoding } from './handler/checkCsvEncoding';
 import { ValidEncoding } from './handler/const';
@@ -131,14 +131,19 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
           }
         }
       } catch (err) {
+        console.error(err);
         if (err instanceof GenericError) {
-          result.parseResult.nFailedValidation += 1;
-          console.error(err.toString());
-          result.parseResult.rowsPct = (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
-          if (onValidateError)
-            // prettier-ignore
-            onValidateError({ row, result }, err);
+          if (err.errorType === ErrorParsingHeader) {
+            console.log('ERROR IS PARSING HEADER');
+            s.close();
+          } else {
+            console.log('ERROR NOT PARSING HEADER');
+            result.parseResult.nFailedValidation += 1;
+            result.parseResult.rowsPct = (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
+          }
+          if (onValidateError) onValidateError({ row, result }, err);
         } else {
+          console.log('ERROR IS UNKNOWN');
           throw err;
         }
       }

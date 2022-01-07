@@ -33,9 +33,9 @@ export const initDbUpdateResult = (): IDbUpdateResult => ({
   nTableNotExist: 0,
 });
 
-export type IDbResult = IDbUpdateResult & IDbInsertResult;
+export type IDbResult = IDbUpdateResult | IDbInsertResult;
 
-export const resultTrans: { [key in keyof IDbResult]: string } = {
+export const resultTrans: { [key in keyof IDbInsertResult & IDbUpdateResult]: string } = {
   nTotal: '总条目',
   nUnknown: '未知问题',
   nTimeout: '数据库插入超时',

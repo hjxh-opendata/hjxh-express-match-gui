@@ -19,12 +19,13 @@ export const handlerSelectFile = async (e, mainWindow) => {
     title: '选择文件',
     message: '选择文件上传',
     properties: [
-      'createDirectory',
+      // 'createDirectory',
       // 'openDirectory', // ! cannot add this choice since it would cause windows cannot select file
       'openFile',
       // 'multiSelections', // todo: [-----] enabled just for test now
     ],
-    filters: [{ name: '*', extensions: ['.csv'] }],
+    // 筛选要用 `csv`而不能用`.csv`，尽管在Mac上没问题，但是windows没法识别
+    filters: [{ name: '*', extensions: ['csv'] }],
   });
   console.log({ openResult });
   const resSelectFile: IResSelectFile = genResSelectFile(openResult.filePaths);

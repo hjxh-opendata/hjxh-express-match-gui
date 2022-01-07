@@ -18,9 +18,8 @@
     "prepare": "husky install",
     "app:dir": "electron-builder --dir && say dir ok",
     "app:dist": "electron-builder",
-    "pack:win": "electron-builder build --win",
-    "pack:mac": "electron-builder build --mac",
-    "postpack": "say pack ok"
+    "pack:win": "electron-builder build --win && say pack ok",
+    "pack:mac": "electron-builder build --mac && say pack ok"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -107,7 +106,7 @@
     "reload"
   ],
   "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
-  "_jest": {
+  "jest": {
     "testURL": "http://localhost/",
     "testEnvironment": "jsdom",
     "transform": {
@@ -115,7 +114,8 @@
     },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
-      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+      "^electron$": "<rootDir>/spec/mock/electron-mock.ts"
     },
     "moduleFileExtensions": [
       "js",
@@ -172,6 +172,7 @@
     "electron": "^15.3.0",
     "electron-builder": "^22.13.1",
     "electron-devtools-installer": "^3.2.0",
+    "electron-mock-ipc": "^0.3.11",
     "electron-notarize": "^1.1.1",
     "electron-rebuild": "^3.2.3",
     "eslint": "^7.32.0",

@@ -10,7 +10,7 @@ import { NumberKeys, numberSettings } from './number_settings';
 import { StringKeys, stringSettings } from './string_settings';
 
 // ref: https://www.electronjs.org/docs/latest/api/app#appgetpathname
-export const SETTINGS_PATH = path.join(app.getPath('userData'), 'settings.yaml');
+export const SETTINGS_PATH = path.join(app ? app.getPath('userData') : '.', 'settings.yaml');
 
 let settings = {
   boolean: booleanSettings,

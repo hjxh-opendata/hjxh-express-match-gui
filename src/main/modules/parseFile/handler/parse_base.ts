@@ -1,4 +1,4 @@
-import { IDbInsertResult, IDbUpdateResult } from '../../base/db_result';
+import { IDbInsertResult, IDbUpdateResult } from '../../db/db_result';
 
 import { ErpKeys } from './const';
 

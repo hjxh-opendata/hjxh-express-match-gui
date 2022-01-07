@@ -1,5 +1,5 @@
 import { GenericError } from '../../../base/GenericError';
-import { ErrorMismatchingHeaders, ErrorParsingHeaders } from '../../error_types';
+import { ErrorMismatchingHeaders, ErrorParsingHeader } from '../../error_types';
 import { ErpKeys, erpKeyMap } from '../const';
 import { validateErpItemWithoutHeader } from '../parseValidate/validators';
 import { ErpPosMap, Row } from '../parse_base';
@@ -22,7 +22,7 @@ export class ParseErpWithoutHeader extends ParseErpBase {
       for (const k of Object.keys(ErpKeys)) {
         const pos = row.findIndex((v) => v === erpKeyMap[k]);
         // prettier-ignore
-        if (pos < 0) throw new GenericError(ErrorParsingHeaders, `not find key of [${k}] --> [${erpKeyMap[k]}]`);
+        if (pos < 0) throw new GenericError(ErrorParsingHeader, `not find key of [${k}] --> [${erpKeyMap[k]}]`);
         this.erpPosMap[k] = pos;
       }
     } else {

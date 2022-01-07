@@ -1,5 +1,5 @@
 import { GenericError } from '../../../base/GenericError';
-import { ErrorParsingHeaders } from '../../error_types';
+import { ErrorParsingHeader } from '../../error_types';
 import { erpKeyMap } from '../const';
 import { validateErpItemWithHeader } from '../parseValidate/validators';
 import { Row } from '../parse_base';
@@ -22,8 +22,8 @@ export class ParseErpWithHeader extends ParseErpBase {
         console.log('passed header validation');
         this.keysValid = true;
       } else {
-        throw new GenericError<ErrorParsingHeaders>(
-          ErrorParsingHeaders,
+        throw new GenericError<ErrorParsingHeader>(
+          ErrorParsingHeader,
           `字段缺失，请确认包含以下字段：${Object.keys(erpKeyMap)}, 目标文件中已有字段：${Object.keys(row)}`
         );
       }

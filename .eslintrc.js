@@ -1,6 +1,8 @@
 module.exports = {
   extends: ['erb'],
   rules: {
+    // I have my own judge
+    'prefer-template': 'off',
     // for test
     'import/first': 'warn',
     '@typescript-eslint/dot-notation': 'warn',

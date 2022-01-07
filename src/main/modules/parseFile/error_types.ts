@@ -9,8 +9,8 @@ export type ErrorUnknownEncoding = typeof ErrorUnknownEncoding;
 /**
  * the file may miss some column keys, such as `_快递`
  */
-export const ErrorParsingHeaders = 'ErrorParsingHeaders';
-export type ErrorParsingHeaders = typeof ErrorParsingHeaders;
+export const ErrorParsingHeader = 'ErrorParsingHeader';
+export type ErrorParsingHeader = typeof ErrorParsingHeader;
 
 /**
  * fired in parse erp without header
@@ -23,7 +23,7 @@ export type ErrorParsingRow = typeof ErrorParsingRow;
 
 export type ErrorParsing =
   | ErrorUnknownEncoding
-  | ErrorParsingHeaders
+  | ErrorParsingHeader
   | ErrorMismatchingHeaders
   | ErrorValidate
   | ErrorParsingRow;
