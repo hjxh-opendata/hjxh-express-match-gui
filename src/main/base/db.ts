@@ -1,6 +1,6 @@
 import { createConnection } from 'typeorm';
 
-import { ErpModel } from './modules/parseFile/models';
+import { ErpModel } from '../modules/parseFile/db';
 
 export const createDefaultDatabase = async (fp) =>
   createConnection({

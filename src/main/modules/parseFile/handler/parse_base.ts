@@ -1,5 +1,7 @@
 import { IDbInsertResult, IDbUpdateResult } from '../../db/db_result';
 
+import { IErpItem } from './parse_success';
+
 export type Row = Record<string, string>;
 
 export const isRow = (row: Row | string[]): row is Row => {
@@ -8,6 +10,7 @@ export const isRow = (row: Row | string[]): row is Row => {
 
 export interface IContentWithRow {
   row?: Row;
+  item?: IErpItem;
 }
 
 export interface IParseResult {

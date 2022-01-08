@@ -1,5 +1,5 @@
-import { IResBase, genResBase } from '../../base/response';
-import { COL_WEIGHT, ErpCols } from '../cols';
+import { IResBase, genResBase } from '../../../base/response';
+import { COL_WEIGHT, ErpCols } from '../const';
 
 import { IContentWithResult, IContentWithRow } from './parse_base';
 

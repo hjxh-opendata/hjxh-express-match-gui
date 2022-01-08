@@ -1,6 +1,6 @@
-import { GenericError } from '../../base/GenericError';
-import { IResBase, LogLevel, genResBase } from '../../base/response';
-import { ErrorPreParsingRows } from '../error_types';
+import { GenericError } from '../../../base/errors';
+import { IResBase, LogLevel, genResBase } from '../../../base/response';
+import { ErrorPreParsingRows } from '../const';
 
 export interface IContentPreParseError {
   msg: string;

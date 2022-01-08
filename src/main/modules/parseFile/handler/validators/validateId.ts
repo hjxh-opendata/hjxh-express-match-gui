@@ -1,8 +1,8 @@
-import { GenericError } from '../../../base/GenericError';
+import { GenericError } from '../../../../base/errors';
 
 import { ErrorValidateNotNull } from './error_types';
 
-export const validateId = (_id: string): string => {
-  if (!_id) throw new GenericError(ErrorValidateNotNull, `should _id: (${_id}) not null`);
-  return String(_id).replace(/[=''""'" ]/g, '');
+export const validateId = (id: string): string => {
+  if (!id) throw new GenericError(ErrorValidateNotNull, `should id: (${id}) not null`);
+  return String(id).replace(/[=''""'" ]/g, '');
 };

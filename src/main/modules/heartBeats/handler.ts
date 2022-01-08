@@ -1,6 +1,6 @@
-import { IpcMainEvent } from '../base/response';
+import { IpcMainEvent } from '../../base/response';
 
-import { Ping } from './channels';
+import { Ping } from './const';
 
 /**
  * this is for heartbeats

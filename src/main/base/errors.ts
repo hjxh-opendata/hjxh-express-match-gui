@@ -1,3 +1,6 @@
+export const MyProgrammeError = 'MyProgrammeError';
+export type MyProgrammeError = typeof MyProgrammeError;
+
 export class GenericError<T> extends Error {
   public errorType: T;
 

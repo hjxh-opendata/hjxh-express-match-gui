@@ -16,20 +16,20 @@ import path from 'path';
 // typeorm support
 import 'reflect-metadata';
 import 'regenerator-runtime/runtime';
+import { URL } from 'url';
 
-import { createDefaultDatabase } from './db';
-import { installExtensions, resolveHtmlPath } from './main_utils';
+import { createDefaultDatabase } from './base/db';
+import { mainGetSetting, mainLoadSettings, mainSetSetting } from './base/settings';
+import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './base/settings/channels';
 import MenuBuilder from './menu';
-import { Ping } from './modules/heartBeats/channels';
+import { Ping } from './modules/heartBeats/const';
 import { handlePing } from './modules/heartBeats/handler';
-import { RequestParseFile } from './modules/parseFile/channels';
+import { RequestParseFile } from './modules/parseFile/const';
 import { handleParseFile } from './modules/parseFile/handler';
-import { RequestQueryDatabase } from './modules/queryDB/channels';
+import { RequestQueryDatabase } from './modules/queryDB/const';
 import { handleQueryDatabase } from './modules/queryDB/handler';
 import { RequestSelectFile } from './modules/selectFile/channels';
 import { handlerSelectFile } from './modules/selectFile/handler';
-import { mainGetSetting, mainLoadSettings, mainSetSetting } from './settings';
-import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './settings/channels';
 
 /**
  * add log to file support
@@ -67,6 +67,30 @@ if (isDevelopment) {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 }
+
+export const resolveHtmlPath = (htmlFileName: string) => {
+  if (process.env.NODE_ENV !== 'development')
+    return `file://${path.resolve(__dirname, '../renderer/', htmlFileName)}`;
+
+  const port = process.env.PORT || 1212;
+  const url = new URL(`http://localhost:${port}`);
+  url.pathname = htmlFileName;
+  return url.href;
+};
+
+export const installExtensions = async () => {
+  // eslint-disable-next-line global-require
+  const installer = require('electron-devtools-installer');
+  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+  const extensions = ['REACT_DEVELOPER_TOOLS'];
+
+  return installer
+    .default(
+      extensions.map((name) => installer[name]),
+      forceDownload
+    )
+    .catch(console.log);
+};
 
 const createWindow = async () => {
   if (isDevelopment) {

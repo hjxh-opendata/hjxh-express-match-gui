@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 
-import { LogLevel } from '../main/modules/base/response';
-import { RequestParseFile } from '../main/modules/parseFile/channels';
+import { LogLevel } from '../main/base/response';
+import {
+  SET_MAX_CONSOLE_ITEMS,
+  SET_MAX_UPLOAD_HISTORY,
+} from '../main/base/settings/number_settings';
+import { MsgParseFileFinished, MsgSaveDbFinished } from '../main/base/settings/string_settings';
 import {
   ErrorParsingRow,
   ErrorPreParsingRows,
+  RequestParseFile,
   errorPreParsingRows,
-} from '../main/modules/parseFile/error_types';
+} from '../main/modules/parseFile/const';
+import { IReqParseFile, IResParseFile } from '../main/modules/parseFile/handler';
 import { IContentWithResult } from '../main/modules/parseFile/handler/parse_base';
 import { IContentParseFinish } from '../main/modules/parseFile/handler/parse_finish';
 import { IContentValidateError } from '../main/modules/parseFile/handler/parse_validate';
-import { IReqParseFile } from '../main/modules/parseFile/request';
-import { IResParseFile } from '../main/modules/parseFile/response';
 import { RequestSelectFile } from '../main/modules/selectFile/channels';
 import { IContentSelectFile, IResSelectFile } from '../main/modules/selectFile/response';
-import { SET_MAX_CONSOLE_ITEMS, SET_MAX_UPLOAD_HISTORY } from '../main/settings/number_settings';
-import { MsgParseFileFinished, MsgSaveDbFinished } from '../main/settings/string_settings';
 import { getFileNameFromPath } from '../universal';
 
 import { Console, ConsoleItem, makeItemFromMain, makeItemFromText } from './components/Console';

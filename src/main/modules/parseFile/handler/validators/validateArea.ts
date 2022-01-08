@@ -1,5 +1,5 @@
 import { assert } from '../../../../../universal';
-import { GenericError } from '../../../base/GenericError';
+import { GenericError } from '../../../../base/errors';
 
 import { ErrorValidate, ErrorValidateInvalid } from './error_types';
 

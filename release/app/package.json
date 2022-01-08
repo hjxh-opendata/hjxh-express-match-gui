@@ -1,6 +1,6 @@
 {
   "name": "mark.hjxh.express_match",
-  "version": "0.3.4",
+  "version": "0.3.6",
   "description": "皇家小虎快递数据对比系统",
   "main": "./dist/main/main.js",
   "author": {

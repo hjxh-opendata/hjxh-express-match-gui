@@ -1,3 +1,3 @@
-import { mainLoadSettings } from '../src/main/settings';
+import { mainLoadSettings } from '../src/main/base/settings';
 
 mainLoadSettings();

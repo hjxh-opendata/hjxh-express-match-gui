@@ -1,6 +1,6 @@
 import { dialog } from 'electron';
 
-import { reply } from '../base/response';
+import { reply } from '../../base/response';
 
 import { RequestSelectFile } from './channels';
 import { IResSelectFile, genResSelectFile } from './response';

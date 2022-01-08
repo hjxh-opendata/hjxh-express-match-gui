@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 
-import { Ping } from '../main/modules/heartBeats/channels';
+import { Ping } from '../main/modules/heartBeats/const';
 
 import { StepperIntro } from './components/StepperIntro';
 

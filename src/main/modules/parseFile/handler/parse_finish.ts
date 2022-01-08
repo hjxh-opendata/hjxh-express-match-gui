@@ -1,5 +1,5 @@
 // 4. parse finish
-import { IResBase, LogLevel, genResBase } from '../../base/response';
+import { IResBase, LogLevel, genResBase } from '../../../base/response';
 
 import { IContentWithResult } from './parse_base';
 

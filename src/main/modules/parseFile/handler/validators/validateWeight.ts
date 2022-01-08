@@ -1,4 +1,4 @@
-import { GenericError } from '../../../base/GenericError';
+import { GenericError } from '../../../../base/errors';
 
 import { ErrorValidateInvalid } from './error_types';
 

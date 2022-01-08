@@ -2,17 +2,19 @@ import * as csv from '@fast-csv/parse';
 import * as fs from 'fs';
 import iconv from 'iconv-lite';
 
-import { mainGetSetting } from '../../settings';
-import { ENABLE_DB_UPSERT_MODE, ENABLE_PARSE_WITH_HEADER } from '../../settings/boolean_settings';
-import { SET_PARSE_FILE_RETURN_FREQ } from '../../settings/number_settings';
+import { GenericError, MyProgrammeError } from '../../base/errors';
+import { IpcMainEvent, reply } from '../../base/response';
+import { mainGetSetting } from '../../base/settings';
+import {
+  ENABLE_DB_UPSERT_MODE,
+  ENABLE_PARSE_WITH_HEADER,
+} from '../../base/settings/boolean_settings';
+import { SET_PARSE_FILE_RETURN_FREQ } from '../../base/settings/number_settings';
 import {
   MsgParseFileFinished,
   MsgParseHeaderError,
   MsgSaveDbFinished,
-} from '../../settings/string_settings';
-import { GenericError } from '../base/GenericError';
-import { MyProgrammeError } from '../base/error_types';
-import { IpcMainEvent, reply } from '../base/response';
+} from '../../base/settings/string_settings';
 import { IDbInsertResult, initDbInsertResult, initDbUpdateResult } from '../db/db_result';
 import {
   DB_INSERT_DUPLICATED,
@@ -22,21 +24,35 @@ import {
 } from '../db/db_status';
 import { isDbFinished } from '../db/db_utils';
 
-import { RequestParseFile } from './channels';
-import { ErpCols, TrdCols, erpCols, trdCols } from './cols';
+import {
+  ENCODING_FLAG_AS_ID,
+  ErpCols,
+  ErrorParsingRow,
+  ErrorPreParsingRows,
+  RequestParseFile,
+  erpCols,
+  trdCols,
+} from './const';
 import { dbCreateErp } from './db';
-import { ErrorParsingRow, ErrorPreParsingRows } from './error_types';
 import { SizeTransformer } from './handler/SizeTransformer';
 import { preParsing } from './handler/checkCsvEncoding';
 import { Row, initParseResult } from './handler/parse_base';
-import { genResParseParseError } from './handler/parse_error';
-import { IContentParseFinish, genResParseFinish } from './handler/parse_finish';
+import { IResParseError, genResParseParseError } from './handler/parse_error';
+import { IContentParseFinish, IResParseFinish, genResParseFinish } from './handler/parse_finish';
 import { genResParsePreParseError } from './handler/parse_pre_error';
-import { IContentParseSuccess, IErpItem, genResParseSuccess } from './handler/parse_success';
-import { IContentValidateError, genResContentValidateError } from './handler/parse_validate';
+import {
+  IContentParseSuccess,
+  IErpItem,
+  IResParseSuccess,
+  genResParseSuccess,
+} from './handler/parse_success';
+import {
+  IContentValidateError,
+  IResParseValidateError,
+  genResContentValidateError,
+} from './handler/parse_validate';
 import { validateErpItemWithHeader } from './handler/validators';
 import { ErrorValidate } from './handler/validators/error_types';
-import { IReqParseFile } from './request';
 
 const updateDBResult = async (result, item) => {
   result.dbResult.nTotal += 1;
@@ -137,16 +153,17 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
   s2.pipe(new SizeTransformer(fs.statSync(fp).size, (pct) => (result.parseResult.sizePct = pct)))
     .pipe(csv.parse({ headers: withHeader }))
     .on('data', async (row: Row) => {
-      try {
-        validateErpItemWithHeader(row);
+      const item = row as unknown as IErpItem;
+      result.parseResult.nTotalRows += 1;
+      item.id = row[ENCODING_FLAG_AS_ID];
+      Object.keys(item).forEach((k) => {
+        if (!cols.includes(k as ErpCols)) delete item[k];
+      });
 
-        const item = row as unknown as IErpItem;
-        result.parseResult.nTotalRows += 1;
-        Object.keys(item).forEach((k) => {
-          if (!cols.includes(k as ErpCols)) delete item[k];
-        });
+      try {
+        validateErpItemWithHeader(item);
         // backend: store into database
-        await updateDBResult(result, row);
+        await updateDBResult(result, item);
         result.parseResult.rowsPct =
           (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
         // frontend
@@ -159,7 +176,7 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
           result.parseResult.nFailedValidation += 1;
           result.parseResult.rowsPct =
             (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
-          if (onValidateError) onValidateError({ row, result }, err);
+          if (onValidateError) onValidateError({ item, result }, err);
         } else {
           throw new GenericError(MyProgrammeError, 'MyProgrammeError on ValidateError Detect');
         }
@@ -197,6 +214,22 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
     });
 };
 
+/**
+ * request
+ */
+export interface IReqParseFile {
+  fp: string;
+  isErp: boolean;
+}
+
+/**
+ * response
+ */
+export type IResParseFile =
+  | IResParseSuccess
+  | IResParseValidateError
+  | IResParseFinish
+  | IResParseError;
 export const handleParseFile = async (e: IpcMainEvent, req: IReqParseFile) => {
   let cnt = 0;
   const { fp } = req;

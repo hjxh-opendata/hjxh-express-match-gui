@@ -9,7 +9,7 @@ exports.api = exports.API_KEY = void 0;
  * 2. It's better not to import any variables from other places into this file, if using the `tsc` to transpile this file, in case of the `emit skipped` error
  */
 var electron_1 = require("electron");
-var channels_1 = require("./settings/channels");
+var channels_1 = require("./base/settings/channels");
 exports.API_KEY = 'electron';
 /**
  * attention:
@@ -18,8 +18,12 @@ exports.API_KEY = 'electron';
 exports.api = {
     heartBeats: function () { return electron_1.ipcRenderer.send('ping'); },
     getSettings: function () { return electron_1.ipcRenderer.sendSync(channels_1.GET_SETTINGS); },
-    getSetting: function (type, name) { return electron_1.ipcRenderer.sendSync(channels_1.GET_SETTING, type, name); },
-    setSetting: function (type, name, val) { return electron_1.ipcRenderer.sendSync(channels_1.SET_SETTING, type, name, val); },
+    getSetting: function (type, name) {
+        return electron_1.ipcRenderer.sendSync(channels_1.GET_SETTING, type, name);
+    },
+    setSetting: function (type, name, val) {
+        return electron_1.ipcRenderer.sendSync(channels_1.SET_SETTING, type, name, val);
+    },
     request: electron_1.ipcRenderer.send,
     removeChannel: function (channel) {
         electron_1.ipcRenderer.removeAllListeners(channel);

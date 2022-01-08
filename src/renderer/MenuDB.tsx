@@ -2,9 +2,8 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 
 import { IErpItem } from '../main/modules/parseFile/handler/parse_success';
-import { RequestQueryDatabase } from '../main/modules/queryDB/channels';
-import { IReqQueryDB } from '../main/modules/queryDB/request';
-import { IResQueryDB } from '../main/modules/queryDB/response';
+import { RequestQueryDatabase } from '../main/modules/queryDB/const';
+import { IReqQueryDB, IResQueryDB } from '../main/modules/queryDB/handler';
 
 export const MenuDB = () => {
   const [data, setData] = useState<IErpItem[]>([]);

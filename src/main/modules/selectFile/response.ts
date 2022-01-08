@@ -1,4 +1,4 @@
-import { IResBase, LogLevel, genResBase } from '../base/response';
+import { IResBase, LogLevel, genResBase } from '../../base/response';
 
 export interface IContentSelectFile {
   filePaths: string[];

@@ -1,7 +1,7 @@
 import { BrowserWindow, Menu, MenuItemConstructorOptions, app, shell } from 'electron';
 
-import { mainGetSetting, mainSetSetting } from './settings';
-import { ENABLE_DB_UPSERT_MODE } from './settings/boolean_settings';
+import { mainGetSetting, mainSetSetting } from './base/settings';
+import { ENABLE_DB_UPSERT_MODE } from './base/settings/boolean_settings';
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   selector?: string;

@@ -1,9 +1,9 @@
 import { getConnection } from 'typeorm';
 
+import { ErpModel } from '../parseFile/db';
 import { IErpItem } from '../parseFile/handler/parse_success';
-import { ErpModel } from '../parseFile/models';
 
-import { IReqQueryDB } from './request';
+import { IReqQueryDB } from './handler';
 
 export async function dbQueryErp(dbQueryErpProps: IReqQueryDB): Promise<IErpItem[]> {
   console.log({ dbQueryErpProps });

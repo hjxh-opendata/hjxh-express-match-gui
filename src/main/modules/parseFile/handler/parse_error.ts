@@ -1,7 +1,7 @@
 // 3. parse parse error
-import { GenericError } from '../../base/GenericError';
-import { IResBase, LogLevel, genResBase } from '../../base/response';
-import { ErrorParsingRow } from '../error_types';
+import { GenericError } from '../../../base/errors';
+import { IResBase, LogLevel, genResBase } from '../../../base/response';
+import { ErrorParsingRow } from '../const';
 
 export interface IContentParseError {
   msg: string;

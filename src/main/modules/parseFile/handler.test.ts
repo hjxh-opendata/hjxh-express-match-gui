@@ -1,6 +1,8 @@
-import { handleParseFileBase } from '../src/main/modules/parseFile/handler';
+import { handleParseFileBase } from './handler';
 
-const fp: string = process.argv[2];
+// const fp: string = process.argv[2];
+const fp =
+  '/Users/mark/Documents/mark_projects/hjxh/hjxh_express_match/data/2021-11/erp/ERP1月廊坊圆通.csv';
 
 handleParseFileBase({
   fp,

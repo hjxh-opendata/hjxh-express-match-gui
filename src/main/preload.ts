@@ -7,8 +7,8 @@
  */
 import { contextBridge, ipcRenderer } from 'electron';
 
-import { SettingKeyName, SettingKeyType } from './settings';
-import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './settings/channels';
+import { SettingKeyName, SettingKeyType } from './base/settings';
+import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './base/settings/channels';
 
 export const API_KEY = 'electron';
 
@@ -19,8 +19,10 @@ export const API_KEY = 'electron';
 export const api = {
   heartBeats: () => ipcRenderer.send('ping'),
   getSettings: () => ipcRenderer.sendSync(GET_SETTINGS),
-  getSetting: (type: SettingKeyType, name: SettingKeyName) => ipcRenderer.sendSync(GET_SETTING, type, name),
-  setSetting: (type: SettingKeyType, name: SettingKeyName, val) => ipcRenderer.sendSync(SET_SETTING, type, name, val),
+  getSetting: (type: SettingKeyType, name: SettingKeyName) =>
+    ipcRenderer.sendSync(GET_SETTING, type, name),
+  setSetting: (type: SettingKeyType, name: SettingKeyName, val) =>
+    ipcRenderer.sendSync(SET_SETTING, type, name, val),
   request: ipcRenderer.send,
   removeChannel: (channel: string) => {
     ipcRenderer.removeAllListeners(channel);

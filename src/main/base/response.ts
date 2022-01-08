@@ -1,6 +1,8 @@
-import { Channels } from './channels';
-import { MyErrorType } from './error_types';
+import { Channels, MyErrorType } from '../center';
 
+/**
+ * log part
+ */
 export enum LogLevel {
   debug = 'debug',
   info = 'info',
@@ -23,6 +25,9 @@ export const getLogLevel2number = (level: LogLevel) => {
   }
 };
 
+/**
+ * res part
+ */
 export interface IResBase {
   error?: {
     type: MyErrorType;
@@ -38,6 +43,9 @@ export const genResBase = (): IResBase => ({
   sendTime: new Date(),
 });
 
+/**
+ * event and reply
+ */
 export interface IpcMainEvent extends Event {
   // eslint-disable-next-line @typescript-eslint/ban-types
   reply: Function;

@@ -1,6 +1,6 @@
 // 2. parse validate error
-import { GenericError } from '../../base/GenericError';
-import { IResBase, LogLevel, genResBase } from '../../base/response';
+import { GenericError } from '../../../base/errors';
+import { IResBase, LogLevel, genResBase } from '../../../base/response';
 
 import { IContentWithResult, IContentWithRow } from './parse_base';
 import { ErrorValidate } from './validators/error_types';

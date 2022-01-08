@@ -1,6 +1,6 @@
 import React, { ElementRef, useEffect, useRef } from 'react';
 
-import { IResBase, LogLevel, getLogLevel2number } from '../../main/modules/base/response';
+import { IResBase, LogLevel, getLogLevel2number } from '../../main/base/response';
 
 import ScrollToBottom from './ScrollToBottom';
 
