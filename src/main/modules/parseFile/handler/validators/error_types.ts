@@ -1,6 +1,7 @@
 /**
  * validate
  */
+import { MyErrorType } from '../../../../center';
 
 export const ErrorValidateNotNull = 'ErrorValidateNotNull';
 export type ErrorValidateNotNull = typeof ErrorValidateNotNull;
@@ -11,3 +12,5 @@ export type ErrorValidateInvalid = typeof ErrorValidateInvalid;
 
 export const errorValidates = [ErrorValidateInvalid, ErrorValidateDuplicate, ErrorValidateNotNull];
 export type ErrorValidate = ErrorValidateInvalid | ErrorValidateDuplicate | ErrorValidateNotNull;
+
+export const isErrorValidate = (err: MyErrorType): boolean => errorValidates.includes(err);

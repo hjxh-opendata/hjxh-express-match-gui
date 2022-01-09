@@ -13,6 +13,7 @@ import { getSettings } from './utils';
 import './styles/doc.scss';
 
 export enum MenuKey {
+  Instruction = 'Instruction',
   ERP = 'ERP',
   TRD = 'TRD',
   DB = 'DB',
@@ -36,6 +37,7 @@ export default function App() {
         indicatorColor="secondary"
         aria-label="nav tabs example"
       >
+        <Tab value={MenuKey.Instruction} label={'使用指引'} />
         <Tab value={MenuKey.ERP} label="ERP" />
         <Tab value={MenuKey.TRD} label="TRD" />
         <Tab value={MenuKey.DB} label={'数据库'} />
@@ -44,12 +46,8 @@ export default function App() {
       <div
         className={'doc max-h-full overflow-auto flex-auto flex flex-wrap justify-center gap-10'}
       >
-        {curKey === MenuKey.ERP && (
-          <>
-            <MenuUploadErp />
-            <StepperIntro />
-          </>
-        )}
+        {curKey === MenuKey.Instruction && <StepperIntro />}
+        {curKey === MenuKey.ERP && <MenuUploadErp />}
         {curKey === MenuKey.TRD && <MenuUploadTrd />}
         {curKey === MenuKey.DB && <MenuDB />}
       </div>

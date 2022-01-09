@@ -52,7 +52,7 @@ import {
   genResContentValidateError,
 } from './handler/parse_validate';
 import { validateErpItemWithHeader } from './handler/validators';
-import { ErrorValidate } from './handler/validators/error_types';
+import { ErrorValidate, isErrorValidate } from './handler/validators/error_types';
 
 const updateDBResult = async (result, item) => {
   result.dbResult.nTotal += 1;
@@ -166,16 +166,15 @@ export const handleParseFileBase = async (req: ReqParseFile) => {
         await updateDBResult(result, item);
         result.parseResult.rowsPct =
           (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
-        // frontend
-        if (onData) {
-          onData({ item, result });
-        }
+
+        if (onData) onData({ item, result });
       } catch (err) {
-        console.error(err);
-        if (err instanceof GenericError) {
+        if (err instanceof GenericError && isErrorValidate(err.errorType)) {
+          console.error('validate error');
           result.parseResult.nFailedValidation += 1;
           result.parseResult.rowsPct =
             (result.parseResult.nSavedRows += 1) / result.parseResult.nTotalRows;
+
           if (onValidateError) onValidateError({ item, result }, err);
         } else {
           throw new GenericError(MyProgrammeError, 'MyProgrammeError on ValidateError Detect');
