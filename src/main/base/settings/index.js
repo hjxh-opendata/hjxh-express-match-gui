@@ -5,7 +5,7 @@ var electron_1 = require("electron");
 var fs = require("fs");
 var yaml = require("js-yaml");
 var path = require("path");
-var status_1 = require("../status");
+var errors_1 = require("../interface/errors");
 var boolean_settings_1 = require("./boolean_settings");
 var number_settings_1 = require("./number_settings");
 var string_settings_1 = require("./string_settings");
@@ -34,7 +34,7 @@ var mainLoadSettings = function () {
     }
     catch (e) {
         console.error(e);
-        return status_1.Status.ERROR;
+        return errors_1.Status.ERROR;
     }
 };
 exports.mainLoadSettings = mainLoadSettings;
@@ -45,11 +45,11 @@ var mainSetSetting = function (type, name, val) {
         settings[type][name] = val;
         (0, exports.mainDumpSettings)();
         console.log(settings);
-        return status_1.Status.OK;
+        return errors_1.Status.OK;
     }
     catch (e) {
         console.error(e);
-        return status_1.Status.ERROR;
+        return errors_1.Status.ERROR;
     }
 };
 exports.mainSetSetting = mainSetSetting;

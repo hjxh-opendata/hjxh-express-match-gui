@@ -1,6 +1,7 @@
 import progressStream from 'progress-stream';
 
-import { IDbResult, resultTrans } from '../main/modules/db/db_result';
+import { IDbResult, resultTrans } from '../main/base/db/db_result';
+import { IParsingProgress } from '../main/modules/parseFile/interface/rows';
 
 export const dispProgress = (ps: progressStream.Progress) => {
   const DIVIDER = 1024 * 1024;
@@ -17,10 +18,8 @@ export const setSetting = (type, name, val) => window.electron.setSetting(type, 
 
 export const getSettings = () => window.electron.getSettings();
 
-export const renderResult = (result: IDbResult): string => {
-  return Object.keys(result)
-    .filter((k) => result[k] > 0)
-    .sort((a1, a2) => result[a1] - result[a2])
-    .map((k) => `${resultTrans[k]}: ${result[k]}`)
-    .join(', ');
-};
+export const renderProgressing = (progress: IParsingProgress) =>
+  `总条目数（${progress.nRowsTotal}）
+   = 成功（${progress.nRowsSuccess}） 
+   + 字段检验失败（${progress.nRowsFailedForValidation}） 
+   + 数据库存储失败(${progress.nRowsFailedForStoringDB})`;

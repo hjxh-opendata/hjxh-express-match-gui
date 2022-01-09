@@ -1,5 +1,5 @@
-import { IResBase, IpcMainEvent, genResBase, reply } from '../../base/response';
-import { IErpItem } from '../parseFile/handler/parse_success';
+import { IRes, IpcMainEvent, genRes, reply } from '../../base/interface/response';
+import { IErpItem } from '../parseFile/interface/item';
 
 import { RequestQueryDatabase } from './const';
 import { dbQueryErp } from './db';
@@ -18,18 +18,11 @@ export interface IContentQueryDB {
   length: number;
 }
 
-export interface IResQueryDB extends IResBase {
+export interface IResQueryDB extends IRes<IContentQueryDB> {
   content: IContentQueryDB;
 }
 
-export const genResQueryDB = (content: IContentQueryDB): IResQueryDB => ({
-  ...genResBase(),
-  ...{
-    content,
-  },
-});
-
 export async function handleQueryDatabase(e: IpcMainEvent, queryParams: IReqQueryDB) {
   const result = await dbQueryErp(queryParams);
-  reply(e, RequestQueryDatabase, genResQueryDB({ items: result, length: result.length }));
+  reply(e, RequestQueryDatabase, genRes({ items: result, length: result.length }));
 }

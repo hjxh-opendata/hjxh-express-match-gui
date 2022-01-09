@@ -18,18 +18,18 @@ import 'reflect-metadata';
 import 'regenerator-runtime/runtime';
 import { URL } from 'url';
 
-import { createDefaultDatabase } from './base/db';
+import { createDefaultDatabase } from './base/db/conn';
 import { mainGetSetting, mainLoadSettings, mainSetSetting } from './base/settings';
 import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './base/settings/channels';
 import MenuBuilder from './menu';
 import { Ping } from './modules/heartBeats/const';
 import { handlePing } from './modules/heartBeats/handler';
-import { RequestParseFile } from './modules/parseFile/const';
 import { handleParseFile } from './modules/parseFile/handler';
+import { RequestParseFile } from './modules/parseFile/interface/channels';
 import { RequestQueryDatabase } from './modules/queryDB/const';
 import { handleQueryDatabase } from './modules/queryDB/handler';
-import { RequestSelectFile } from './modules/selectFile/channels';
 import { handlerSelectFile } from './modules/selectFile/handler';
+import { RequestSelectFile } from './modules/selectFile/interface/channels';
 
 /**
  * add log to file support
@@ -42,7 +42,9 @@ Object.assign(console, log.functions);
 /**
  * init database
  */
-createDefaultDatabase(path.join(app.getPath('appData'), 'hjxh_data.sqlite'));
+const dbPath = path.join(app.getPath('appData'), 'hjxh_data.sqlite');
+console.log({ dbPath });
+createDefaultDatabase(dbPath);
 
 export default class AppUpdater {
   constructor() {

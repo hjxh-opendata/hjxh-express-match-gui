@@ -1,3 +1,9 @@
+export enum Status {
+  OK,
+  ERROR,
+  OVER,
+}
+
 export const MyProgrammeError = 'MyProgrammeError';
 export type MyProgrammeError = typeof MyProgrammeError;
 

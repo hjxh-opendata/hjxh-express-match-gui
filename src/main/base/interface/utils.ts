@@ -11,8 +11,8 @@ export const getFileNameFromPath = (filePath: string): string => filePath.replac
  * @param {string} msg
  */
 export const assert = (condition: boolean, msg?: string) => {
-  if (!condition) {
+  if (!condition)
     throw new Error(msg);
-  }
 };
+
 export const round = (k: number, fixed = 3): number => Math.round(10 ** fixed * k) / 10 ** fixed;

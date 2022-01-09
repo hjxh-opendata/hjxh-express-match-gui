@@ -1,7 +1,6 @@
-import { assert } from '../../../../../universal';
-import { GenericError } from '../../../../base/errors';
-
-import { ErrorValidate, ErrorValidateInvalid } from './error_types';
+import { GenericError } from '../../../../base/interface/errors';
+import { assert } from '../../../../base/interface/utils';
+import { ErrorValidateInvalid, ErrorValidators } from '../../interface/errors/validatingRoes';
 
 export const PROVINCE_LIST = [
   '湖南',
@@ -56,6 +55,6 @@ export const validateArea = (area: string): string => {
     }
     throw new Error(`cannot ensure what province this address belongs to: ${area}`);
   } catch (e) {
-    throw new GenericError<ErrorValidate>(ErrorValidateInvalid, (e as unknown as Error).message);
+    throw new GenericError<ErrorValidators>(ErrorValidateInvalid, (e as unknown as Error).message);
   }
 };

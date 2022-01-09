@@ -1,9 +1,10 @@
 import { dialog } from 'electron';
 
-import { reply } from '../../base/response';
+import { LogLevel } from '../../base/interface/log';
+import { IRes, genRes, reply } from '../../base/interface/response';
 
-import { RequestSelectFile } from './channels';
-import { IResSelectFile, genResSelectFile } from './response';
+import { RequestSelectFile } from './interface/channels';
+import { IContentSelectFile } from './interface/response';
 
 /**
  *
@@ -18,16 +19,13 @@ export const handlerSelectFile = async (e, mainWindow) => {
   const openResult = await dialog.showOpenDialog(mainWindow, {
     title: '选择文件',
     message: '选择文件上传',
-    properties: [
-      // 'createDirectory',
-      // 'openDirectory', // ! cannot add this choice since it would cause windows cannot select file
-      'openFile',
-      // 'multiSelections', // todo: [-----] enabled just for test now
-    ],
-    // 筛选要用 `csv`而不能用`.csv`，尽管在Mac上没问题，但是windows没法识别
-    filters: [{ name: '*', extensions: ['csv'] }],
+    properties: ['openFile'], // IMPROVE: multi-selection if possible
+    filters: [{ name: '*', extensions: ['csv'] }], // 筛选要用 `csv`而不能用`.csv`，尽管在Mac上没问题，但是windows没法识别
   });
-  console.log({ openResult });
-  const resSelectFile: IResSelectFile = genResSelectFile(openResult.filePaths);
+  console.log('openResult: ', openResult);
+  const resSelectFile: IRes<IContentSelectFile> = genRes(
+    { filePaths: openResult.filePaths },
+    LogLevel.info
+  );
   reply(e, RequestSelectFile, resSelectFile);
 };

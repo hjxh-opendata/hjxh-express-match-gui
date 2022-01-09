@@ -1,9 +1,9 @@
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import chalk from 'chalk';
 import { execSync, spawn } from 'child_process';
-import fs from 'fs';
+import * as fs from 'fs';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import path from 'path';
+import * as path from 'path';
 import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
 

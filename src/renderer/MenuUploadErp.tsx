@@ -1,152 +1,126 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { LogLevel } from '../main/base/response';
+import { LogLevel } from '../main/base/interface/log';
+import { IRes } from '../main/base/interface/response';
+import { getFileNameFromPath } from '../main/base/interface/utils';
+import { IReqParseFile, RequestParseFile } from '../main/modules/parseFile/interface/channels';
 import {
-  SET_MAX_CONSOLE_ITEMS,
-  SET_MAX_UPLOAD_HISTORY,
-} from '../main/base/settings/number_settings';
-import { MsgParseFileFinished, MsgSaveDbFinished } from '../main/base/settings/string_settings';
-import {
-  ErrorParsingRow,
-  ErrorPreParsingRows,
-  RequestParseFile,
-  errorPreParsingRows,
-} from '../main/modules/parseFile/const';
-import { IReqParseFile, IResParseFile } from '../main/modules/parseFile/handler';
-import { IContentWithResult } from '../main/modules/parseFile/handler/parse_base';
-import { IContentParseFinish } from '../main/modules/parseFile/handler/parse_finish';
-import { IContentValidateError } from '../main/modules/parseFile/handler/parse_validate';
-import { RequestSelectFile } from '../main/modules/selectFile/channels';
-import { IContentSelectFile, IResSelectFile } from '../main/modules/selectFile/response';
-import { getFileNameFromPath } from '../universal';
+  IContentParsingFile,
+  isContentEnd,
+  isContentError,
+  isContentSuccess,
+} from '../main/modules/parseFile/interface/content';
+import { IParsingProgress } from '../main/modules/parseFile/interface/rows';
+import { RequestSelectFile } from '../main/modules/selectFile/interface/channels';
+import { IContentSelectFile } from '../main/modules/selectFile/interface/response';
 
-import { Console, ConsoleItem, makeItemFromMain, makeItemFromText } from './components/Console';
+import { Console, IConsoleItem, makeItemFromMain, makeItemFromText } from './components/Console';
 import { UploadClick } from './components/UploadClick';
 import UploadHistory, { IUploadItem } from './components/UploadHistory';
 
-import { getSetting, renderResult } from './utils';
+import { IDataErp } from './data/erp';
+import { Menus } from './data/menu';
+import { renderProgressing } from './utils';
+
+export interface MenuUploadErpDispatches {
+  setConsoles: (item: IConsoleItem) => void;
+  setSizePct: (v) => void;
+  setRowsPct: (v) => void;
+  setUploaded: (item: IUploadItem) => void;
+}
 
 /**
  * todo: [+++] 实现后台持久化log到文件
  * √: 实时在前端console刷新输出具体内容其实不太友好，而且会比较慢，比较合适的方法是在console输出进度条，而在F12里输出具体信息
  * @constructor
  */
-export const MenuUploadErp = () => {
-  const [consoles, setConsoles] = useState<ConsoleItem[]>([]);
-  const [uploaded, setUploaded] = useState<IUploadItem[]>([]);
-  const [sizePct, setSizePct] = useState(0);
-  const [rowsPct, setRowsPct] = useState(0);
+export const MenuUploadErp = (
+  props: IDataErp & MenuUploadErpDispatches & { isFocused: boolean }
+) => {
+  console.log('erp props: ', props);
 
-  const pushMsg = (msg: ConsoleItem) => {
-    setConsoles((msgs) => [...msgs, msg].slice(-getSetting('number', SET_MAX_CONSOLE_ITEMS)));
+  const pushMsg = (msg: IConsoleItem) => {
+    props.setConsoles(msg);
   };
 
   const resetPct = () => {
-    setSizePct(0);
-    setRowsPct(0);
+    props.setSizePct(0);
+    props.setRowsPct(0);
   };
 
-  const updatePct = (content: IContentWithResult) => {
-    setSizePct(Math.min(content.result.parseResult.sizePct * 100, 100));
-    setRowsPct(content.result.parseResult.rowsPct * 100);
+  const updatePct = (progress: IParsingProgress) => {
+    props.setSizePct(progress.sizePct);
+    props.setRowsPct(progress.rowsPct);
   };
 
   const requestSelectFile = () =>
     new Promise<string | null>((resolve) => {
       console.log('selecting file');
       window.electron.request(RequestSelectFile);
-      window.electron.once(RequestSelectFile, (m: IResSelectFile) => {
-        console.log('received files return: ', m);
-        const { filePaths } = m.content;
+      window.electron.once(RequestSelectFile, (res: IRes<IContentSelectFile>) => {
+        console.log('received files return: ', res);
+        const { filePaths } = res.content;
         if (filePaths.length === 0) return pushMsg(makeItemFromText('cancelled'));
         if (filePaths.length > 1)
           return pushMsg(makeItemFromText('should filePaths.length === 1', LogLevel.error));
-
-        pushMsg(
-          makeItemFromMain(
-            m,
-            (c: IContentSelectFile) => `selected file: ${getFileNameFromPath(c.filePaths[0])}`
-          )
-        );
+        // prettier-ignore
+        pushMsg(makeItemFromMain(res, (c: IContentSelectFile) => `selected file: ${getFileNameFromPath(c.filePaths[0])}`));
 
         const fp = filePaths[0];
         // check existed
-        if (uploaded.some((i) => getFileNameFromPath(fp) === i.fileName))
-          return pushMsg(
-            makeItemFromText(
-              `[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`,
-              LogLevel.warn
-            )
-          );
+        if (props.uploaded.some((i) => getFileNameFromPath(fp) === i.fileName))
+          // prettier-ignore
+          return pushMsg(makeItemFromText(`[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`, LogLevel.warn));
         return resolve(fp);
       });
     });
 
-  const requestReadFile = (req: IReqParseFile) =>
+  const requestParseFile = (req: IReqParseFile) =>
     new Promise<boolean>(() => {
-      pushMsg(makeItemFromText('reading file...')); // for placeholder
-      window.electron.request(RequestParseFile, req);
-      window.electron.on(RequestParseFile, (res: IResParseFile) => {
-        console.log(res);
-        if (res.error) {
-          if (errorPreParsingRows.includes(res.error?.type as ErrorPreParsingRows)) {
-            window.electron.removeChannel(RequestParseFile);
-            pushMsg(makeItemFromMain(res));
-            return;
-          }
-          if (res.error?.type !== ErrorParsingRow) {
-            //  2. validate error
-            updatePct(res.content);
+      console.log('reading file...'); // for placeholder
+      const fileName = getFileNameFromPath(req.fp);
 
-            // prettier-ignore
-            pushMsg(makeItemFromMain(res, (c: IContentValidateError) => {
-              return `line: ${c.result.parseResult.nSavedRows}, error: ${res.error?.msg}`;
-            }));
-          } else {
-            // 3. parse error
-            resetPct();
-            pushMsg(makeItemFromMain(res));
-            pushMsg(makeItemFromText('解析有误，等待数据库更新……'));
-          }
-        } else if (res.content.msg === getSetting('string', MsgParseFileFinished)) {
-          // 4. finished parsing
-          pushMsg(makeItemFromText('读取完成，等待数据库更新……'));
-          // 值得注意的是，finish的时候，就可以标记上传文件了，
-          // prettier-ignore
-          setUploaded([...uploaded, {
-            fileName: getFileNameFromPath(req.fp),
-            updateTime: new Date()
-          }].slice(-getSetting('number', SET_MAX_UPLOAD_HISTORY)));
-        } else if (res.content.msg === getSetting('string', MsgSaveDbFinished)) {
-          // 5. finished saving
-          resetPct();
+      window.electron.request(RequestParseFile, req);
+      window.electron.on(RequestParseFile, (res: IRes<IContentParsingFile>) => {
+        console.log(res);
+        const { content } = res;
+
+        if (isContentSuccess(content)) {
+          /**
+           * success
+           */
+          updatePct(content.progress);
+        } else if (isContentError(content)) {
+          /**
+           * error
+           */
+          pushMsg(makeItemFromMain(res));
+        } else if (isContentEnd(content)) {
+          /**
+           * end
+           */
           window.electron.removeChannel(RequestParseFile);
-          pushMsg(makeItemFromMain(res, (c) => c.msg));
-          pushMsg(
-            makeItemFromText(renderResult((res.content as IContentParseFinish).result.dbResult))
-          );
-          console.log({ res });
-        } else {
-          // 6.  read one line
-          updatePct(res.content);
-        }
+          pushMsg(makeItemFromText(renderProgressing(content.progress), LogLevel.info));
+          resetPct();
+          props.setUploaded({ fileName, updateTime: new Date() });
+        } else throw new Error('impossible content type');
       });
     });
 
   const onClickUpload = async () => {
     const fp = await requestSelectFile();
     if (fp === null) return console.log('no valid file chose');
-    return requestReadFile({ fp, isErp: true });
+    return requestParseFile({ fp, isErp: true });
   };
 
   return (
     // ui refer: https://medium.muz.li/file-upload-ui-inspiration-a82949ed191b
     <div className={'min-w-1/2 max-w-full mt-8 overflow-auto'}>
-      <UploadClick sizePct={sizePct} rowsPct={rowsPct} onClick={onClickUpload} />
+      <UploadClick sizePct={props.sizePct} rowsPct={props.rowsPct} onClick={onClickUpload} />
 
-      <Console items={consoles} />
+      <Console items={props.consoleItems} isFocused={props.isFocused} />
 
-      <UploadHistory items={uploaded} />
+      <UploadHistory items={props.uploaded} />
     </div>
   );
 };

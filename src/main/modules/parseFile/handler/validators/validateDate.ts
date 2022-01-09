@@ -1,6 +1,5 @@
-import { GenericError } from '../../../../base/errors';
-
-import { ErrorValidateInvalid } from './error_types';
+import { GenericError } from '../../../../base/interface/errors';
+import { ErrorValidateInvalid } from '../../interface/errors/validatingRoes';
 
 export const validateDate = (dateInput: string): string => {
   // TODO: [-----] fix the webstorm dummy inspection of named capture group, since the code actually works

@@ -1,7 +1,7 @@
 import { getConnection } from 'typeorm';
 
 import { ErpModel } from '../parseFile/db';
-import { IErpItem } from '../parseFile/handler/parse_success';
+import { IErpItem } from '../parseFile/interface/item';
 
 import { IReqQueryDB } from './handler';
 

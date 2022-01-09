@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import * as path from 'path';
 
-import { Status } from '../status';
+import { Status } from '../interface/errors';
 
 import { BooleanKeys, booleanSettings } from './boolean_settings';
 import { NumberKeys, numberSettings } from './number_settings';

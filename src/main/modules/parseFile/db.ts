@@ -1,8 +1,6 @@
-import { Column, Entity, getConnection, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-import { DB_INSERT_SUCCESS, DB_UNKNOWN, DbInsertStatus } from '../db/db_status';
 
-import { IErpItem } from './handler/parse_success';
 
 @Entity()
 export class ErpModel {
@@ -31,12 +29,3 @@ export class TrdModel extends ErpModel {
   fee: number;
 }
 
-export async function dbCreateErp(item: IErpItem): Promise<DbInsertStatus> {
-  try {
-    await getConnection().createQueryBuilder().insert().into(ErpModel).values(item).execute();
-    return DB_INSERT_SUCCESS;
-  } catch (e) {
-    console.error(e);
-    return DB_UNKNOWN;
-  }
-}

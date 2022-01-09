@@ -1,6 +1,8 @@
 module.exports = {
   extends: ['erb'],
   rules: {
+    // suppress for Function type
+    '@typescript-eslint/ban-types': 'warn',
     // suppress for see all the classes together, especially database models
     'max-classes-per-file': 'warn',
     // I have my own judge
@@ -43,7 +45,8 @@ module.exports = {
     'react/jsx-curly-brace-presence': 'off',
     // 'prettier/prettier': 1,
     'react/destructuring-assignment': 0,
-    'max-len': ['warn', { code: 120, ignoreComments: true }],
+    // since prettier has helped me format, no need to use eslint then
+    'max-len': ['off', { code: 120, ignoreComments: true }],
 
     // refer: https://eslint.org/docs/2.0.0/rules/semi
     // semi: [2, 'always', { omitLastInOneLineBlock: true }],

@@ -1320,6 +1320,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/lodash@^4.14.178":
+  "integrity" "sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw=="
+  "resolved" "https://registry.npmmirror.com/@types/lodash/download/@types/lodash-4.14.178.tgz"
+  "version" "4.14.178"
+
 "@types/mdast@^3.0.0", "@types/mdast@^3.0.3":
   "integrity" "sha1-RyQkSoKkWYiEy76bz9c9/5J+6K8="
   "resolved" "https://registry.npmmirror.com/@types/mdast/download/@types/mdast-3.0.10.tgz?cache=0&sync_timestamp=1637267171178&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fmdast%2Fdownload%2F%40types%2Fmdast-3.0.10.tgz"

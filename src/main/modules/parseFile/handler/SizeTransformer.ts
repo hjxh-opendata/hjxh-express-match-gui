@@ -1,6 +1,6 @@
 import { Transform } from 'stream';
 
-import { round } from '../../../../universal';
+import { round } from '../../../base/interface/utils';
 
 export class SizeTransformer extends Transform {
   private hasRead = 0;

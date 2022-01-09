@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 
-import { IErpItem } from '../main/modules/parseFile/handler/parse_success';
+import { IErpItem } from '../main/modules/parseFile/interface/item';
 import { RequestQueryDatabase } from '../main/modules/queryDB/const';
 import { IReqQueryDB, IResQueryDB } from '../main/modules/queryDB/handler';
 

@@ -1,4 +1,4 @@
-import { IpcMainEvent } from '../../base/response';
+import { IpcMainEvent } from '../../base/interface/response';
 
 import { Ping } from './const';
 
