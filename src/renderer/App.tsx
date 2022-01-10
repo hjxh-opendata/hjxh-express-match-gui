@@ -4,9 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { Ping } from '../main/modules/heartBeats/const';
 
-import { IConsoleItem } from './components/Console';
 import { StepperIntro } from './components/StepperIntro';
-import { IUploadItem } from './components/UploadHistory';
 
 import { MenuDB } from './MenuDB';
 import { MenuUploadErp } from './MenuUploadErp';
@@ -56,24 +54,45 @@ export default function App() {
 
       <div
         className={
-          'doc min-w-1/2 max-h-full px-10 overflow-auto flex-auto flex flex-wrap justify-center gap-10'
+          'doc max-h-full mx-auto px-10 overflow-auto flex-auto flex flex-wrap justify-center gap-10'
         }
+        style={{ maxWidth: 1200, minWidth: 600 }}
       >
         {data.menu.curMenu === menuInstruction && <StepperIntro />}
         {data.menu.curMenu === menuErpUpload && (
           <MenuUploadErp
+            isErp
             isFocused={data.menu.curMenu === menuErpUpload}
-            uploaded={data.erp.uploaded}
-            rowsPct={data.erp.rowsPct}
-            sizePct={data.erp.sizePct}
-            consoleItems={data.erp.consoleItems}
-            setRowsPct={(v) => setKey('erp', { rowsPct: v })}
-            setSizePct={(v) => setKey('erp', { sizePct: v })}
-            setConsoles={(item: IConsoleItem) =>
-              setKey('erp', { consoleItems: [...data.erp.consoleItems, item].slice(-100) })
+            uploaded={data[menuErpUpload].uploaded}
+            rowsPct={data[menuErpUpload].rowsPct}
+            sizePct={data[menuErpUpload].sizePct}
+            consoleItems={data[menuErpUpload].consoleItems}
+            setRowsPct={(k, v) => setKey(k, { rowsPct: v })}
+            setSizePct={(k, v) => setKey(k, { sizePct: v })}
+            setConsoles={(k, v) =>
+              setKey(k, { consoleItems: [...data[menuErpUpload].consoleItems, v].slice(-100) })
             }
-            setUploaded={(item: IUploadItem) =>
-              setKey('erp', { uploaded: [...data.erp.uploaded, item].slice(-10) })
+            setUploaded={(k, v) =>
+              setKey(k, { uploaded: [...data[menuErpUpload].uploaded, v].slice(-10) })
+            }
+          />
+        )}
+
+        {data.menu.curMenu === menuTrdUpload && (
+          <MenuUploadErp
+            isErp={false}
+            isFocused={data.menu.curMenu === menuTrdUpload}
+            uploaded={data[menuTrdUpload].uploaded}
+            rowsPct={data[menuTrdUpload].rowsPct}
+            sizePct={data[menuTrdUpload].sizePct}
+            consoleItems={data[menuTrdUpload].consoleItems}
+            setRowsPct={(k, v) => setKey(k, { rowsPct: v })}
+            setSizePct={(k, v) => setKey(k, { sizePct: v })}
+            setConsoles={(k, v) =>
+              setKey(k, { consoleItems: [...data[menuTrdUpload].consoleItems, v].slice(-100) })
+            }
+            setUploaded={(k, v) =>
+              setKey(k, { uploaded: [...data[menuTrdUpload].uploaded, v].slice(-10) })
             }
           />
         )}

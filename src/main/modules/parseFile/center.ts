@@ -83,14 +83,13 @@ export const handleParseFileCenter = async (req: ReqParseFile) => {
    * encoding
    */
   let useIconv;
-  await preParsing(fp, req.isErp)
-    .then((u) => (useIconv = u))
-    .catch((e) => {
-      console.error((e as Error).message);
-      if (onPreParseRowsError)
-        onPreParseRowsError(e as unknown as GenericError<ErrorPreParsingRows>);
-      return;
-    });
+  try {
+    useIconv = await preParsing(fp, req.isErp);
+  } catch (e) {
+    console.error((e as Error).message);
+    if (onPreParseRowsError) onPreParseRowsError(e as unknown as GenericError<ErrorPreParsingRows>);
+    return;
+  }
 
   /**
    * create stream

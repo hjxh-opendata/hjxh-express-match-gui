@@ -19,14 +19,14 @@ import { UploadClick } from './components/UploadClick';
 import UploadHistory, { IUploadItem } from './components/UploadHistory';
 
 import { IDataErp } from './data/erp';
-import { Menus } from './data/menu';
+import { Menus, menuErpUpload, menuTrdUpload } from './data/menu';
 import { renderProgressing } from './utils';
 
 export interface MenuUploadErpDispatches {
-  setConsoles: (item: IConsoleItem) => void;
-  setSizePct: (v) => void;
-  setRowsPct: (v) => void;
-  setUploaded: (item: IUploadItem) => void;
+  setConsoles: (key: Menus, item: IConsoleItem) => void;
+  setUploaded: (key: Menus, item: IUploadItem) => void;
+  setSizePct: (k: Menus, v: number) => void;
+  setRowsPct: (k: Menus, v: number) => void;
 }
 
 /**
@@ -35,22 +35,23 @@ export interface MenuUploadErpDispatches {
  * @constructor
  */
 export const MenuUploadErp = (
-  props: IDataErp & MenuUploadErpDispatches & { isFocused: boolean }
+  props: IDataErp & MenuUploadErpDispatches & { isFocused: boolean; isErp: boolean }
 ) => {
   console.log('erp props: ', props);
+  const key = props.isErp ? menuErpUpload : menuTrdUpload;
 
   const pushMsg = (msg: IConsoleItem) => {
-    props.setConsoles(msg);
+    props.setConsoles(key, msg);
   };
 
   const resetPct = () => {
-    props.setSizePct(0);
-    props.setRowsPct(0);
+    props.setSizePct(key, 0);
+    props.setRowsPct(key, 0);
   };
 
   const updatePct = (progress: IParsingProgress) => {
-    props.setSizePct(progress.sizePct);
-    props.setRowsPct(progress.rowsPct);
+    props.setSizePct(key, progress.sizePct);
+    props.setRowsPct(key, progress.rowsPct);
   };
 
   const requestSelectFile = () =>
@@ -77,7 +78,7 @@ export const MenuUploadErp = (
 
   const requestParseFile = (req: IReqParseFile) =>
     new Promise<boolean>(() => {
-      console.log('reading file...'); // for placeholder
+      console.log('parsing file...'); // for placeholder
       const fileName = getFileNameFromPath(req.fp);
 
       window.electron.request(RequestParseFile, req);
@@ -102,7 +103,7 @@ export const MenuUploadErp = (
           window.electron.removeChannel(RequestParseFile);
           pushMsg(makeItemFromText(renderProgressing(content.progress), LogLevel.info));
           resetPct();
-          props.setUploaded({ fileName, updateTime: new Date() });
+          props.setUploaded(key, { fileName, updateTime: new Date() });
         } else throw new Error('impossible content type');
       });
     });
@@ -110,12 +111,12 @@ export const MenuUploadErp = (
   const onClickUpload = async () => {
     const fp = await requestSelectFile();
     if (fp === null) return console.log('no valid file chose');
-    return requestParseFile({ fp, isErp: true });
+    return requestParseFile({ fp, isErp: props.isErp });
   };
 
   return (
     // ui refer: https://medium.muz.li/file-upload-ui-inspiration-a82949ed191b
-    <div className={'min-w-1/2 max-w-full mt-8 overflow-auto'}>
+    <div className={'w-full m-8 overflow-auto'}>
       <UploadClick sizePct={props.sizePct} rowsPct={props.rowsPct} onClick={onClickUpload} />
 
       <Console items={props.consoleItems} isFocused={props.isFocused} />

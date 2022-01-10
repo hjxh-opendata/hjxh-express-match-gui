@@ -1,12 +1,14 @@
 import { IDataErp, initDataErp } from './erp';
-import { IDataMenu, initDataMenu } from './menu';
+import { IDataMenu, initDataMenu, menuErpUpload, menuTrdUpload } from './menu';
 
 export interface IDataCenter {
   menu: IDataMenu;
-  erp: IDataErp;
+  [menuErpUpload]: IDataErp;
+  [menuTrdUpload]: IDataErp;
 }
 
 export const initDataCenter = (): IDataCenter => ({
   menu: initDataMenu(),
-  erp: initDataErp(),
+  [menuErpUpload]: initDataErp(),
+  [menuTrdUpload]: initDataErp(),
 });
