@@ -3,7 +3,7 @@ import { dialog } from 'electron';
 import { LogLevel } from '../../base/interface/log';
 import { IRes, genRes, reply } from '../../base/interface/response';
 
-import { RequestSelectFile } from './interface/channels';
+import { ErpRequestSelectFile, TrdRequestSelectFile } from './interface/channels';
 import { IContentSelectFile } from './interface/response';
 
 /**
@@ -13,9 +13,10 @@ import { IContentSelectFile } from './interface/response';
  * - [Electron: File dialog window should be focused until decision - Stack Overflow](https://stackoverflow.com/questions/50349157/electron-file-dialog-window-should-be-focused-until-decision)
  * @param e
  * @param mainWindow
+ * @param isErp
  */
-export const handlerSelectFile = async (e, mainWindow) => {
-  console.log('selecting file');
+export const handlerSelectFile = async (e, mainWindow, isErp: boolean) => {
+  console.log(`[${isErp ? 'ERP' : 'TRD'}] selecting file`);
   const openResult = await dialog.showOpenDialog(mainWindow, {
     title: '选择文件',
     message: '选择文件上传',
@@ -27,5 +28,5 @@ export const handlerSelectFile = async (e, mainWindow) => {
     { filePaths: openResult.filePaths },
     LogLevel.info
   );
-  reply(e, RequestSelectFile, resSelectFile);
+  reply(e, isErp ? ErpRequestSelectFile : TrdRequestSelectFile, resSelectFile);
 };

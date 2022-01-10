@@ -3,7 +3,7 @@ import { getConnection } from 'typeorm';
 import { ErpModel } from '../parseFile/db';
 import { IErpItem } from '../parseFile/interface/item';
 
-import { IReqQueryDB } from './handler';
+import { IReqQueryDB } from './interface';
 
 export async function dbQueryErp(dbQueryErpProps: IReqQueryDB): Promise<IErpItem[]> {
   console.log({ dbQueryErpProps });

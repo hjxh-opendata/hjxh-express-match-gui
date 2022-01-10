@@ -26,8 +26,8 @@ import { Ping } from './modules/heartBeats/const';
 import { handlePing } from './modules/heartBeats/handler';
 import { handleParseFile } from './modules/parseFile/handler';
 import { RequestParseFile } from './modules/parseFile/interface/channels';
-import { RequestQueryDatabase } from './modules/queryDB/const';
 import { handleQueryDatabase } from './modules/queryDB/handler';
+import { RequestQueryDatabase } from './modules/queryDB/interface';
 import { handlerSelectFile } from './modules/selectFile/handler';
 import { RequestSelectFile } from './modules/selectFile/interface/channels';
 
@@ -176,7 +176,7 @@ app
 ipcMain.on(Ping, handlePing);
 
 // it needs mainWindow focus
-ipcMain.on(RequestSelectFile, (e) => handlerSelectFile(e, mainWindow));
+ipcMain.on(RequestSelectFile, (e, isErp) => handlerSelectFile(e, mainWindow, isErp));
 
 ipcMain.on(RequestParseFile, handleParseFile);
 

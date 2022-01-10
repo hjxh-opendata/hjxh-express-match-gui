@@ -1,6 +1,6 @@
 import progressStream from 'progress-stream';
 
-import { IDbResult, resultTrans } from '../main/base/db/db_result';
+import { SettingKeyName, SettingKeyType } from '../main/base/settings';
 import { IParsingProgress } from '../main/modules/parseFile/interface/rows';
 
 export const dispProgress = (ps: progressStream.Progress) => {
@@ -12,9 +12,11 @@ export const dispProgress = (ps: progressStream.Progress) => {
   return s;
 };
 
-export const getSetting = (type, name) => window.electron.getSetting(type, name);
+export const getSetting = (type: SettingKeyType, name: SettingKeyName) =>
+  window.electron.getSetting(type, name);
 
-export const setSetting = (type, name, val) => window.electron.setSetting(type, name, val);
+export const setSetting = (type: SettingKeyType, name: SettingKeyName, val) =>
+  window.electron.setSetting(type, name, val);
 
 export const getSettings = () => window.electron.getSettings();
 

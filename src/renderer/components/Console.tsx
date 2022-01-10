@@ -13,16 +13,13 @@ export interface IConsoleItem {
 
 export interface ConsoleProps {
   items: IConsoleItem[];
-  isFocused: boolean;
 }
 
-export const Console = ({ items, isFocused }: ConsoleProps) => {
+export const Console = ({ items }: ConsoleProps) => {
   const refScroll = useRef<ElementRef<typeof ScrollToBottom>>(null);
 
   useEffect(() => {
-    if (isFocused) {
-      // refScroll?.current?.doScroll();
-    }
+    refScroll?.current?.doScroll();
   });
 
   return (

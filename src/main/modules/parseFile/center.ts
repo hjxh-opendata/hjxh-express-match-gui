@@ -76,7 +76,8 @@ export interface ReqParseFile {
 }
 
 export const handleParseFileCenter = async (req: ReqParseFile) => {
-  const { fp, onData, onEnd, onPreParseRowsError, onParsingRowsError, onParsingException } = req;
+  const { fp, isErp, onData, onEnd, onPreParseRowsError, onParsingRowsError, onParsingException } =
+    req;
   console.log(`reading file, name: ${fp}`);
 
   /**
@@ -84,12 +85,13 @@ export const handleParseFileCenter = async (req: ReqParseFile) => {
    */
   let useIconv;
   try {
-    useIconv = await preParsing(fp, req.isErp);
+    useIconv = await preParsing(fp, isErp);
   } catch (e) {
     console.error((e as Error).message);
     if (onPreParseRowsError) onPreParseRowsError(e as unknown as GenericError<ErrorPreParsingRows>);
     return;
   }
+  console.log('start parsing rows');
 
   /**
    * create stream
@@ -97,7 +99,7 @@ export const handleParseFileCenter = async (req: ReqParseFile) => {
   const s = fs.createReadStream(fp);
   const s2 = useIconv ? s.pipe(iconv.decodeStream('gbk')).pipe(iconv.encodeStream('utf-8')) : s;
 
-  const cols = req.isErp ? erpCols : trdCols;
+  const cols = isErp ? erpCols : trdCols;
   const progress = new ParsingProgress();
   const headers = (headers) => headers.map((header) => (header === SIGNAL_ID ? COL_ID : header));
 
@@ -131,7 +133,7 @@ export const handleParseFileCenter = async (req: ReqParseFile) => {
        * 1. validate row
        * 2. store row
        */
-      await parsingRow(item, progress, req.isErp, onParsingRowsError);
+      await parsingRow(item, progress, isErp, onParsingRowsError);
 
       /**
        * step 3: timely onData callback

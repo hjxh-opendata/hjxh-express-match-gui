@@ -1,22 +1,7 @@
 import { IRes, IpcMainEvent, genRes, reply } from '../../base/interface/response';
-import { IErpItem } from '../parseFile/interface/item';
 
-import { RequestQueryDatabase } from './const';
 import { dbQueryErp } from './db';
-
-/**
- * @param skip: start
- * @param limit: take
- */
-export interface IReqQueryDB {
-  skip: number;
-  limit: number;
-}
-
-export interface IContentQueryDB {
-  items: IErpItem[];
-  length: number;
-}
+import { IContentQueryDB, IReqQueryDB, RequestQueryDatabase } from './interface';
 
 export interface IResQueryDB extends IRes<IContentQueryDB> {
   content: IContentQueryDB;

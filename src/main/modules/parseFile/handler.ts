@@ -5,12 +5,13 @@ import { mainGetSetting } from '../../base/settings';
 import { SET_PARSE_FILE_RETURN_FREQ } from '../../base/settings/number_settings';
 
 import { handleParseFileCenter } from './center';
-import { IReqParseFile, RequestParseFile } from './interface/channels';
+import { ErpRequestParseFile, IReqParseFile, TrdRequestParseFile } from './interface/channels';
 import { IContentEnd } from './interface/content';
 
 export const handleParseFile = async (e: IpcMainEvent, req: IReqParseFile) => {
   let cnt = 0;
-  const { fp } = req;
+  const { fp, isErp } = req;
+  const replyChannel = isErp ? ErpRequestParseFile : TrdRequestParseFile;
 
   await handleParseFileCenter({
     /**
@@ -21,20 +22,20 @@ export const handleParseFile = async (e: IpcMainEvent, req: IReqParseFile) => {
     /**
      * file type: erp / trd
      */
-    isErp: req.isErp,
+    isErp,
 
     /**
      * pre-parsing rows error
      * @param {GenericError<ErrorPreParsingRows>} error
      */
     onPreParseRowsError: (error) => {
-      reply(e, RequestParseFile, genRes(error, LogLevel.error));
-      reply(e, RequestParseFile, genRes({ status: Status.OVER }));
+      reply(e, replyChannel, genRes(error, LogLevel.error));
+      reply(e, replyChannel, genRes({ status: Status.OVER }));
     },
 
     onParsingException: (error) => {
-      reply(e, RequestParseFile, genRes(error, LogLevel.error));
-      reply(e, RequestParseFile, genRes({ status: Status.OVER }));
+      reply(e, replyChannel, genRes(error, LogLevel.error));
+      reply(e, replyChannel, genRes({ status: Status.OVER }));
     },
 
     /**
@@ -42,7 +43,7 @@ export const handleParseFile = async (e: IpcMainEvent, req: IReqParseFile) => {
      * @param {GenericError<ErrorParsingRows>} error
      */
     onParsingRowsError: (error) => {
-      reply(e, RequestParseFile, genRes(error, LogLevel.warn));
+      reply(e, replyChannel, genRes(error, LogLevel.warn));
     },
 
     /**
@@ -51,7 +52,7 @@ export const handleParseFile = async (e: IpcMainEvent, req: IReqParseFile) => {
     onData: (content) => {
       cnt += 1;
       if (cnt % mainGetSetting('number', SET_PARSE_FILE_RETURN_FREQ) === 1) {
-        reply(e, RequestParseFile, genRes(content));
+        reply(e, replyChannel, genRes(content));
       }
     },
 
@@ -59,7 +60,7 @@ export const handleParseFile = async (e: IpcMainEvent, req: IReqParseFile) => {
      * end, or exception
      */
     onEnd: (content: IContentEnd) => {
-      reply(e, RequestParseFile, genRes(content));
+      reply(e, replyChannel, genRes(content));
     },
   });
 };

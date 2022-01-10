@@ -3,7 +3,13 @@ import React from 'react';
 import { LogLevel } from '../main/base/interface/log';
 import { IRes } from '../main/base/interface/response';
 import { getFileNameFromPath } from '../main/base/interface/utils';
-import { IReqParseFile, RequestParseFile } from '../main/modules/parseFile/interface/channels';
+import { ENABLE_UPLOAD_DUPLICATED_FILE } from '../main/base/settings/boolean_settings';
+import {
+  ErpRequestParseFile,
+  IReqParseFile,
+  RequestParseFile,
+  TrdRequestParseFile,
+} from '../main/modules/parseFile/interface/channels';
 import {
   IContentParsingFile,
   isContentEnd,
@@ -11,7 +17,11 @@ import {
   isContentSuccess,
 } from '../main/modules/parseFile/interface/content';
 import { IParsingProgress } from '../main/modules/parseFile/interface/rows';
-import { RequestSelectFile } from '../main/modules/selectFile/interface/channels';
+import {
+  ErpRequestSelectFile,
+  RequestSelectFile,
+  TrdRequestSelectFile,
+} from '../main/modules/selectFile/interface/channels';
 import { IContentSelectFile } from '../main/modules/selectFile/interface/response';
 
 import { Console, IConsoleItem, makeItemFromMain, makeItemFromText } from './components/Console';
@@ -20,7 +30,7 @@ import UploadHistory, { IUploadItem } from './components/UploadHistory';
 
 import { IDataErp } from './data/erp';
 import { Menus, menuErpUpload, menuTrdUpload } from './data/menu';
-import { renderProgressing } from './utils';
+import { getSetting, renderProgressing } from './utils';
 
 export interface MenuUploadErpDispatches {
   setConsoles: (key: Menus, item: IConsoleItem) => void;
@@ -34,10 +44,11 @@ export interface MenuUploadErpDispatches {
  * √: 实时在前端console刷新输出具体内容其实不太友好，而且会比较慢，比较合适的方法是在console输出进度条，而在F12里输出具体信息
  * @constructor
  */
-export const MenuUploadErp = (
-  props: IDataErp & MenuUploadErpDispatches & { isFocused: boolean; isErp: boolean }
-) => {
-  const key = props.isErp ? menuErpUpload : menuTrdUpload;
+export const MenuUploadErp = (props: IDataErp & MenuUploadErpDispatches & { isErp: boolean }) => {
+  const { isErp } = props;
+  const key = isErp ? menuErpUpload : menuTrdUpload;
+  const requestSelectFileChannel = isErp ? ErpRequestSelectFile : TrdRequestSelectFile;
+  const requestParseFileChannel = isErp ? ErpRequestParseFile : TrdRequestParseFile;
 
   const pushMsg = (msg: IConsoleItem) => {
     props.setConsoles(key, msg);
@@ -56,21 +67,30 @@ export const MenuUploadErp = (
   const requestSelectFile = () =>
     new Promise<string | null>((resolve) => {
       console.log('selecting file');
-      window.electron.request(RequestSelectFile);
-      window.electron.once(RequestSelectFile, (res: IRes<IContentSelectFile>) => {
+      window.electron.request(RequestSelectFile, isErp);
+      window.electron.once(requestSelectFileChannel, (res: IRes<IContentSelectFile>) => {
         console.log('received files return: ', res);
         const { filePaths } = res.content;
         if (filePaths.length === 0) return pushMsg(makeItemFromText('cancelled'));
         if (filePaths.length > 1)
           return pushMsg(makeItemFromText('should filePaths.length === 1', LogLevel.error));
+        const fp = filePaths[0];
         // prettier-ignore
         pushMsg(makeItemFromMain(res, (c: IContentSelectFile) => `selected file: ${getFileNameFromPath(c.filePaths[0])}`));
 
-        const fp = filePaths[0];
-        // check existed
-        // if (props.uploaded.some((i) => getFileNameFromPath(fp) === i.fileName))
-        // prettier-ignore
-        // return pushMsg(makeItemFromText(`[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`, LogLevel.warn));
+        /**
+         * check whether uploaded already
+         */
+        if (
+          !getSetting('boolean', ENABLE_UPLOAD_DUPLICATED_FILE) &&
+          props.uploaded.some((i) => getFileNameFromPath(fp) === i.fileName)
+        )
+          // prettier-ignore
+          return pushMsg(makeItemFromText(`[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`, LogLevel.warn));
+
+        /**
+         * successfully return file path for later parsing
+         */
         return resolve(fp);
       });
     });
@@ -81,8 +101,8 @@ export const MenuUploadErp = (
       const fileName = getFileNameFromPath(req.fp);
 
       window.electron.request(RequestParseFile, req);
-      window.electron.on(RequestParseFile, (res: IRes<IContentParsingFile>) => {
-        // console.log(res);
+      window.electron.on(requestParseFileChannel, (res: IRes<IContentParsingFile>) => {
+        console.log(res);
         const { content } = res;
 
         if (isContentSuccess(content)) {
@@ -99,8 +119,10 @@ export const MenuUploadErp = (
           /**
            * end
            */
-          window.electron.removeChannel(RequestParseFile);
-          pushMsg(makeItemFromText(renderProgressing(content.progress), LogLevel.info));
+          window.electron.removeChannel(requestParseFileChannel);
+          if (content.progress)
+            // if failed to pre-parse, then there is no `content.progress`
+            pushMsg(makeItemFromText(renderProgressing(content.progress), LogLevel.info));
           resetPct();
           props.setUploaded(key, { fileName, updateTime: new Date() });
         } else throw new Error('impossible content type');
@@ -110,7 +132,7 @@ export const MenuUploadErp = (
   const onClickUpload = async () => {
     const fp = await requestSelectFile();
     if (fp === null) return console.log('no valid file chose');
-    return requestParseFile({ fp, isErp: props.isErp });
+    return requestParseFile({ fp, isErp });
   };
 
   return (
@@ -118,7 +140,7 @@ export const MenuUploadErp = (
     <div className={'w-full m-8 overflow-auto'}>
       <UploadClick sizePct={props.sizePct} rowsPct={props.rowsPct} onClick={onClickUpload} />
 
-      <Console items={props.consoleItems} isFocused={props.isFocused} />
+      <Console items={props.consoleItems} />
 
       <UploadHistory items={props.uploaded} />
     </div>
