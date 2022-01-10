@@ -28,7 +28,7 @@ export const UploadHistory = ({ items }: UploadHistoryProps) => {
           </div>
         ) : (
           items.map((item) => (
-            <div key={item.fileName} className={'inline-flex overflow-hidden'}>
+            <div key={item.fileName + item.updateTime} className={'inline-flex overflow-hidden'}>
               <FolderIcon className={'mx-4'} />
               <p>
                 {item.fileName} ({timeSince(item.updateTime)})

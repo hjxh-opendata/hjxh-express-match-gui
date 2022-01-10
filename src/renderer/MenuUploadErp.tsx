@@ -37,7 +37,6 @@ export interface MenuUploadErpDispatches {
 export const MenuUploadErp = (
   props: IDataErp & MenuUploadErpDispatches & { isFocused: boolean; isErp: boolean }
 ) => {
-  console.log('erp props: ', props);
   const key = props.isErp ? menuErpUpload : menuTrdUpload;
 
   const pushMsg = (msg: IConsoleItem) => {
@@ -69,9 +68,9 @@ export const MenuUploadErp = (
 
         const fp = filePaths[0];
         // check existed
-        if (props.uploaded.some((i) => getFileNameFromPath(fp) === i.fileName))
-          // prettier-ignore
-          return pushMsg(makeItemFromText(`[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`, LogLevel.warn));
+        // if (props.uploaded.some((i) => getFileNameFromPath(fp) === i.fileName))
+        // prettier-ignore
+        // return pushMsg(makeItemFromText(`[UPLOAD DENY]: the file '${getFileNameFromPath(fp)}' has been uploaded!`, LogLevel.warn));
         return resolve(fp);
       });
     });
@@ -83,7 +82,7 @@ export const MenuUploadErp = (
 
       window.electron.request(RequestParseFile, req);
       window.electron.on(RequestParseFile, (res: IRes<IContentParsingFile>) => {
-        console.log(res);
+        // console.log(res);
         const { content } = res;
 
         if (isContentSuccess(content)) {

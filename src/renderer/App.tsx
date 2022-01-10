@@ -1,5 +1,5 @@
 import { Tab, Tabs } from '@mui/material';
-import _ from 'lodash';
+import $ from 'lodash';
 import { useEffect, useState } from 'react';
 
 import { Ping } from '../main/modules/heartBeats/const';
@@ -18,9 +18,13 @@ import './styles/doc.scss';
 export default function App() {
   const [data, setData] = useState<IDataCenter>(initDataCenter());
 
-  const setKey = (key, val) => {
-    setData(_.merge({ ...data }, { [key]: val }));
-  };
+  const setKey = (key, val) =>
+    setTimeout(() => {
+      console.log('menuKey before: ', data.menu.curMenu);
+      setData($.merge({ ...data }, { [key]: val }));
+    }, 1000);
+
+  console.log('curMenuKey: ', data.menu.curMenu);
 
   useEffect(() => {
     /**

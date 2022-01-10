@@ -21,7 +21,7 @@ export const Console = ({ items, isFocused }: ConsoleProps) => {
 
   useEffect(() => {
     if (isFocused) {
-      refScroll?.current?.doScroll();
+      // refScroll?.current?.doScroll();
     }
   });
 
