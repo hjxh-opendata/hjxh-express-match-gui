@@ -9,7 +9,7 @@ import { ENABLE_DB_UPSERT_MODE } from '../../base/settings/boolean_settings';
 import { msgParseHeaderError } from '../../base/settings/string_settings';
 import { isDebugFileEnabled } from '../../base/utils';
 
-import { ErpModel, TrdModel } from './db';
+import { DataModel, ErpModel, TrdModel } from './db';
 import { SizeTransformer } from './handler/SizeTransformer';
 import { SIGNAL_ID, preParsing } from './handler/checkCsvEncoding';
 import { validateErpItem } from './handler/validators';
@@ -25,7 +25,7 @@ import { ErrorValidators } from './interface/errors/validatingRoes';
 import { IErpItem } from './interface/item';
 import { ParsingProgress } from './interface/rows';
 
-export const storeIntoDb = async (item, model): Promise<boolean> => {
+export const storeIntoDb = async (item, model: DataModel): Promise<boolean> => {
   const builder = getConnection().createQueryBuilder();
   if (mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE)) {
     const res = await builder.update(model).where('id = :id', { id: item.id }).set(item).execute();

@@ -1,5 +1,3 @@
-import { Channels } from '../../center';
-
 import { Status } from './errors';
 import { LogLevel } from './log';
 
@@ -28,6 +26,11 @@ export interface IpcMainEvent extends Event {
   reply: Function;
 }
 
-export const reply = (e: IpcMainEvent, channel: Channels, res: IRes<any>) => {
+/**
+ * @param {IpcMainEvent} e
+ * @param channel: Channels, but can not import in case of `circular dependencies`
+ * @param {IRes<any>} res
+ */
+export const reply = (e: IpcMainEvent, channel, res: IRes<any>) => {
   e.reply(channel, res);
 };

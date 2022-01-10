@@ -1,12 +1,12 @@
 import { createConnection } from 'typeorm';
 
-import { ErpModel } from '../../modules/parseFile/db';
+import { dataModels } from '../../modules/parseFile/db';
 
 export const createDefaultDatabase = async (fp) =>
   createConnection({
     type: 'sqlite',
     database: fp,
-    entities: [ErpModel],
+    entities: dataModels,
     logging: false,
     synchronize: true,
   })
