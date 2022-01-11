@@ -4,9 +4,7 @@ export const ENABLE_DATABASE = 'ENABLE_DATABASE';
 export const ENABLE_UPLOAD_DUPLICATED_FILE = 'ENABLE_UPLOAD_DUPLICATED_FILE';
 
 export const booleanSettings = {
-  [ENABLE_DATABASE]: true,
   [ENABLE_DB_UPSERT_MODE]: false,
-  [ENABLE_PARSE_WITH_HEADER]: true,
   [ENABLE_UPLOAD_DUPLICATED_FILE]: true,
 };
 

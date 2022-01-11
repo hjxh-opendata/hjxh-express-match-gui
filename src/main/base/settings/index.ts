@@ -41,7 +41,9 @@ export const mainLoadSettings = () => {
   }
 };
 
-export const mainGetSetting = (type: SettingKeyType, name: SettingKeyName) => settings[type][name];
+export const mainGetSetting = (type: SettingKeyType, name: SettingKeyName) => {
+  return process.env[name] === 'true' || settings[type][name];
+};
 
 export const mainSetSetting = (type: SettingKeyType, name: SettingKeyName, val) => {
   try {

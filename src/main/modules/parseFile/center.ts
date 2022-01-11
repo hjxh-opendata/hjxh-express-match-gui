@@ -3,13 +3,15 @@ import * as fs from 'fs';
 import iconv from 'iconv-lite';
 import { getConnection } from 'typeorm';
 
+import { DataModel } from '../../base/db/models';
+import { ErpModel } from '../../base/db/models/erp';
+import { TrdModel } from '../../base/db/models/trd';
 import { GenericError, Status } from '../../base/interface/errors';
 import { mainGetSetting } from '../../base/settings';
 import { ENABLE_DB_UPSERT_MODE } from '../../base/settings/boolean_settings';
 import { msgParseHeaderError } from '../../base/settings/string_settings';
 import { isDebugFileEnabled } from '../../base/utils';
 
-import { DataModel, ErpModel, TrdModel } from './db';
 import { SizeTransformer } from './handler/SizeTransformer';
 import { SIGNAL_ID, preParsing } from './handler/checkCsvEncoding';
 import { validateErpItem } from './handler/validators';
@@ -26,6 +28,7 @@ import { IErpItem } from './interface/item';
 import { ParsingProgress } from './interface/rows';
 
 export const storeIntoDb = async (item, model: DataModel): Promise<boolean> => {
+  // item.foreign = item.id;
   const builder = getConnection().createQueryBuilder();
   if (mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE)) {
     const res = await builder.update(model).where('id = :id', { id: item.id }).set(item).execute();

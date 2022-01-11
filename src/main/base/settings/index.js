@@ -38,7 +38,9 @@ var mainLoadSettings = function () {
     }
 };
 exports.mainLoadSettings = mainLoadSettings;
-var mainGetSetting = function (type, name) { return settings[type][name]; };
+var mainGetSetting = function (type, name) {
+    return process.env[name] === 'true' || settings[type][name];
+};
 exports.mainGetSetting = mainGetSetting;
 var mainSetSetting = function (type, name, val) {
     try {

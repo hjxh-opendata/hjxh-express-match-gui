@@ -1,6 +1,7 @@
 export enum DataMode {
-  onlyErp,
-  onlyTrd,
-  bothErpTrd,
-  mismatched,
+  onlyErp = 'onlyErp',
+  onlyTrd = 'onlyTrd',
+  trdWithErp = 'trdWithErp',
+  erpWithTrd = 'erpWithTrd',
+  // TODO: mismatched = 'mismatched',
 }
