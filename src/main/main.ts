@@ -21,7 +21,7 @@ import { URL } from 'url';
 import { createDefaultDatabase } from './base/db/conn';
 import { mainGetSetting, mainLoadSettings, mainSetSetting } from './base/settings';
 import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './base/settings/channels';
-import { getLogPath } from './base/utils';
+import { getDbPath, getLogPath } from './base/utils';
 import MenuBuilder from './menu';
 import { Ping } from './modules/heartBeats/const';
 import { handlePing } from './modules/heartBeats/handler';
@@ -32,25 +32,30 @@ import { RequestQueryDatabase } from './modules/queryDB/interface';
 import { handlerSelectFile } from './modules/selectFile/handler';
 import { RequestSelectFile } from './modules/selectFile/interface/channels';
 
+const logPath = getLogPath();
+console.log({ logPath });
+
 /**
  * add log to file support
  * ref: https://github.com/megahertz/electron-log#overriding-consolelog
  */
-const logPath = getLogPath();
-console.log({ logPath });
 log.transports.file.format = '{y}-{m}-{d} {h}:{i}:{s},{ms} [{level}] {text}';
 log.transports.file.resolvePath = () => logPath;
 // @ts-ignore
 console.log = log;
 Object.assign(console, log.functions);
+console.log({ logPath });
 
 /**
  * init database
  */
-const dbPath = path.join(app.getPath('appData'), 'hjxh_data.sqlite');
+const dbPath = getDbPath();
 console.log({ dbPath });
 createDefaultDatabase(dbPath);
 
+/**
+ * auto update
+ */
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
