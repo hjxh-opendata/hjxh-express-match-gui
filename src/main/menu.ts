@@ -2,6 +2,7 @@ import { BrowserWindow, Menu, MenuItemConstructorOptions, app, shell } from 'ele
 
 import { mainGetSetting, mainSetSetting } from './base/settings';
 import { ENABLE_DB_UPSERT_MODE } from './base/settings/boolean_settings';
+import { getLogPath } from './base/utils';
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   selector?: string;
@@ -30,6 +31,12 @@ export default class MenuBuilder {
               ENABLE_DB_UPSERT_MODE,
               !mainGetSetting('boolean', ENABLE_DB_UPSERT_MODE)
             );
+          },
+        },
+        {
+          label: '查看Log文件位置',
+          click() {
+            shell.openPath(getLogPath());
           },
         },
       ],

@@ -21,6 +21,7 @@ import { URL } from 'url';
 import { createDefaultDatabase } from './base/db/conn';
 import { mainGetSetting, mainLoadSettings, mainSetSetting } from './base/settings';
 import { GET_SETTING, GET_SETTINGS, SET_SETTING } from './base/settings/channels';
+import { getLogPath } from './base/utils';
 import MenuBuilder from './menu';
 import { Ping } from './modules/heartBeats/const';
 import { handlePing } from './modules/heartBeats/handler';
@@ -35,9 +36,13 @@ import { RequestSelectFile } from './modules/selectFile/interface/channels';
  * add log to file support
  * ref: https://github.com/megahertz/electron-log#overriding-consolelog
  */
+const logPath = getLogPath();
+console.log({ logPath });
+log.transports.file.format = '{y}-{m}-{d} {h}:{i}:{s},{ms} [{level}] {text}';
+log.transports.file.resolvePath = () => logPath;
 // @ts-ignore
-// console.log = log;
-// Object.assign(console, log.functions);
+console.log = log;
+Object.assign(console, log.functions);
 
 /**
  * init database
