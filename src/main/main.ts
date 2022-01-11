@@ -36,8 +36,8 @@ import { RequestSelectFile } from './modules/selectFile/interface/channels';
  * ref: https://github.com/megahertz/electron-log#overriding-consolelog
  */
 // @ts-ignore
-console.log = log;
-Object.assign(console, log.functions);
+// console.log = log;
+// Object.assign(console, log.functions);
 
 /**
  * init database

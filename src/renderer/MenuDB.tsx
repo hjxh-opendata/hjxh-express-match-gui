@@ -25,6 +25,10 @@ const columnsErp: GridColDef[] = [
     headerName: 'weight',
     type: 'number',
   },
+  {
+    field: 'cp',
+    headerName: 'cp',
+  },
 ];
 
 const columnsTrd: GridColDef[] = [
@@ -100,9 +104,9 @@ export const MenuDB = () => {
           </MenuItem>
           <MenuItem value={DataMode.onlyTrd}>仅显示TRD</MenuItem>
           <MenuItem value={DataMode.onlyErp}>仅显示ERP</MenuItem>
-          <MenuItem value={DataMode.trdWithErp}>基于trd显示联表</MenuItem>
+          <MenuItem value={DataMode.trdWithErp}>基于TRD显示联表</MenuItem>
           <MenuItem value={DataMode.erpWithTrd}>基于ERP显示联表</MenuItem>
-          <MenuItem value={DataMode.mismatched}>仅显示ERP和TRD不同时存在的数据</MenuItem>
+          {/* <MenuItem value={DataMode.mismatched}>仅显示ERP和TRD不同时存在的数据</MenuItem> */}
         </Select>
       </FormControl>
 
