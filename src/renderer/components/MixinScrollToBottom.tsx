@@ -10,13 +10,11 @@ const makeScrollToBottomHandler = (refMe) => ({
   },
 });
 
-const ScrollToBottom = (_, ref) => {
+const MixinScrollToBottom = (_, ref) => {
   const refMe = useRef(null as unknown as HTMLDivElement);
 
   useImperativeHandle(ref, () => makeScrollToBottomHandler(refMe));
   return <div ref={refMe} />;
 };
 
-export default forwardRef<ReturnType<typeof makeScrollToBottomHandler>>(
-  ScrollToBottom
-);
+export default forwardRef<ReturnType<typeof makeScrollToBottomHandler>>(MixinScrollToBottom);

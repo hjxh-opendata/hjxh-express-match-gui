@@ -13,7 +13,7 @@ interface UploadHistoryProps {
   items: IUploadItem[];
 }
 
-export const UploadHistory = ({ items }: UploadHistoryProps) => {
+export const CompUploadHistory = ({ items }: UploadHistoryProps) => {
   return (
     <div
       id={'upload-history'}
@@ -41,4 +41,4 @@ export const UploadHistory = ({ items }: UploadHistoryProps) => {
   );
 };
 
-export default UploadHistory;
+export default CompUploadHistory;

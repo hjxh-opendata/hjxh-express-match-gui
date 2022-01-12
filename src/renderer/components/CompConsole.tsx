@@ -3,7 +3,7 @@ import React, { ElementRef, useEffect, useRef } from 'react';
 import { LogLevel, getLogLevelInt } from '../../main/base/interface/log';
 import { IRes } from '../../main/base/interface/response';
 
-import ScrollToBottom from './ScrollToBottom';
+import ScrollToBottom from './MixinScrollToBottom';
 
 export interface IConsoleItem {
   text: string;
@@ -15,7 +15,7 @@ export interface ConsoleProps {
   items: IConsoleItem[];
 }
 
-export const Console = ({ items }: ConsoleProps) => {
+export const CompConsole = ({ items }: ConsoleProps) => {
   const refScroll = useRef<ElementRef<typeof ScrollToBottom>>(null);
 
   useEffect(() => {

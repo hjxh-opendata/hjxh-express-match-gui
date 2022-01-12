@@ -2,9 +2,13 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 
-import { IErpItem } from '../main/modules/parseFile/interface/item';
-import { DataMode } from '../main/modules/queryDB/base';
-import { IReqQueryDB, IResQueryDB, RequestQueryDatabase } from '../main/modules/queryDB/interface';
+import { IErpItem } from '../../main/modules/parseFile/interface/item';
+import { DataMode } from '../../main/modules/queryDB/base';
+import {
+  IReqQueryDB,
+  IResQueryDB,
+  RequestQueryDatabase,
+} from '../../main/modules/queryDB/interface';
 
 const columnsErp: GridColDef[] = [
   {
@@ -54,7 +58,7 @@ const columnsJoin = [
   { field: 'fee_trd', headerName: 'fee_trd' },
 ];
 
-export const MenuDB = () => {
+export const CompMenuDB = () => {
   const [data, setData] = useState<IErpItem[]>([]);
 
   const [mode, setMode] = useState<DataMode>(DataMode.onlyTrd);

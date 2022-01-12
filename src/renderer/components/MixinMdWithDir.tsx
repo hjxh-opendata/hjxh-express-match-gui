@@ -9,7 +9,7 @@ export interface MDWithDirProps {
   content: string;
 }
 
-export const MdWithDir = (props: MDWithDirProps) => {
+export const MixinMdWithDir = (props: MDWithDirProps) => {
   return (
     <ReactMarkdown remarkPlugins={[remarkParse, remarkDirective, remarkMyDirective, remarkGfm]}>
       {props.content}
@@ -17,4 +17,4 @@ export const MdWithDir = (props: MDWithDirProps) => {
   );
 };
 
-export default MdWithDir;
+export default MixinMdWithDir;

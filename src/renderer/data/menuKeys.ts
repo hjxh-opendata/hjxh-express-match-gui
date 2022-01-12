@@ -10,7 +10,10 @@ export type MenuTrdUpload = typeof menuTrdUpload;
 export const menuDbView = 'MenuDBView';
 export type MenuDBView = typeof menuDbView;
 
-export const menus = [menuInstruction, menuErpUpload, menuTrdUpload, menuDbView] as const;
+export const menuFees = 'MenuFeeView';
+export type MenuFeeView = typeof menuFees;
+
+export const menus = [menuInstruction, menuErpUpload, menuTrdUpload, menuDbView, menuFees] as const;
 export type Menus = typeof menus[number];
 
 export interface IDataMenu {

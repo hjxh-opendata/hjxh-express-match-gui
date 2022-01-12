@@ -9,14 +9,14 @@ import docUploadErpParse from '../docs/upload_erp_parse.md';
 import docUploadUpload from '../docs/upload_erp_upload.md';
 import docUploadTrd from '../docs/upload_trd_constraint.md';
 
-import { MdWithDir } from './MdWithDir';
+import { MixinMdWithDir } from './MixinMdWithDir';
 
 const steps = [
   {
     label: '系统简介',
     description: (
       <div>
-        <MdWithDir content={docSysIntro} />
+        <MixinMdWithDir content={docSysIntro} />
       </div>
     ),
   },
@@ -24,9 +24,9 @@ const steps = [
     label: '导入文件',
     description: (
       <div>
-        <MdWithDir content={docUploadBase} />
-        <MdWithDir content={docUploadErp} />
-        <MdWithDir content={docUploadTrd} />
+        <MixinMdWithDir content={docUploadBase} />
+        <MixinMdWithDir content={docUploadErp} />
+        <MixinMdWithDir content={docUploadTrd} />
       </div>
     ),
   },
@@ -34,7 +34,7 @@ const steps = [
     label: '解析文件',
     description: (
       <div>
-        <MdWithDir content={docUploadErpParse} />
+        <MixinMdWithDir content={docUploadErpParse} />
       </div>
     ),
   },
@@ -42,13 +42,13 @@ const steps = [
     label: '数据入库',
     description: (
       <div>
-        <MdWithDir content={docUploadUpload} />
+        <MixinMdWithDir content={docUploadUpload} />
       </div>
     ),
   },
 ];
 
-export const StepperIntro = () => {
+export const CompStepperIntro = () => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -69,7 +69,11 @@ export const StepperIntro = () => {
         {steps.map((step, index) => (
           <Step key={step.label}>
             <StepLabel
-              optional={index === steps.length - 1 ? <Typography variant={'caption'}>Last Step</Typography> : null}
+              optional={
+                index === steps.length - 1 ? (
+                  <Typography variant={'caption'}>Last Step</Typography>
+                ) : null
+              }
             >
               {step.label}
             </StepLabel>

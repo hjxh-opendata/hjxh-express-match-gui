@@ -6,12 +6,19 @@ import useStateRef from 'react-usestateref';
 
 import { Ping } from '../main/modules/heartBeats/const';
 
-import { StepperIntro } from './components/StepperIntro';
+import CompFeeList from './components/CompFeeList';
+import { CompMenuDB } from './components/CompMenuDB';
+import { CompMenuUpload } from './components/CompMenuUpload';
+import { CompStepperIntro } from './components/CompStepperIntro';
 
-import { MenuDB } from './MenuDB';
-import { MenuUploadErp } from './MenuUploadErp';
 import { IDataCenter, initDataCenter } from './data/center';
-import { menuDbView, menuErpUpload, menuInstruction, menuTrdUpload } from './data/menu';
+import {
+  menuDbView,
+  menuErpUpload,
+  menuFees,
+  menuInstruction,
+  menuTrdUpload,
+} from './data/menuKeys';
 import { getSettings } from './utils';
 
 import './styles/doc.scss';
@@ -51,6 +58,7 @@ export default function App() {
         <Tab value={menuErpUpload} label="ERP" />
         <Tab value={menuTrdUpload} label="TRD" />
         <Tab value={menuDbView} label={'数据库'} />
+        <Tab value={menuFees} label={'价格表'} />
       </Tabs>
 
       <div
@@ -58,10 +66,10 @@ export default function App() {
           'doc max-h-full max-w-full min-w-9/10 mx-auto px-10 overflow-auto flex-auto flex flex-wrap justify-center gap-10'
         }
       >
-        {data.menu.curMenu === menuInstruction && <StepperIntro />}
+        {data.menu.curMenu === menuInstruction && <CompStepperIntro />}
 
         {data.menu.curMenu === menuErpUpload && (
-          <MenuUploadErp
+          <CompMenuUpload
             isErp
             uploaded={data[menuErpUpload].uploaded}
             rowsPct={data[menuErpUpload].rowsPct}
@@ -81,7 +89,7 @@ export default function App() {
         )}
 
         {data.menu.curMenu === menuTrdUpload && (
-          <MenuUploadErp
+          <CompMenuUpload
             isErp={false}
             uploaded={data[menuTrdUpload].uploaded}
             rowsPct={data[menuTrdUpload].rowsPct}
@@ -98,7 +106,9 @@ export default function App() {
           />
         )}
 
-        {data.menu.curMenu === menuDbView && <MenuDB />}
+        {data.menu.curMenu === menuDbView && <CompMenuDB />}
+
+        {data.menu.curMenu === menuFees && <CompFeeList items={data[menuFees].items} />}
       </div>
     </div>
   );

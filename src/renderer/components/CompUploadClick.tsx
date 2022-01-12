@@ -20,9 +20,12 @@ function CircularProgressWithLabel(
           justifyContent: 'center',
         }}
       >
-        <Typography variant="caption" component="div" color="text.secondary" fontSize={'24px'}>{`${Math.round(
-          props.value
-        )}%`}</Typography>
+        <Typography
+          variant="caption"
+          component="div"
+          color="text.secondary"
+          fontSize={'24px'}
+        >{`${Math.round(props.value)}%`}</Typography>
       </Box>
     </Box>
   );
@@ -34,9 +37,12 @@ export interface UploadClick2Props {
   onClick: any;
 }
 
-export const UploadClick = (props: UploadClick2Props) => {
+export const CompUploadClick = (props: UploadClick2Props) => {
   return (
-    <div className={'flex justify-center items-center gap-10 w-full'} style={{ height: 150, border: '2px dashed' }}>
+    <div
+      className={'flex justify-center items-center gap-10 w-full'}
+      style={{ height: 150, border: '2px dashed' }}
+    >
       {props.sizePct || props.rowsPct ? (
         <>
           <CircularProgressWithLabel value={props.sizePct} color={'primary'} size={100} />

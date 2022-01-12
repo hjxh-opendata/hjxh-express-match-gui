@@ -1,36 +1,35 @@
 import React from 'react';
 
-import { LogLevel } from '../main/base/interface/log';
-import { IRes } from '../main/base/interface/response';
-import { getFileNameFromPath } from '../main/base/interface/utils';
-import { ENABLE_UPLOAD_DUPLICATED_FILE } from '../main/base/settings/boolean_settings';
+import { LogLevel } from '../../main/base/interface/log';
+import { IRes } from '../../main/base/interface/response';
+import { getFileNameFromPath } from '../../main/base/interface/utils';
+import { ENABLE_UPLOAD_DUPLICATED_FILE } from '../../main/base/settings/boolean_settings';
 import {
   ErpRequestParseFile,
   IReqParseFile,
   RequestParseFile,
   TrdRequestParseFile,
-} from '../main/modules/parseFile/interface/channels';
+} from '../../main/modules/parseFile/interface/channels';
 import {
   IContentParsingFile,
   isContentEnd,
   isContentError,
   isContentSuccess,
-} from '../main/modules/parseFile/interface/content';
-import { IParsingProgress } from '../main/modules/parseFile/interface/rows';
+} from '../../main/modules/parseFile/interface/content';
+import { IParsingProgress } from '../../main/modules/parseFile/interface/rows';
 import {
   ErpRequestSelectFile,
   RequestSelectFile,
   TrdRequestSelectFile,
-} from '../main/modules/selectFile/interface/channels';
-import { IContentSelectFile } from '../main/modules/selectFile/interface/response';
+} from '../../main/modules/selectFile/interface/channels';
+import { IContentSelectFile } from '../../main/modules/selectFile/interface/response';
+import { Menus, menuErpUpload, menuTrdUpload } from '../data/menuKeys';
+import { IDataUpload } from '../data/menuUpload';
+import { getSetting, renderProgressing } from '../utils';
 
-import { Console, IConsoleItem, makeItemFromMain, makeItemFromText } from './components/Console';
-import { UploadClick } from './components/UploadClick';
-import UploadHistory, { IUploadItem } from './components/UploadHistory';
-
-import { IDataErp } from './data/erp';
-import { Menus, menuErpUpload, menuTrdUpload } from './data/menu';
-import { getSetting, renderProgressing } from './utils';
+import { CompConsole, IConsoleItem, makeItemFromMain, makeItemFromText } from './CompConsole';
+import { CompUploadClick } from './CompUploadClick';
+import CompUploadHistory, { IUploadItem } from './CompUploadHistory';
 
 export interface MenuUploadErpDispatches {
   setConsoles: (key: Menus, item: IConsoleItem) => void;
@@ -44,7 +43,9 @@ export interface MenuUploadErpDispatches {
  * √: 实时在前端console刷新输出具体内容其实不太友好，而且会比较慢，比较合适的方法是在console输出进度条，而在F12里输出具体信息
  * @constructor
  */
-export const MenuUploadErp = (props: IDataErp & MenuUploadErpDispatches & { isErp: boolean }) => {
+export const CompMenuUpload = (
+  props: IDataUpload & MenuUploadErpDispatches & { isErp: boolean }
+) => {
   const { isErp } = props;
   const key = isErp ? menuErpUpload : menuTrdUpload;
   const requestSelectFileChannel = isErp ? ErpRequestSelectFile : TrdRequestSelectFile;
@@ -138,13 +139,13 @@ export const MenuUploadErp = (props: IDataErp & MenuUploadErpDispatches & { isEr
   return (
     // ui refer: https://medium.muz.li/file-upload-ui-inspiration-a82949ed191b
     <div className={'w-full m-8 overflow-auto'}>
-      <UploadClick sizePct={props.sizePct} rowsPct={props.rowsPct} onClick={onClickUpload} />
+      <CompUploadClick sizePct={props.sizePct} rowsPct={props.rowsPct} onClick={onClickUpload} />
 
-      <Console items={props.consoleItems} />
+      <CompConsole items={props.consoleItems} />
 
-      <UploadHistory items={props.uploaded} />
+      <CompUploadHistory items={props.uploaded} />
     </div>
   );
 };
 
-export default MenuUploadErp;
+export default CompMenuUpload;
