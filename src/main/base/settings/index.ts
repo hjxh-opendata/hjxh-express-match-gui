@@ -15,7 +15,7 @@ export const SETTINGS_PATH = path.join(app ? app.getPath('userData') : '.', 'set
 let settings = {
   boolean: booleanSettings,
   number: numberSettings,
-  string: stringSettings,
+  // string: stringSettings,
 };
 
 export type SettingKeyType = keyof typeof settings;

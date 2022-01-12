@@ -1,7 +1,7 @@
 import { BrowserWindow, Menu, MenuItemConstructorOptions, app, shell } from 'electron';
 
 import { mainGetSetting, mainSetSetting } from './base/settings';
-import { ENABLE_DB_UPSERT_MODE } from './base/settings/boolean_settings';
+import { ENABLE_DB_LOG, ENABLE_DB_UPSERT_MODE } from './base/settings/boolean_settings';
 import { getLogPath } from './base/utils';
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
@@ -34,9 +34,18 @@ export default class MenuBuilder {
           },
         },
         {
-          label: '查看Log文件位置',
+          label: '打开Log文件',
           click() {
+            console.log(getLogPath());
             shell.openPath(getLogPath());
+          },
+        },
+        {
+          label: '启用调试模式',
+          type: 'checkbox',
+          checked: mainGetSetting('boolean', ENABLE_DB_LOG),
+          click() {
+            mainSetSetting('boolean', ENABLE_DB_LOG, !mainGetSetting('boolean', ENABLE_DB_LOG));
           },
         },
       ],

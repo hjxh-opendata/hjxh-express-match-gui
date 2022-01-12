@@ -8,13 +8,11 @@ var path = require("path");
 var errors_1 = require("../interface/errors");
 var boolean_settings_1 = require("./boolean_settings");
 var number_settings_1 = require("./number_settings");
-var string_settings_1 = require("./string_settings");
 // ref: https://www.electronjs.org/docs/latest/api/app#appgetpathname
 exports.SETTINGS_PATH = path.join(electron_1.app ? electron_1.app.getPath('userData') : '.', 'settings.yaml');
 var settings = {
     boolean: boolean_settings_1.booleanSettings,
-    number: number_settings_1.numberSettings,
-    string: string_settings_1.stringSettings
+    number: number_settings_1.numberSettings
 };
 var mainDumpSettings = function () {
     try {
