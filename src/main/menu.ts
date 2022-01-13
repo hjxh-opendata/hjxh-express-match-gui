@@ -1,5 +1,13 @@
-import { BrowserWindow, Menu, MenuItemConstructorOptions, app, shell } from 'electron';
+import {
+  BrowserWindow,
+  Menu,
+  MenuItemConstructorOptions,
+  Notification,
+  app,
+  shell,
+} from 'electron';
 
+import { emptyDatabase } from './base/db/conn';
 import { mainGetSetting, mainSetSetting } from './base/settings';
 import { ENABLE_DB_LOG, ENABLE_DB_UPSERT_MODE } from './base/settings/boolean_settings';
 import { getLogPath } from './base/utils';
@@ -46,6 +54,18 @@ export default class MenuBuilder {
           checked: mainGetSetting('boolean', ENABLE_DB_LOG),
           click() {
             mainSetSetting('boolean', ENABLE_DB_LOG, !mainGetSetting('boolean', ENABLE_DB_LOG));
+          },
+        },
+        {
+          label: '清空数据库',
+          click() {
+            emptyDatabase()
+              .then(() => {
+                return new Notification({ title: '清空数据库', body: '清空成功' }).show();
+              })
+              .catch(() => {
+                return new Notification({ title: '清空数据库', body: '清空失败' }).show();
+              });
           },
         },
       ],

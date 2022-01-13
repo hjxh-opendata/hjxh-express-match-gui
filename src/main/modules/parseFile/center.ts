@@ -40,7 +40,10 @@ export const storeIntoDb = async (item, model: DataModel): Promise<boolean> => {
     .values(item)
     .execute()
     .then(() => true)
-    .catch(() => false);
+    .catch((e) => {
+      console.error(e);
+      return false;
+    });
 };
 
 export const parsingRow = async (
@@ -160,7 +163,7 @@ export const handleParseFileCenter = async (req: ReqParseFile) => {
       // TODO: test for parsing error, since the api has changed
       console.error(err);
       // prettier-ignore
-      if (onParsingException) onParsingException(new GenericError(errorDecodingRow, mainGetSetting('string', msgParseHeaderError)));
+      if (onParsingException) onParsingException(new GenericError(errorDecodingRow,  msgParseHeaderError));
       if (onEnd) onEnd({ status: Status.OVER, progress: progress.export() });
     })
 

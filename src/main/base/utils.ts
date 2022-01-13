@@ -50,7 +50,7 @@ export const getLogPath = () => {
     const logDirPath = path.dirname(logFilePath);
 
     /**
-     * for windows, since they can not auto create dir
+     * this method is indeed unnecessary (since auto create), but make sense
      */
     if (!fs.existsSync(logDirPath)) {
       console.log('log dir not existed, creating');
