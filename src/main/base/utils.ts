@@ -25,9 +25,14 @@ const ps2 = (s: number) => s.toString().padStart(2, '0');
 
 export const getFormattedDate = () => {
   const d = new Date();
-  return `${d.getFullYear()}/${ps2(d.getMonth() + 1)}/${ps2(d.getDate())}/${ps2(
-    d.getHours()
-  )}:${ps2(d.getMinutes())}:${ps2(d.getSeconds())}`;
+  let f = `${ps2(d.getHours())}:${ps2(d.getMinutes())}:${ps2(d.getSeconds())}`;
+  f = path.join(ps2(d.getDate()), f);
+  f = path.join(ps2(d.getMonth() + 1), f);
+  f = path.join(ps2(d.getFullYear()), f);
+  return f;
+  // return `${d.getFullYear()}/${ps2(d.getMonth() + 1)}/${ps2(d.getDate())}/${ps2(
+  //   d.getHours()
+  // )}:${ps2(d.getMinutes())}:${ps2(d.getSeconds())}`;
 };
 
 let logPath: string = undefined as unknown as string;

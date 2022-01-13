@@ -23,8 +23,8 @@ import {
   TrdRequestSelectFile,
 } from '../../main/modules/selectFile/interface/channels';
 import { IContentSelectFile } from '../../main/modules/selectFile/interface/response';
-import { Menus, menuErpUpload, menuTrdUpload } from '../data/menuKeys';
-import { IDataUpload } from '../data/menuUpload';
+import { MenuType, menuErpUpload, menuTrdUpload } from '../store/menu';
+import { IDataUpload } from '../store/menuUpload';
 import { getSetting, renderProgressing } from '../utils';
 
 import { CompConsole, IConsoleItem, makeItemFromMain, makeItemFromText } from './CompConsole';
@@ -32,10 +32,10 @@ import { CompUploadClick } from './CompUploadClick';
 import CompUploadHistory, { IUploadItem } from './CompUploadHistory';
 
 export interface MenuUploadErpDispatches {
-  setConsoles: (key: Menus, item: IConsoleItem) => void;
-  setUploaded: (key: Menus, item: IUploadItem) => void;
-  setSizePct: (k: Menus, v: number) => void;
-  setRowsPct: (k: Menus, v: number) => void;
+  setConsoles: (key: MenuType, item: IConsoleItem) => void;
+  setUploaded: (key: MenuType, item: IUploadItem) => void;
+  setSizePct: (k: MenuType, v: number) => void;
+  setRowsPct: (k: MenuType, v: number) => void;
 }
 
 /**

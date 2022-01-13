@@ -11,14 +11,8 @@ import { CompMenuDB } from './components/CompMenuDB';
 import { CompMenuUpload } from './components/CompMenuUpload';
 import { CompStepperIntro } from './components/CompStepperIntro';
 
-import { IDataCenter, initDataCenter } from './data/center';
-import {
-  menuDbView,
-  menuErpUpload,
-  menuFees,
-  menuInstruction,
-  menuTrdUpload,
-} from './data/menuKeys';
+import { IDataCenter, initDataCenter } from './store/center';
+import { menuDbView, menuErpUpload, menuFees, menuInstruction, menuTrdUpload } from './store/menu';
 import { getSettings } from './utils';
 
 import './styles/doc.scss';
