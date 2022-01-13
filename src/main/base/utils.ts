@@ -1,4 +1,4 @@
-import electron, { app } from 'electron';
+import { app } from 'electron';
 import fs from 'fs';
 import path from 'path';
 
@@ -35,21 +35,27 @@ export const getFormattedDate = () => {
   // )}:${ps2(d.getMinutes())}:${ps2(d.getSeconds())}`;
 };
 
-let logPath: string = undefined as unknown as string;
+let logFilePath: string = undefined as unknown as string;
 export const getLogPath = () => {
-  if (!logPath) {
+  if (!logFilePath) {
     const fileName = getFormattedDate() + '.log';
     const rootPath = getRootPath();
-    const logDirPath = path.join(rootPath, 'logs');
+    const logRootPath = path.join(rootPath, 'logs');
     console.log('initializing log path');
+    if (!fs.existsSync(logRootPath)) {
+      console.log('log root not existed, creating');
+      fs.mkdirSync(logRootPath);
+    }
+    logFilePath = path.join(logRootPath, fileName);
+    const logDirPath = path.dirname(logFilePath);
+
     if (!fs.existsSync(logDirPath)) {
       console.log('log dir not existed, creating');
-      fs.mkdirSync(logDirPath);
+      fs.mkdirSync(logDirPath, { recursive: true });
     }
-    logPath = path.join(logDirPath, fileName);
   }
 
-  return logPath;
+  return logFilePath;
 };
 
 export const getDbPath = () => path.join(getRootPath(), 'hjxh_data.sqlite');
