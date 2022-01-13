@@ -25,7 +25,7 @@ const ps2 = (s: number) => s.toString().padStart(2, '0');
 
 export const getFormattedDate = () => {
   const d = new Date();
-  let f = `${ps2(d.getHours())}:${ps2(d.getMinutes())}:${ps2(d.getSeconds())}`;
+  let f = `${ps2(d.getHours())}-${ps2(d.getMinutes())}-${ps2(d.getSeconds())}`;
   f = path.join(ps2(d.getDate()), f);
   f = path.join(ps2(d.getMonth() + 1), f);
   f = path.join(ps2(d.getFullYear()), f);
@@ -49,6 +49,9 @@ export const getLogPath = () => {
     logFilePath = path.join(logRootPath, fileName);
     const logDirPath = path.dirname(logFilePath);
 
+    /**
+     * for windows, since they can not auto create dir
+     */
     if (!fs.existsSync(logDirPath)) {
       console.log('log dir not existed, creating');
       fs.mkdirSync(logDirPath, { recursive: true });
