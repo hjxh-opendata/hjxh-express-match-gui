@@ -128,6 +128,10 @@ const createWindow = async () => {
     },
   });
 
+  // mainWindow.on('page-title-updated', function (e) {
+  //   e.preventDefault();
+  // });
+
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
   mainWindow.on('ready-to-show', () => {

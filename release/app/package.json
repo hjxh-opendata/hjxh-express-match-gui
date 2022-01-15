@@ -1,7 +1,7 @@
 {
   "name": "mark.hjxh.express_match",
-  "version": "0.3.21",
-  "description": "皇家小虎快递数据对比系统",
+  "version": "0.3.23",
+  "description": "皇家小虎快递数据对比系统 V${npm_package_version}",
   "main": "./dist/main/main.js",
   "author": {
     "name": "mark",

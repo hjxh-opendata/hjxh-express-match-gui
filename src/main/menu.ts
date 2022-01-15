@@ -7,7 +7,7 @@ import {
   shell,
 } from 'electron';
 
-import { emptyDatabase } from './base/db/conn';
+import { dropDatabase, emptyDatabase } from './base/db/conn';
 import { mainGetSetting, mainSetSetting } from './base/settings';
 import { ENABLE_DB_LOG, ENABLE_DB_UPSERT_MODE } from './base/settings/boolean_settings';
 import { getLogPath } from './base/utils';
@@ -65,6 +65,21 @@ export default class MenuBuilder {
               })
               .catch(() => {
                 return new Notification({ title: '清空数据库', body: '清空失败' }).show();
+              });
+          },
+        },
+        {
+          label: '删除数据库',
+          click() {
+            dropDatabase()
+              .then(() => {
+                return new Notification({
+                  title: '删除数据库',
+                  body: '删除成功，需要重启已启用！',
+                }).show();
+              })
+              .catch(() => {
+                return new Notification({ title: '删除数据库', body: '删除失败！' }).show();
               });
           },
         },

@@ -1,7 +1,7 @@
 import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
 import { TrdModel } from './trd';
 
-@Entity()
+@Entity("ErpModel")
 export class ErpModel {
 
   @OneToOne(() => TrdModel, trd => trd.id)
