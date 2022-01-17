@@ -1,0 +1,77 @@
+.doc {
+  color: aliceblue;
+
+  padding: 5px 10px;
+
+  text-align: left;
+
+  h2 {
+    padding: 0.5rem 0;
+    text-align: center;
+  }
+
+  ol,
+  ul {
+    list-style-position: inside;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  li {
+    display: list-item;
+    list-style-position: inside;
+  }
+}
+
+.directive {
+  position: relative;
+  margin: 10px 5px;
+  padding: 3px 10px 3px 20px;
+}
+
+// ref: - [Sass: @mixin and @include](https://sass-lang.com/documentation/at-rules/mixin)
+// pay attention to the punctuation mark
+@mixin dir($bg, $logo) {
+  background: $bg;
+
+  //  ref:
+  // - [React Alert （警告提示）组件 - MUI](https://mui.com/zh/components/alert/)
+  // - [CSS: :before and :after pseudo elements in practice](https://krasimirtsonev.com/blog/article/CSS-before-and-after-pseudo-elements-in-practice)
+  // - [css - Is there a way to use SVG as content in a pseudo element ::before or ::after - Stack Overflow](https://stackoverflow.com/questions/19255296/is-there-a-way-to-use-svg-as-content-in-a-pseudo-element-before-or-after)
+  // - [Using SVG - CSS-Tricks](https://css-tricks.com/using-svg/)
+  :before {
+    position: absolute;
+    display: block;
+    content: ' ';
+    width: 20px;
+    height: 20px;
+    background-image: $logo;
+    background-size: 20px 20px;
+    left: 10px;
+    top: 3px;
+  }
+}
+
+.success {
+  @include dir(#457a3b, url('../assets/svg/success.svg'));
+}
+
+.info {
+  @include dir(#3888cb, url('../assets/svg/tips.svg'));
+}
+
+.warn {
+  @include dir(#de732d, url('../assets/svg/warn.svg'));
+}
+
+.error {
+  @include dir(#c33f38, url('../assets/svg/error.svg'));
+}
+
+

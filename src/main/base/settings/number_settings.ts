@@ -1,0 +1,13 @@
+export const SET_ENABLE_PARSE_WITH_HEADER = 'SET_ENABLE_PARSE_WITH_HEADER';
+export const SET_MAX_CONSOLE_ITEMS = 'SET_MAX_CONSOLE_ITEMS';
+export const SET_MAX_UPLOAD_HISTORY = 'SET_MAX_UPLOAD_HISTORY';
+export const SET_PARSE_FILE_RETURN_FREQ = 'SET_PARSE_FILE_RETURN_FREQ';
+
+export const numberSettings = {
+  [SET_ENABLE_PARSE_WITH_HEADER]: 300,
+  [SET_MAX_CONSOLE_ITEMS]: 300,
+  [SET_MAX_UPLOAD_HISTORY]: 100,
+  [SET_PARSE_FILE_RETURN_FREQ]: 1000, // 1000条返回一次
+};
+
+export type NumberKeys = keyof typeof numberSettings;
