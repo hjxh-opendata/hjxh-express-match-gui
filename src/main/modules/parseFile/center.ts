@@ -41,7 +41,16 @@ export const storeIntoDb = async (item, model: DataModel): Promise<boolean> => {
     .execute()
     .then(() => true)
     .catch((e) => {
-      console.error(e);
+      if (
+        /**
+         * id duplicate
+         */
+        e.code === 'SQLITE_CONSTRAINT'
+      ) {
+        //  pass
+      } else {
+        console.error(e);
+      }
       return false;
     });
 };
@@ -59,7 +68,10 @@ export const parsingRow = async (
     // prettier-ignore
     console.error({ 'validate error': (err as unknown as GenericError<ErrorValidators>).message, 'raw input': item, });
     progress.updateRowFailedForValidation();
-    if (onParsingRowsError) onParsingRowsError(err as unknown as GenericError<ErrorParsingRows>);
+    if (onParsingRowsError) {
+      // TODO: add info of `rows`
+      onParsingRowsError(err as unknown as GenericError<ErrorParsingRows>);
+    }
     return;
   });
 

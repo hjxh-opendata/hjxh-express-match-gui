@@ -7,7 +7,7 @@ export const ENABLE_DB_LOG = 'ENABLE_DB_LOG';
 export const booleanSettings = {
   [ENABLE_DB_UPSERT_MODE]: false,
   [ENABLE_UPLOAD_DUPLICATED_FILE]: true,
-  [ENABLE_DB_LOG]: true,
+  [ENABLE_DB_LOG]: false,
 };
 
 export type BooleanKeys = keyof typeof booleanSettings;

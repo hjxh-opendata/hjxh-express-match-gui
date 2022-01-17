@@ -42,18 +42,18 @@ export default class MenuBuilder {
           },
         },
         {
-          label: '打开Log文件',
-          click() {
-            console.log(getLogPath());
-            shell.openPath(getLogPath());
-          },
-        },
-        {
           label: '启用调试模式',
           type: 'checkbox',
           checked: mainGetSetting('boolean', ENABLE_DB_LOG),
           click() {
             mainSetSetting('boolean', ENABLE_DB_LOG, !mainGetSetting('boolean', ENABLE_DB_LOG));
+          },
+        },
+        {
+          label: '打开Log文件',
+          click() {
+            console.log(getLogPath());
+            shell.openPath(getLogPath());
           },
         },
         {

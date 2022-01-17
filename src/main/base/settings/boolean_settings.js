@@ -10,5 +10,5 @@ exports.ENABLE_DB_LOG = 'ENABLE_DB_LOG';
 exports.booleanSettings = (_a = {},
     _a[exports.ENABLE_DB_UPSERT_MODE] = false,
     _a[exports.ENABLE_UPLOAD_DUPLICATED_FILE] = true,
-    _a[exports.ENABLE_DB_LOG] = true,
+    _a[exports.ENABLE_DB_LOG] = false,
     _a);
