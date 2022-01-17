@@ -1,3 +1,8 @@
+# ignore large files
+**/*.csv
+**/*.xlsx
+**/*.xls
+
 
 # add file of VERSION.txt in case for REDUNDANT changes being detected by IDE
 VERSION.txt
