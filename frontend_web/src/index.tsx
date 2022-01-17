@@ -5,9 +5,9 @@ import App from './App/App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-    // FIXME: 去除使用Upload导致产生findDOMNodes警告
+    // IMPROVE: 去除使用Upload导致产生findDOMNodes警告
     // <React.StrictMode>
-        <App/>,
+    <App />,
     // </React.StrictMode>,
     document.getElementById('root')
 );

@@ -489,9 +489,9 @@ export const rendererConfig = merge(basicConfig, {
     // 加上这条后，就可以在electron的network栏里点击相应文件并且不会有访问提示了，很有意思
     headers: { "Access-Control-Allow-Origin": "*" },
     // devServer内部的所有中间件执行之前的自定义执行函数，这里用于启动electron
-
-    // TODO: update here, but need verification !
-    onBeforeSetupMiddleware: (app, server, compiler) => {
+	// In webpack 4, the api is `before`, and now(5) is `onBeforeSetupMiddleware`
+	// reference: https://webpack.js.org/configuration/dev-server/#:~:text=devserver.onbeforesetupmiddleware
+    onBeforeSetupMiddleware: (devServer) => {
       console.log("\n=== 正在启动Electron主进程 ===\n");
       spawn("npm", ["run", "start:main"], {
         shell: true,

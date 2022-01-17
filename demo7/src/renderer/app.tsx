@@ -1,14 +1,14 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {ipcRenderer} from "electron";
-import {CollName, Msg, QueryReq} from "../main/const";
-import {Breadcrumb, Button, Layout, Menu, Tabs} from "antd";
+import { useEffect, useState } from "react";
+import { ipcRenderer } from "electron";
+import { CollName, Msg, QueryReq } from "../main/const";
+import { Breadcrumb, Button, Layout, Menu, Tabs } from "antd";
 
-const {Sider, Footer, Header, Content} = Layout
-const {SubMenu} = Menu
-const {TabPane} = Tabs
+const { Sider, Footer, Header, Content } = Layout
+const { SubMenu } = Menu
+const { TabPane } = Tabs
 
-import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
+import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 import ErpUpload from "./components/ErpUpload";
 
 
@@ -34,7 +34,7 @@ export const App = () => {
     const [siderCollapsed, setSiderCollapsed] = useState(false)
     const [tabSelected, setTabSelected] = useState("TabUploadERP")
     return (
-        <Layout style={{minHeight: '100vh'}}>
+        <Layout style={{ minHeight: '100vh' }}>
             {/*<Sider collapsible collapsed={siderCollapsed} onCollapse={setSiderCollapsed}>*/}
             {/*    <div className="logo"/>*/}
             {/*    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">*/}
@@ -60,21 +60,19 @@ export const App = () => {
             {/*</Sider>*/}
 
             <Layout className="site-layout">
-                <Header className="site-layout-background" style={{padding: 0}}>
+                <Header className="site-layout-background" style={{ padding: 0 }}>
                     <Tabs defaultActiveKey={tabSelected} className={"px-8"}>
                         <TabPane tab={"上传TRD表"} key={"TabUploadTRD"}>
-                            TODO:
                         </TabPane>
                         <TabPane tab={"上传ERP表"} key={"TabUploadERP"}>
-                            <ErpUpload/>
+                            <ErpUpload />
                         </TabPane>
                         <TabPane tab={"历史记录"} key={"TabHistory"}>
-                            TODO:
                         </TabPane>
                     </Tabs>
                 </Header>
 
-                <Content style={{margin: '0 16px'}}>
+                <Content style={{ margin: '0 16px' }}>
                     {/*<Breadcrumb style={{margin: '16px 0'}}>*/}
                     {/*    <Breadcrumb.Item>User</Breadcrumb.Item>*/}
                     {/*    <Breadcrumb.Item>Bill</Breadcrumb.Item>*/}
@@ -83,7 +81,7 @@ export const App = () => {
 
                 </Content>
 
-                <Footer style={{textAlign: 'center'}}>For HJXH Finance, Created by Mark via Electron, Antd, TailwindCSS,
+                <Footer style={{ textAlign: 'center' }}>For HJXH Finance, Created by Mark via Electron, Antd, TailwindCSS,
                     TypeScript ©2021 </Footer>
             </Layout>
         </Layout>

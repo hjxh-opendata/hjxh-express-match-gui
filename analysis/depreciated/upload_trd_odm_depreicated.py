@@ -41,7 +41,7 @@ def extract_date_str(s: pd.Series) -> pd.Series:
 
     assert s.dtype == float, '未知格式'
     assert s.apply(lambda x: 4e4 < x < 5e4).all(), '日期不匹配'
-    # FIXME: 这里的x - 2是一个试出来的无奈的选择，具体先看看其他有可能错的吧。。。
+    # IMPROVE: 这里的x - 2是一个试出来的无奈的选择，具体先看看其他有可能错的吧。。。
     return s.apply(lambda x: (datetime(1900, 1, 1) + timedelta(days=x-2)).strftime('%Y-%m'))
 
 

@@ -2,5 +2,12 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/electron-react-boilerplate" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/electron-react-typescript-webpack-boilerplate" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/erb" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/erb_base" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/erb_sqlite" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/erb_test" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/frontend_electron" vcs="Git" />
   </component>
 </project>

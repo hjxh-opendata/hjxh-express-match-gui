@@ -3,7 +3,6 @@ import path from "path";
 const distPath = path.resolve("./dist");
 
 export const basicConfig = {
-    // FIXME:
     target: "node",
     // node: {global: true},
     // target: "web",

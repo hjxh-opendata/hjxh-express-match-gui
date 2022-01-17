@@ -11,7 +11,6 @@ from api.db_push import router_push_db
 from api.file_upload import router_upload_file
 from const import ResponseModel
 
-# TODO: 目前采用直接存储文件的办法，也就是会分两次读取，下次会考虑用全局字典直接在io.Bytes里跨api操作
 app = FastAPI(docs_url=None, redoc_url=None, root_path="/api/v1")
 
 app.include_router(router_upload_file, tags=["文件上传"])

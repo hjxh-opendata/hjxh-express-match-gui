@@ -4,7 +4,7 @@ from core.calc_price.calc_price_of_item import calc_price_of_item
 from core.base import ErrorType
 from tqdm import tqdm
 
-# TODO: 这个脚本只是用于离线更新计算价格正常的条目，还不能确定计算的是否正确，以及未能计算价格的条目如何处理
+# IMPROVE: 这个脚本只是用于离线更新计算价格正常的条目，还不能确定计算的是否正确，以及未能计算价格的条目如何处理
 
 coll = db["2021-11"]
 
