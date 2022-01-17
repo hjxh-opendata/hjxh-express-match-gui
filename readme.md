@@ -1,115 +1,120 @@
 # `hjxh_express_match`
 
 1. [Diary](#diary)
-  1. [2022-01-13](#2022-01-13)
-  2. [2022-01-10](#2022-01-10)
-  3. [2022-01-09](#2022-01-09)
-  4. [2022-01-07](#2022-01-07)
-  5. [2022-01-06](#2022-01-06)
-  6. [2022-01-05](#2022-01-05)
-  7. [2022-01-04](#2022-01-04)
-  8. [2022-01-03](#2022-01-03)
-  9. [2022-01-02](#2022-01-02)
-  10. [2022-01-01](#2022-01-01)
-  11. [2021-12-30](#2021-12-30)
-  12. [2021-12-29](#2021-12-29)
-  13. [2021-12-28](#2021-12-28)
-  14. [2021-12-26](#2021-12-26)
-  15. [2021-12-24](#2021-12-24)
+    1. [2022-01-13](#2022-01-13)
+    2. [2022-01-10](#2022-01-10)
+    3. [2022-01-09](#2022-01-09)
+    4. [2022-01-07](#2022-01-07)
+    5. [2022-01-06](#2022-01-06)
+    6. [2022-01-05](#2022-01-05)
+    7. [2022-01-04](#2022-01-04)
+    8. [2022-01-03](#2022-01-03)
+    9. [2022-01-02](#2022-01-02)
+    10. [2022-01-01](#2022-01-01)
+    11. [2021-12-30](#2021-12-30)
+    12. [2021-12-29](#2021-12-29)
+    13. [2021-12-28](#2021-12-28)
+    14. [2021-12-26](#2021-12-26)
+    15. [2021-12-24](#2021-12-24)
 2. [Todo](#todo)
-  1. [TODO: channel split of erp and trd, otherwise would go into a mess](#todo-channel-split-of-erp-and-trd-otherwise-would-go-into-a-mess)
-  2. [TODO: Redux](#todo-redux)
-  3. [TODO: 本地持久化](#todo-本地持久化)
-  4. [TODO： 实现TRD与ERP的对比](#todo-实现trd与erp的对比)
-  5. [IMPROVE: update electron title based on version number](#improve-update-electron-title-based-on-version-number)
+    1. [TODO: channel split of erp and trd, otherwise would go into a mess](#todo-channel-split-of-erp-and-trd-otherwise-would-go-into-a-mess)
+    2. [TODO: Redux](#todo-redux)
+    3. [TODO: 本地持久化](#todo-本地持久化)
+    4. [TODO： 实现TRD与ERP的对比](#todo-实现trd与erp的对比)
+    5. [IMPROVE: update electron title based on version number](#improve-update-electron-title-based-on-version-number)
 3. [Finished/Bugfix](#finishedbugfix)
-  1. [:white_check_mark: uploading trd would also have erp](#white_check_mark-uploading-trd-would-also-have-erp)
-  2. [:white_check_mark: when parsing file, the focus won't be broke even switching tabs](#white_check_mark-when-parsing-file-the-focus-wont-be-broke-even-switching-tabs)
-  3. [:white_check_mark: 实现TRD的数据读取与存储](#white_check_mark-实现trd的数据读取与存储)
-  4. [[PASS] add log module. updated 2022-01-10.](#pass-add-log-module-updated-2022-01-10)
-  5. [:white_check_mark： 实现`better-sqlite3`的表定义与封装](#white_check_mark-实现better-sqlite3的表定义与封装)
-  6. [:white_check_mark: db init with `generate table in source code` or via `.env`.](#white_check_mark-db-init-with-generate-table-in-source-code-or-via-env)
-  7. [:white_check_mark: change `asar: false`. 2022-01-03 tried this option, but does no help to out project, except let me more clear about what there are in the archive.](#white_check_mark-change-asar-false-2022-01-03-tried-this-option-but-does-no-help-to-out-project-except-let-me-more-clear-about-what-there-are-in-the-archive)
-  8. [:white_check_mark: add electron menu. 2022-01-02](#white_check_mark-add-electron-menu-2022-01-02)
-  9. [:white_circle: replace the progress stream, since it doesn't synchronize with the database, and not accurate for percentage measure。2022-01-02 19:49:20。](#white_circle-replace-the-progress-stream-since-it-doesnt-synchronize-with-the-database-and-not-accurate-for-percentage-measure2022-01-02-194920)
-  10. [:white_check_mark: add the global settings json file, so that the frontend and the backend can mutually use it。2022-01-02 17:04:24。](#white_check_mark-add-the-global-settings-json-file-so-that-the-frontend-and-the-backend-can-mutually-use-it2022-01-02-170424)
-  11. [:white_check_mark: 省份匹配。2022-01-02，用之前的程序改成js版即可。](#white_check_mark-省份匹配2022-01-02用之前的程序改成js版即可)
-  12. [:white_check_mark: 测试ERP的数据读取与存储。1-1: finished.](#white_check_mark-测试erp的数据读取与存储1-1-finished)
-  13. [:white_check_mark: 优化文件读取过程中的前端界面展示。12-31: finished。](#white_check_mark-优化文件读取过程中的前端界面展示12-31-finished)
-  14. [:white_check_mark: TS2339: Property 'erp' does not exist on type 'PrismaClient '. 12-28: The solution is to use `npx prisma generate`.](#white_check_mark-ts2339-property-erp-does-not-exist-on-type-prismaclient--12-28-the-solution-is-to-use-npx-prisma-generate)
-  15. [:white_check_mark: 解析数据有误问题](#white_check_mark-解析数据有误问题)
-  16. [:white_check_mark: `sqlite3、typeorm` native dependency](#white_check_mark-sqlite3typeorm-native-dependency)
-  17. [:white_check_mark: 学习`prisma`的连接与插入业务流设计范式。](#white_check_mark-学习prisma的连接与插入业务流设计范式)
-  18. [:white_check_mark: csv只读取第一行](#white_check_mark-csv只读取第一行)
-  19. [:white_check_mark: 寻求`fast-csv` skip error的方案。](#white_check_mark-寻求fast-csv-skip-error的方案)
-  20. [:white_check_mark: 支持上传的文件的 Sample 备份预览（包含head与tail五行）。](#white_check_mark-支持上传的文件的-sample-备份预览包含head与tail五行)
-  21. [:white_check_mark: 完成数据库、前端、后端的基本设计。2021年12月22日](#white_check_mark-完成数据库前端后端的基本设计2021年12月22日)
-  22. [:white_check_mark: no-headers pass but headers not](#white_check_mark-no-headers-pass-but-headers-not)
-  23. [:white_check_mark: `progress-stream` cause bug](#white_check_mark-progress-stream-cause-bug)
-  24. [:white_check_mark: `try...catch...finally` problem](#white_check_mark-trycatchfinally-problem)
-  25. [:white_check_mark: ipcRenderer duplicate response](#white_check_mark-ipcrenderer-duplicate-response)
-  26. [:white_check_mark: how to asynchronously and partially read csv](#white_check_mark-how-to-asynchronously-and-partially-read-csv)
-  27. [:white_check_mark: which to choose: `node-csv` or `fast-csv`](#white_check_mark-which-to-choose-node-csv-or-fast-csv)
-  28. [:white_check_mark: axios `form-data` parse bug](#white_check_mark-axios-form-data-parse-bug)
+    1. [:white_check_mark: uploading trd would also have erp](#white_check_mark-uploading-trd-would-also-have-erp)
+    2. [:white_check_mark: when parsing file, the focus won't be broke even switching tabs](#white_check_mark-when-parsing-file-the-focus-wont-be-broke-even-switching-tabs)
+    3. [:white_check_mark: 实现TRD的数据读取与存储](#white_check_mark-实现trd的数据读取与存储)
+    4. [[PASS] add log module. updated 2022-01-10.](#pass-add-log-module-updated-2022-01-10)
+    5. [:white_check_mark： 实现`better-sqlite3`的表定义与封装](#white_check_mark-实现better-sqlite3的表定义与封装)
+    6. [:white_check_mark: db init with `generate table in source code` or via `.env`.](#white_check_mark-db-init-with-generate-table-in-source-code-or-via-env)
+    7. [:white_check_mark: change `asar: false`. 2022-01-03 tried this option, but does no help to out project, except let me more clear about what there are in the archive.](#white_check_mark-change-asar-false-2022-01-03-tried-this-option-but-does-no-help-to-out-project-except-let-me-more-clear-about-what-there-are-in-the-archive)
+    8. [:white_check_mark: add electron menu. 2022-01-02](#white_check_mark-add-electron-menu-2022-01-02)
+    9. [:white_circle: replace the progress stream, since it doesn't synchronize with the database, and not accurate for percentage measure。2022-01-02 19:49:20。](#white_circle-replace-the-progress-stream-since-it-doesnt-synchronize-with-the-database-and-not-accurate-for-percentage-measure2022-01-02-194920)
+    10. [:white_check_mark: add the global settings json file, so that the frontend and the backend can mutually use it。2022-01-02 17:04:24](#white_check_mark-add-the-global-settings-json-file-so-that-the-frontend-and-the-backend-can-mutually-use-it2022-01-02-170424)
+    11. [:white_check_mark: 省份匹配。2022-01-02，用之前的程序改成js版即可](#white_check_mark-省份匹配2022-01-02用之前的程序改成js版即可)
+    12. [:white_check_mark: 测试ERP的数据读取与存储。1-1: finished](#white_check_mark-测试erp的数据读取与存储1-1-finished)
+    13. [:white_check_mark: 优化文件读取过程中的前端界面展示。12-31: finished](#white_check_mark-优化文件读取过程中的前端界面展示12-31-finished)
+    14. [:white_check_mark: TS2339: Property 'erp' does not exist on type 'PrismaClient '. 12-28: The solution is to use `npx prisma generate`](#white_check_mark-ts2339-property-erp-does-not-exist-on-type-prismaclient--12-28-the-solution-is-to-use-npx-prisma-generate)
+    15. [:white_check_mark: 解析数据有误问题](#white_check_mark-解析数据有误问题)
+    16. [:white_check_mark: `sqlite3、typeorm` native dependency](#white_check_mark-sqlite3typeorm-native-dependency)
+    17. [:white_check_mark: 学习`prisma`的连接与插入业务流设计范式。](#white_check_mark-学习prisma的连接与插入业务流设计范式)
+    18. [:white_check_mark: csv只读取第一行](#white_check_mark-csv只读取第一行)
+    19. [:white_check_mark: 寻求`fast-csv` skip error的方案。](#white_check_mark-寻求fast-csv-skip-error的方案)
+    20. [:white_check_mark: 支持上传的文件的 Sample 备份预览（包含head与tail五行）。](#white_check_mark-支持上传的文件的-sample-备份预览包含head与tail五行)
+    21. [:white_check_mark: 完成数据库、前端、后端的基本设计。2021年12月22日](#white_check_mark-完成数据库前端后端的基本设计2021年12月22日)
+    22. [:white_check_mark: no-headers pass but headers not](#white_check_mark-no-headers-pass-but-headers-not)
+    23. [:white_check_mark: `progress-stream` cause bug](#white_check_mark-progress-stream-cause-bug)
+    24. [:white_check_mark: `try...catch...finally` problem](#white_check_mark-trycatchfinally-problem)
+    25. [:white_check_mark: ipcRenderer duplicate response](#white_check_mark-ipcrenderer-duplicate-response)
+    26. [:white_check_mark: how to asynchronously and partially read csv](#white_check_mark-how-to-asynchronously-and-partially-read-csv)
+    27. [:white_check_mark: which to choose: `node-csv` or `fast-csv`](#white_check_mark-which-to-choose-node-csv-or-fast-csv)
+    28. [:white_check_mark: axios `form-data` parse bug](#white_check_mark-axios-form-data-parse-bug)
 4. [业务问题](#业务问题)
-  1. [:white_check_mark: ERP表中，计算价格错误](#white_check_mark-erp表中计算价格错误)
-  2. [:white_check_mark: 第三方表匹配不上ERP表](#white_check_mark-第三方表匹配不上erp表)
-  3. [:white_check_mark: 第三方报表格式](#white_check_mark-第三方报表格式)
-  4. [:white_check_mark: 第三方表字段含义](#white_check_mark-第三方表字段含义)
+    1. [:white_check_mark: ERP表中，计算价格错误](#white_check_mark-erp表中计算价格错误)
+    2. [:white_check_mark: 第三方表匹配不上ERP表](#white_check_mark-第三方表匹配不上erp表)
+    3. [:white_check_mark: 第三方报表格式](#white_check_mark-第三方报表格式)
+    4. [:white_check_mark: 第三方表字段含义](#white_check_mark-第三方表字段含义)
 5. [设计](#设计)
-  1. [工作流设计](#工作流设计)
-  2. [数据库的选择](#数据库的选择)
-  3. [数据库的表设计](#数据库的表设计)
-  4. [[DEPRECIATED] Module Design](#depreciated-module-design)
+    1. [工作流设计](#工作流设计)
+    2. [数据库的选择](#数据库的选择)
+    3. [数据库的表设计](#数据库的表设计)
+    4. [[DEPRECIATED] Module Design](#depreciated-module-design)
 6. [Philosophy](#philosophy)
-  1. [Eslint is good](#eslint-is-good)
-  2. [Modularization helps me done right](#modularization-helps-me-done-right)
-  3. [Interface helps me done right!](#interface-helps-me-done-right)
-  4. [Interface 和 Object 之间的关系](#interface-和-object-之间的关系)
-  5. [Error类的继承设计](#error类的继承设计)
+    1. [Eslint is good](#eslint-is-good)
+    2. [Modularization helps me done right](#modularization-helps-me-done-right)
+    3. [Interface helps me done right!](#interface-helps-me-done-right)
+    4. [Interface 和 Object 之间的关系](#interface-和-object-之间的关系)
+    5. [Error类的继承设计](#error类的继承设计)
 7. [Experience](#experience)
-  1. [IMPROVE: 关于首行检测算法+英文抬头导致第二类错误发生](#improve-关于首行检测算法英文抬头导致第二类错误发生)
-  2. [忍痛隔离 `parseFileWithoutHeader` 接口，2022年01月08日](#忍痛隔离-parsefilewithoutheader-接口2022年01月08日)
-  3. [Do not use global electron](#do-not-use-global-electron)
-  4. [I can only use Sqlite3 for one connection](#i-can-only-use-sqlite3-for-one-connection)
+    1. [IMPROVE: 关于首行检测算法+英文抬头导致第二类错误发生](#improve-关于首行检测算法英文抬头导致第二类错误发生)
+    2. [忍痛隔离 `parseFileWithoutHeader` 接口，2022年01月08日](#忍痛隔离-parsefilewithoutheader-接口2022年01月08日)
+    3. [Do not use global electron](#do-not-use-global-electron)
+    4. [I can only use Sqlite3 for one connection](#i-can-only-use-sqlite3-for-one-connection)
 8. [[ARCHIVE] 表约定【重要】](#archive-表约定重要)
-  1. [术语定义](#术语定义)
-  2. [通用表约定](#通用表约定)
-  3. [erp表约定](#erp表约定)
-  4. [trd表约定](#trd表约定)
-  5. [列字段约束](#列字段约束)
+    1. [术语定义](#术语定义)
+    2. [通用表约定](#通用表约定)
+    3. [erp表约定](#erp表约定)
+    4. [trd表约定](#trd表约定)
+    5. [列字段约束](#列字段约束)
 
 ## Diary
 
 ### 2022-01-13
+
 - 修复了windows路径拼接问题（windows不支持冒号文件名）
 - 修复了无法导表的问题，原因是数据库定义与旧的数据库冲突，删掉旧的数据库即可
 
-
-
 ### 2022-01-10
+
 - 基于erp，实现了trd的读取与存储
 - 修复trd表后台没有配置的问题
 
 ### 2022-01-09
+
 - ⭐️精简了解析文件的返回结构，程序的可维护性大大提高
 - 实现并测试了数据库插入与更新两种模式
 - 重新调整了界面UI，将简介页分离，相应地调整了主体布局
 - 实现了不加redux的跨组件分享 （TODO: 考虑是否有必要改用Redux）
 
 ### 2022-01-07
+
 - 实现了erp的表导入，性能很ok
 
 ### 2022-01-06
+
 - 解决了windows平台没有上传文件选项的问题
 - 增加了条目汇总输出特性
 - 部分修复了日记的问题……
 
 ### 2022-01-05
+
 - 测试了windows平台的输出，通过运行
 - 确定放弃了prisma的使用
 
 ### 2022-01-04
+
 - ⭐️⭐️终于弄明白了`prisma`的bug所在，mac平台上的打包无压力（但还有改进空间）
 
 ### 2022-01-03
@@ -152,7 +157,6 @@
 
 ## Todo
 
-
 ### TODO: channel split of erp and trd, otherwise would go into a mess
 
 ### TODO: Redux
@@ -163,6 +167,7 @@
 ### TODO： 实现TRD与ERP的对比
 
 ### IMPROVE: update electron title based on version number
+
 I checked a few of articles, and to find there is no unified answer.
 
 ~~Maybe, the best idea and can-be-controlled approach is to update title at the same time when updating the version number in package.json, and I am to do this.~~
@@ -175,17 +180,14 @@ ref:
 
 - [node.js - How can I use variables in package.json? - Stack Overflow](https://stackoverflow.com/questions/43705195/how-can-i-use-variables-in-package-json)
 
-
-
 - [How do I change the name of the electron window? · Issue #2543 · electron/electron](https://github.com/electron/electron/issues/2543)
 
 - [Is there a way to get the app Version from package.json? · Issue #6451 · electron/electron](https://github.com/electron/electron/issues/6451)
 
-
-
 ## Finished/Bugfix
 
 ### :white_check_mark: uploading trd would also have erp
+
 It's version problem, and now it has gone along with the version update.
 
 ### :white_check_mark: when parsing file, the focus won't be broke even switching tabs
@@ -205,8 +207,8 @@ console.log(counterRef.current);
 ```
 
 ref:
-- [javascript - React hooks: accessing up-to-date state from within a callback - Stack Overflow](https://stackoverflow.com/questions/57847594/react-hooks-accessing-up-to-date-state-from-within-a-callback)
 
+- [javascript - React hooks: accessing up-to-date state from within a callback - Stack Overflow](https://stackoverflow.com/questions/57847594/react-hooks-accessing-up-to-date-state-from-within-a-callback)
 
 ### :white_check_mark: 实现TRD的数据读取与存储
 
@@ -215,7 +217,6 @@ ref:
 ### :white_check_mark： 实现`better-sqlite3`的表定义与封装
 
 <img alt="picture 1" src=".imgs/readme-1641513479890-b40f4b84e7c4b68820621bef53990ba4720f7145ad1a827765774c385ce963a9.png" />  
-
 
 ### :white_check_mark: db init with `generate table in source code` or via `.env`.
 
@@ -290,15 +291,15 @@ ref:
 
 - [through2原理解析 - SegmentFault 思否](https://segmentfault.com/a/1190000011740894)
 
-### :white_check_mark: add the global settings json file, so that the frontend and the backend can mutually use it。2022-01-02 17:04:24。
+### :white_check_mark: add the global settings json file, so that the frontend and the backend can mutually use it。2022-01-02 17:04:24
 
-### :white_check_mark: 省份匹配。2022-01-02，用之前的程序改成js版即可。
+### :white_check_mark: 省份匹配。2022-01-02，用之前的程序改成js版即可
 
-### :white_check_mark: 测试ERP的数据读取与存储。1-1: finished.
+### :white_check_mark: 测试ERP的数据读取与存储。1-1: finished
 
-### :white_check_mark: 优化文件读取过程中的前端界面展示。12-31: finished。
+### :white_check_mark: 优化文件读取过程中的前端界面展示。12-31: finished
 
-### :white_check_mark: TS2339: Property 'erp' does not exist on type 'PrismaClient '. 12-28: The solution is to use `npx prisma generate`.
+### :white_check_mark: TS2339: Property 'erp' does not exist on type 'PrismaClient '. 12-28: The solution is to use `npx prisma generate`
 
 ### :white_check_mark: 解析数据有误问题
 
@@ -413,11 +414,17 @@ csv文件读取的选型与方法。经过鉴定，`node-csv`的接口比较低�
 ### :white_check_mark: axios `form-data` parse bug
 
 本地前端上传文件`options`信息：
-![](/Users/mark/Documents/mark_projects/hjxh/hjxh_express_match/.imgs/ac1429ee.png)
+
+![-](/Users/mark/Documents/mark_projects/hjxh/hjxh_express_match/.imgs/ac1429ee.png)
+
 远程前端上传文件`options`信息：
-![](/Users/mark/Documents/mark_projects/hjxh/hjxh_express_match/.imgs/6f1243c3.png)
+
+![-](/Users/mark/Documents/mark_projects/hjxh/hjxh_express_match/.imgs/6f1243c3.png)
+
 这是在前端进行文件上传的断点调试
-![](/Users/mark/Documents/mark_projects/hjxh/hjxh_express_match/.imgs/dc88c60b.png)
+
+![-](/Users/mark/Documents/mark_projects/hjxh/hjxh_express_match/.imgs/dc88c60b.png)
+
 基于这个，再进行服务端文件调试，比对文件信息的不同。但是现在的问题是服务端进入不了程序逻辑，直接被fastapi拒绝了。
 
 ## 业务问题
@@ -429,7 +436,7 @@ csv文件读取的选型与方法。经过鉴定，`node-csv`的接口比较低�
 1. 收货地区填写不规范（6/50+w），导致未能正确识别省份名称，例如：
    <img width="480" alt="picture 1" src="/Users/mark/Documents/mark_projects/hjxh/hjxh_express_match/.imgs/1639525460152-97579f7fe2ca3a38b79dbe31af8d7d443f6bb2e389770af37b7cbfcb930e6c4a.png" />
 
-更新：对于这种问题，直接提示报错即可。
+    更新：对于这种问题，直接提示报错即可。
 
 2. 重量为0（这个还比较多，146/50+w），无法理解,例如：
    <img width="480"  alt="picture 4" src="/Users/mark/Documents/mark_projects/hjxh/hjxh_express_match/.imgs/1639526551331-6afaff748574f058027b17e33888123b28141b9574b5c35784c49ed5ae093697.png" />
@@ -608,15 +615,13 @@ OK，很快就消除完了，毕竟我后续定义的`MyError`类是这个`TestC
 
 以及相关参考链接： [c# - How can I detect the encoding/codepage of a text file - Stack Overflow](https://stackoverflow.com/questions/90838/how-can-i-detect-the-encoding-codepage-of-a-text-file)
 
-
 <img alt="picture 5" src=".imgs/readme-1641626065186-bbc4c6b27c353f81197b74545ea990ae714ebb751a6aa78cd2e9019df372d2c0.png" />  
 
 文中提到，我可以猜，是的，我可以猜，那在我们目前这个实现上没有必要。
 
-
 ### 忍痛隔离 `parseFileWithoutHeader` 接口，2022年01月08日
-<img alt="picture 3" src=".imgs/readme-1641584680631-28c6799f9c20398d8dd7f4a35759ab6a79b27f71135303c4de57af1295981dff.png" />  
 
+<img alt="picture 3" src=".imgs/readme-1641584680631-28c6799f9c20398d8dd7f4a35759ab6a79b27f71135303c4de57af1295981dff.png" />  
 
 ### Do not use global electron
 
