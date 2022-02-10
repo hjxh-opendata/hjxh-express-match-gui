@@ -19,6 +19,27 @@
     "*.{css,sass,scss}.d.ts": true
   },
   "cSpell.words": [
-    "hjxh"
+    "asar",
+    "browserslist",
+    "compat",
+    "enode",
+    "eslintignore",
+    "hjxh",
+    "nsis",
+    "opencollective",
+    "pmmmwh",
+    "postbuild",
+    "prettierrc",
+    "reduxjs",
+    "tailwindcss",
+    "teamsupercell",
+    "tnode",
+    "trivago",
+    "typeorm",
+    "unist",
+    "UPSERT",
+    "usestateref",
+    "webm",
+    "webp"
   ]
 }
