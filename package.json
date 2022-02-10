@@ -2,24 +2,24 @@
   "name": "hjxh_dba",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Fast Refresh for rapid application development",
   "scripts": {
+    "start": "node --loader ts-node/esm ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
+    "start:main": "cross-env NODE_ENV=development electron -r ts-node/register/transpile-only ./src/main/main.ts",
+    "start:renderer": "tsc src/main/preload.ts && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
     "postbuild": "sh scripts/script_postbuild_update-version.sh",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
     "build:renderer": "tsc src/main/preload.ts && cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
-    "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never && say package ok",
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-rebuild install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts && opencollective-postinstall",
-    "start": "node --loader ts-node/esm ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
-    "start:main": "cross-env NODE_ENV=development electron -r ts-node/register/transpile-only ./src/main/main.ts",
-    "start:renderer": "tsc src/main/preload.ts && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "enode": "tsc -b --clean && node --loader ts-node/esm --inspect-brk",
     "tnode": "node --loader ts-node/esm",
+    "enode": "tsc -b --clean && node --loader ts-node/esm --inspect-brk",
     "prepare": "husky install",
-    "app:dir": "electron-builder --dir && say dir ok",
     "app:dist": "electron-builder",
+    "app:dir": "electron-builder --dir && say dir ok",
     "pack:win": "electron-builder build --win && say pack ok",
     "pack:mac": "electron-builder build --mac && say pack ok",
+    "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
     "doc": "jsdoc -d docs --configure jsdoc.config.js src/main/main.js"
   },
   "lint-staged": {
@@ -38,7 +38,7 @@
   },
   "build": {
     "electronDownload": {
-      "mirror": "https://npm.taobao.org/mirrors/electron/"
+      "mirror": "https://cdn.npm.taobao.org/dist/electron/"
     },
     "productName": "HJXH-DATA-ANALYSIS",
     "appId": "mark.electron.hjxh_express_match",

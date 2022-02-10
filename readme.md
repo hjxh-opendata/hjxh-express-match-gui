@@ -1,5 +1,15 @@
 # `hjxh_express_match`
 
+1. [overview](#overview)
+2. [init](#init)
+3. [start app](#start-app)
+4. [pack app](#pack-app)
+5. [open app](#open-app)
+    1. [1. using `open` command with console](#1-using-open-command-with-console)
+    2. [2. directly open](#2-directly-open)
+6. [check log](#check-log)
+7. [scripts](#scripts)
+
 ## overview
 
 the gui of menu-guidance:
@@ -34,11 +44,42 @@ the app root is:
 
 - dev: `~/Library/Application Support/Electron`
 - prod: `~/Library/Application Support/mark.hjxh.express_match`
-- TODO: binary: ``
+- binary: `~/Library/Application Support/mark.hjxh.express_match`
 
 the log dir is `$ROOT/logs`
 
 the database path is `$ROOT/hjxh_data.sqlite`
+
+## pack app
+
+1. :warning: ensure electron-mirror variable is `https://cdn.npm.taobao.org/dist/electron/` (see: [Advanced Installation Instructions | Electron](https://www.electronjs.org/docs/latest/tutorial/installation#mirror)) in env (`ELECTRON_MIRROR`) or `.npmrc | ~/.npmrc` (`electron_mirror`) or `build/electron-mirror` in `package.json`.
+2. rebuild app, and pack mac/win
+
+```sh
+export ELECTRON_MIRROR=https://cdn.npm.taobao.org/dist/electron/
+npm run app:dist
+npm run pack:mac
+```
+
+## open app
+
+### 1. using `open` command with console
+
+```sh
+open release/build/mac/HJXH-DATA-ANALYSIS.app/Contents/MacOS/HJXH-DATA-ANALYSIS
+```
+
+![picture 12](.imgs/readme-1644512933213-dd3defe0af8870886d74f5e5381b32fa572bf29ac72db887eafafa3b9845c8fd.png)  
+
+### 2. directly open
+
+```sh
+open release/build/mac/HJXH-DATA-ANALYSIS.app
+```
+
+## check log
+
+![picture 13](.imgs/readme-1644513445766-a9c7233f0060cb9cd4993b696b12eb004a01114a4c0b4ef3b58eb0a040d6e974.png)  
 
 ## scripts
 

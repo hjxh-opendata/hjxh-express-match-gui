@@ -2,6 +2,49 @@
 
 [toc]
 
+## :white_check_mark: FIXED: download binary electron using proper mirror
+
+```sh
+ELECTRON_MIRROR=https://cdn.npm.taobao.org/dist/electron/
+```
+
+When pack using `npm run app:dist` (i.e. `electron-builder`), it shows mirror is unavailable:
+
+![picture 5](.imgs/readme-1644510840176-6a466b314d3749a26e07fc77d98b714d2fd1a2da0c1e8e824c4424c40f25014f.png)  
+
+And then I checked the shown url and after I copied the link address, it indicates `https://registry.npmmirror.com/-/binary/electron/v17.0.0/electron-v17.0.0-darwin-x64.zip` rather than `https://npm.taobao.org/mirrors/electron/17.0.0/electron-v17.0.0-darwin-x64.zip`, also not the file under the html at: `https://registry.npmmirror.com/binary.html?path=electron/v17.0.0/` 
+
+So, maybe we should change our mirror url to be something like `https://registry.npmmirror.com`
+
+![picture 4](.imgs/readme-1644510821821-d671d0ed844872f89ca25d7d7aae243875ea22380735aa1b1b959826fca9e3ab.png)  
+
+However, it still shows error:
+
+![picture 6](.imgs/readme-1644511116181-6bfd294f166773d276bf0387479b89ba4c6f15d4a26b4b2029fca57e14e38746.png)  
+
+Then I understood it's because the `npmrc` config:
+
+![picture 7](.imgs/readme-1644511163808-99a1188f2d8f9067465ffd5158fa18db05f4f775ea315db2b866c6d8e3aa518e.png)  
+
+![picture 8](.imgs/readme-1644511236301-481a6557b24c86ed7880f7db53f3a0d35cb39c41d384c790e2be38c371060ab4.png)  
+
+So I just uncommented it.
+
+But it still won't help!
+
+---
+
+Finally, I followed the electron official documentation and successfully downloaded!
+
+![picture 10](.imgs/readme-1644512331667-68dbdaeca0877ed08fd232da5dbb532a043c513dbf06067a184aadbe434e525c.png)  
+
+![picture 9](.imgs/readme-1644512305906-766f963e835bb0c9b37ff2c3b19559f3ba19cabbc482697341a873e054b939bb.png)  
+
+And the lesson I learned is not to believe third-party components (especially by Chinese):
+
+![picture 11](.imgs/readme-1644512409109-6b4448de29d9de12cd9045a6f0e93da5bba094ffb06b8e1da8dc493e4d583934.png)  
+
+
 ## :white_check_mark: uploading trd would also have erp
 
 It's version problem, and now it has gone along with the version update.
