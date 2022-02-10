@@ -1,3 +1,6 @@
+# ignore history files
+.history
+
 # ignore large files
 **/*.csv
 **/*.xlsx
