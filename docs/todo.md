@@ -3,8 +3,6 @@
 
 [toc]
 
-## TODO: channel split of erp and trd, otherwise would go into a mess
-
 ## TODO: Redux
 
 ## TODO: 本地持久化
