@@ -3,12 +3,13 @@
 1. [overview](#overview)
 2. [init](#init)
 3. [start app](#start-app)
-4. [pack app](#pack-app)
-5. [open app](#open-app)
+4. [pack app for mac](#pack-app-for-mac)
+5. [pack app for windows](#pack-app-for-windows)
+6. [open app on mac](#open-app-on-mac)
     1. [1. using `open` command with console](#1-using-open-command-with-console)
     2. [2. directly open](#2-directly-open)
-6. [check log](#check-log)
-7. [scripts](#scripts)
+7. [check log](#check-log)
+8. [scripts](#scripts)
 
 ## overview
 
@@ -50,7 +51,7 @@ the log dir is `$ROOT/logs`
 
 the database path is `$ROOT/hjxh_data.sqlite`
 
-## pack app
+## pack app for mac
 
 1. :warning: ensure electron-mirror variable is `https://cdn.npm.taobao.org/dist/electron/` (see: [Advanced Installation Instructions | Electron](https://www.electronjs.org/docs/latest/tutorial/installation#mirror)) in env (`ELECTRON_MIRROR`) or `.npmrc | ~/.npmrc` (`electron_mirror`) or `build/electron-mirror` in `package.json`.
 2. rebuild app, and pack mac/win
@@ -61,7 +62,26 @@ npm run app:dist
 npm run pack:mac
 ```
 
-## open app
+## pack app for windows
+
+It almost cost me 2-3 hours to get to realize:
+
+- no need to install `node-gpy` and `node-pre-gpy`
+- no need to set go proxy via `GOPROXY`
+
+The only thing we need is to rebuild the native dependencies of `sqlite3`. 
+
+```sh
+npm run rebuild sqlite3
+```
+
+And then pack:
+
+```sh
+npm run pack:win
+```
+
+## open app on mac
 
 ### 1. using `open` command with console
 

@@ -2,6 +2,25 @@
 
 [toc]
 
+## FIXME: build windows version on macOS
+
+Can't use the following config (`"arch": "universal"`) since there's no `universal` version of `sqlite3`.
+
+```json
+        "win": {
+            "target": {
+                "target": "portable",
+                "arch": "universal"
+            }
+        },
+```
+
+![picture 14](../.imgs/finished-1644552546365-b2b0c995d0773a6cda674a3b211d95f730053340c6c5a65a144bef11abb45dfa.png)  
+
+If we change the url in the above from `https://mapbox-node-binary.s3.amazonaws.com/sqlite3/v5.0.2/napi-v3-win32-universal.tar.gz` to `https://mapbox-node-binary.s3.amazonaws.com/sqlite3/v5.0.2/napi-v3-win32-x64.tar.gz`.
+
+Then the url is available (not 403).
+
 ## :white_check_mark: FIXED: download binary electron using proper mirror
 
 ```sh
