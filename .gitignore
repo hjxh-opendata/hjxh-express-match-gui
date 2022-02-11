@@ -1,5 +1,11 @@
+################
+# mark >>>
+
 # ignore history files
 .history
+
+# ignore intermediate docs
+.docs
 
 # ignore large files
 **/*.csv
@@ -11,6 +17,9 @@
 VERSION.txt
 
 data
+
+# mark <<<<
+################
 
 __pycache__
 
